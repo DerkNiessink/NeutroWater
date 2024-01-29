@@ -38,7 +38,6 @@ class DiffusingNeutrons:
     def __init__(
         self,
         nNeutrons: int,
-        nCollisions: int,
         mean_free_paths: list,
         energies: list,
         xi: float = 0.920,
@@ -51,7 +50,6 @@ class DiffusingNeutrons:
         xi (float): logarithmic reduction of neutron energy per collision.
         """
         self.nNeutrons = nNeutrons
-        self.nCollisions = nCollisions
         self.energy_loss_frac = 1 / np.exp(xi)
         self.mean_free_paths = mean_free_paths
         self.energies = energies
@@ -65,13 +63,15 @@ class DiffusingNeutrons:
         for _ in range(self.nNeutrons):
             self.neutrons.append(Neutron(5 * 10**6, np.array([0.0, 0.0, 0.0])))
 
-    def _random_directions(self) -> np.ndarray[np.ndarray[np.float64]]:
+    def _random_directions(
+        self, nCollisions: int
+    ) -> np.ndarray[np.ndarray[np.float64]]:
         """
         Sample random 3D directions
 
         Eeturns a np.ndarray of 3D (np.ndarray) vectors
         """
-        vec = np.random.randn(self.nCollisions, 3)
+        vec = np.random.randn(nCollisions, 3)
         return vec / np.linalg.norm(vec, axis=0)
 
     def _mf_lookup(self, energy):
@@ -81,10 +81,10 @@ class DiffusingNeutrons:
         """
         return self.mean_free_paths[idx_of_closest(self.energies, energy)]
 
-    def diffuse(self):
+    def diffuse(self, nCollisions: int):
         """Let the neutrons diffuse in the medium"""
         for neutron in self.neutrons:
-            directions = self._random_directions()
+            directions = self._random_directions(nCollisions)
             for dir in directions:
                 neutron.travel(self._mf_lookup(neutron.energy), dir)
                 neutron.collide(self.energy_loss_frac)
