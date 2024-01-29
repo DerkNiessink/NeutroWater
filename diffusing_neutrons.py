@@ -7,11 +7,7 @@ class Neutron:
     traveling and colliding, which adjust the relevant class parameters.
     """
 
-    def __init__(self, initial_energy: float, initial_position: float):
-        self.initial_energy: float = initial_energy
-        self.initial_position: np.ndarray[np.float64] = np.array([0.0, 0.0, 0.0])
-        self.position: np.ndarray[np.float64] = np.copy(initial_position)
-        self.energy: float = initial_energy
+    def __init__(self, initial_energy: float, initial_position: np.ndarray[np.float64]):
         self.positions: list = [initial_position]
         self.energies: list = [initial_energy]
 
@@ -20,16 +16,14 @@ class Neutron:
         Update the position by letting the neutron travel in a given direction
         for a given distance.
         """
-        self.position += distance * direction
-        self.positions.append(np.copy(self.position))
+        self.positions.append(self.positions[-1] + distance * direction)
 
     def collide(self, energy_loss_frac: float):
         """
         Update the energy by letting the neutron collide resulting in a given
         energy loss.
         """
-        self.energy *= energy_loss_frac
-        self.energies.append(self.energy)
+        self.energies.append(self.energies[-1] * energy_loss_frac)
 
 
 class DiffusingNeutrons:
@@ -71,8 +65,10 @@ class DiffusingNeutrons:
 
         Eeturns a np.ndarray of 3D (np.ndarray) vectors
         """
-        vec = np.random.randn(nCollisions, 3)
-        return vec / np.linalg.norm(vec, axis=0)
+        vecs = np.random.normal(size=(nCollisions, 3))
+        mags = np.linalg.norm(vecs, axis=-1)
+
+        return vecs / mags[..., np.newaxis]
 
     def _mf_lookup(self, energy):
         """
@@ -86,7 +82,7 @@ class DiffusingNeutrons:
         for neutron in self.neutrons:
             directions = self._random_directions(nCollisions)
             for dir in directions:
-                neutron.travel(self._mf_lookup(neutron.energy), dir)
+                neutron.travel(self._mf_lookup(neutron.energies[-1]), dir)
                 neutron.collide(self.energy_loss_frac)
 
 
