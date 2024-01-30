@@ -38,7 +38,6 @@ class DiffusingNeutrons:
     ):
         """
         nNeutrons (int): number of neutrons to simulate.
-        nCollisions (int): number of times each neutron collides with an atomic nucleus.
         mean_free_paths (list) / energies (list): mean-free-paths in water as a
             function of neutron energy.
         xi (float): logarithmic reduction of neutron energy per collision.
@@ -55,22 +54,21 @@ class DiffusingNeutrons:
         Initialize the neutrons with an initial energy and position
         """
         for _ in range(self.nNeutrons):
-            self.neutrons.append(Neutron(5 * 10**6, np.array([0.0, 0.0, 0.0])))
+            self.neutrons.append(Neutron(10 * 10**6, np.array([0.0, 0.0, 0.0])))
 
-    def _random_directions(
-        self, nCollisions: int
-    ) -> np.ndarray[np.ndarray[np.float64]]:
+    def _random_directions(self, N: int) -> np.ndarray[np.ndarray[np.float64]]:
         """
-        Sample random 3D directions
+        Sample random 3D directions.
 
-        Eeturns a np.ndarray of 3D (np.ndarray) vectors
+        N (int): number of vectors to generate.
+
+        Returns a np.ndarray of N  3D (np.ndarray) vectors.
         """
-        vecs = np.random.normal(size=(nCollisions, 3))
+        vecs = np.random.normal(size=(N, 3))
         mags = np.linalg.norm(vecs, axis=-1)
-
         return vecs / mags[..., np.newaxis]
 
-    def _mf_lookup(self, energy):
+    def _mf_lookup(self, energy: float):
         """
         Get the closest value in the mean-free-path data, that corresponds
         to the current energy of the neutron.
@@ -78,7 +76,11 @@ class DiffusingNeutrons:
         return self.mean_free_paths[idx_of_closest(self.energies, energy)]
 
     def diffuse(self, nCollisions: int):
-        """Let the neutrons diffuse in the medium"""
+        """
+        Let the neutrons diffuse in the medium
+
+        nCollisions (int): number of times each neutron collides with an atomic nucleus.
+        """
         for neutron in self.neutrons:
             directions = self._random_directions(nCollisions)
             for dir in directions:
