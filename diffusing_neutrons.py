@@ -67,6 +67,8 @@ class DiffusingNeutrons:
         for neutron in self.neutrons:
             directions = self._random_directions(nCollisions)
             for dir in directions:
+                if not self.tank.inside(neutron.positions[-1]):
+                    break
                 neutron.travel(self._mf_lookup(neutron.energies[-1]), dir)
                 neutron.collide(self.energy_loss_frac)
 
@@ -87,6 +89,20 @@ class DiffusingNeutrons:
         [[float, float, ...], [float, float, ...], ...]
         """
         return [neutron.energies for neutron in self.neutrons]
+
+    def get_number_escaped_neutrons(self) -> int:
+        """
+        Get the number of neutrons that escaped the tank.
+
+        Returns an int.
+        """
+        return sum(
+            [
+                1
+                for neutron in self.neutrons
+                if not self.tank.inside(neutron.positions[-1])
+            ]
+        )
 
 
 def idx_of_closest(lst: list, K: float):
