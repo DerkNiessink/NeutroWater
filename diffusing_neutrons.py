@@ -70,13 +70,23 @@ class DiffusingNeutrons:
                 neutron.travel(self._mf_lookup(neutron.energies[-1]), dir)
                 neutron.collide(self.energy_loss_frac)
 
-    def get_positions(self):
+    def get_positions(self) -> list:
         """
         Get the positions of the neutrons.
 
-        Returns a list of the positions of the neutrons.
+        Returns a list where each element is a list of length nNeutrons:
+        [[np.ndarray, np.ndarray, ...], [np.ndarray, np.ndarray, ...], ...]
         """
         return [neutron.positions for neutron in self.neutrons]
+
+    def get_energies(self) -> list:
+        """
+        Get the energies of the neutrons.
+
+        Returns a list where each element is a list of length nNeutrons:
+        [[float, float, ...], [float, float, ...], ...]
+        """
+        return [neutron.energies for neutron in self.neutrons]
 
 
 def idx_of_closest(lst: list, K: float):
