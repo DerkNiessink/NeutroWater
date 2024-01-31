@@ -1,7 +1,8 @@
 import numpy as np
+from typing import Sequence
 
-
-from models.neutron import Neutron
+from models.neutrons import Neutrons
+from models.tank import Tank
 
 
 class DiffusingNeutrons:
@@ -9,30 +10,34 @@ class DiffusingNeutrons:
 
     def __init__(
         self,
-        nNeutrons: int,
-        mean_free_paths: list,
-        energies: list,
+        mean_free_paths: Sequence[float],
+        energies: Sequence[float],
+        initial_positions: Sequence[np.ndarray[np.float64]],
+        initial_energies: Sequence[float],
+        radius_tank: float = 1,
+        height_tank: float = 1,
+        position_tank: np.ndarray[np.float64] = np.array([0.0, 0.0, 0.0]),
         xi: float = 0.920,
     ):
         """
-        nNeutrons (int): number of neutrons to simulate.
-        mean_free_paths (list) / energies (list): mean-free-paths in water as a
-            function of neutron energy.
-        xi (float): logarithmic reduction of neutron energy per collision.
+        Parameters:
+        - mean_free_paths (list): Mean-free-paths in water as a function of neutron energy
+        in meters.
+        - energies (list): Neutron energies corresponding to the mean-free-paths.
+        - initial_positions (list): Initial positions of the neutrons.
+        - initial_energies (list): Initial energies of the neutrons.
+        - radius_tank (float): Radius of the tank in meters. Default is 1.
+        - height_tank (float): Height of the tank in meters. Default is 1.
+        - position_tank (np.ndarray): Position of the tank. Default is [0, 0, 0].
+        - xi (float): Logarithmic reduction of neutron energy per collision. Default is
+        0.920 (water).
         """
-        self.nNeutrons = nNeutrons
         self.energy_loss_frac = 1 / np.exp(xi)
         self.mean_free_paths = mean_free_paths
         self.energies = energies
-        self.neutrons = []
-        self._init_neutrons()
-
-    def _init_neutrons(self):
-        """
-        Initialize the neutrons with an initial energy and position
-        """
-        for _ in range(self.nNeutrons):
-            self.neutrons.append(Neutron(10 * 10**6, np.array([0.0, 0.0, 0.0])))
+        self.neutrons = Neutrons(initial_energies, initial_positions)
+        self.tank = Tank(radius_tank, height_tank, position_tank, xi)
+        self.nNeutrons = len(initial_positions)
 
     def _random_directions(self, N: int) -> np.ndarray[np.ndarray[np.float64]]:
         """
@@ -64,6 +69,14 @@ class DiffusingNeutrons:
             for dir in directions:
                 neutron.travel(self._mf_lookup(neutron.energies[-1]), dir)
                 neutron.collide(self.energy_loss_frac)
+
+    def get_positions(self):
+        """
+        Get the positions of the neutrons.
+
+        Returns a list of the positions of the neutrons.
+        """
+        return [neutron.positions for neutron in self.neutrons]
 
 
 def idx_of_closest(lst: list, K: float):
