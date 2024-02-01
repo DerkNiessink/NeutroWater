@@ -1,0 +1,17 @@
+[tool.poetry]
+name = "neutrons"
+version = "0.1.0"
+description = ""
+authors = ["DerkNiessink <derk@niessink.com>"]
+readme = "README.md"
+packages = [
+    { include = "neutrons", from = "src" },
+]
+
+[tool.poetry.dependencies]
+python = "^3.10"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

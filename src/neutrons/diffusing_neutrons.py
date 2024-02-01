@@ -1,8 +1,8 @@
 import numpy as np
 from typing import Sequence
 
-from models.neutrons import Neutrons
-from models.tank import Tank
+from neutrons.neutrons import Neutrons
+from neutrons.tank import Tank
 
 
 class DiffusingNeutrons:
