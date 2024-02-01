@@ -37,7 +37,7 @@ class DiffusingNeutrons:
         self.energies = energies
         self.neutrons = Neutrons(initial_energies, initial_positions)
         self.tank = Tank(radius_tank, height_tank, position_tank, xi)
-        self.nNeutrons = len(initial_positions)
+        self.nNeutrons = len(self.neutrons)
 
     def _random_directions(self, N: int) -> np.ndarray[np.ndarray[np.float64]]:
         """
@@ -90,7 +90,7 @@ class DiffusingNeutrons:
         """
         return [neutron.energies for neutron in self.neutrons]
 
-    def get_number_escaped_neutrons(self) -> int:
+    def get_number_escaped(self) -> int:
         """
         Get the number of neutrons that escaped the tank.
 

@@ -41,7 +41,6 @@ class Neutrons:
         """
         self.energies = energies
         self.positions = positions
-        self.nNeutrons = len(energies)
         self._init_neutrons()
 
     def _init_neutrons(self):
@@ -53,8 +52,14 @@ class Neutrons:
             for energy, position in zip(self.energies, self.positions)
         ]
 
-    def __iter__(self):
+    def __iter__(self) -> iter:
         """
         Allows for iterating over the neutrons in the class.
         """
         return iter(self.neutrons)
+
+    def __len__(self) -> int:
+        """
+        Returns the number of neutrons in the class.
+        """
+        return len(self.neutrons)
