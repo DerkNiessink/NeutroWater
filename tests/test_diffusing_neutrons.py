@@ -1,15 +1,19 @@
 import pytest
 import numpy as np
+import pandas as pd
 
 from neutrons.diffusing_neutrons import DiffusingNeutrons
 
 test_data = [
     {
         "class_object": DiffusingNeutrons(
-            [5.0, 3.0, 3.0],
-            [1.0, 2.0, 8.0],
+            [
+                pd.read_csv("data/h_cross_t.txt", sep="\s+"),
+                pd.read_csv("data/o_cross_t.txt", sep="\s+"),
+            ],
             [np.array([0, 0, 0]), np.array([1, 0, 0]), np.array([0, 1, 0])],
             [2 * 10**6, 2 * 10**6, 2 * 10**6],
+            (2, 1),
             50,
             50,
             np.array([0, 0, 0]),
@@ -20,10 +24,13 @@ test_data = [
     },
     {
         "class_object": DiffusingNeutrons(
-            [1.0, 2.0, 3.0],
-            [1.0, 2.0, 3.0],
+            [
+                pd.read_csv("data/h_cross_t.txt", sep="\s+"),
+                pd.read_csv("data/o_cross_t.txt", sep="\s+"),
+            ],
             [np.array([0, 0, 0])],
             [2 * 10**6],
+            (2, 1),
             50,
             50,
             np.array([0, 0, 0]),
@@ -52,20 +59,6 @@ class TestDiffusingNeutrons:
         for direction in directions:
             assert np.linalg.norm(direction) == pytest.approx(1, abs=1e-6)
 
-    # Use the DiffusingNeutrons objects and the expected energy values.
-    @pytest.mark.parametrize(
-        "diffusing_neutrons, energy_expected_dict",
-        [
-            (test_data[0]["class_object"], test_data[0]["energy_expected_dict"]),
-            (test_data[1]["class_object"], test_data[1]["energy_expected_dict"]),
-        ],
-    )
-    def test_mf_lookup(
-        self, diffusing_neutrons: DiffusingNeutrons, energy_expected_dict: dict
-    ) -> None:
-        for energy, expected in energy_expected_dict.items():
-            assert diffusing_neutrons._mf_lookup(energy) == expected
-
     # Use only the first DiffusingNeutrons object.
     @pytest.mark.parametrize(
         "diffusing_neutrons, expected_collisions",
@@ -91,10 +84,13 @@ class TestDiffusingNeutrons:
         from the tank.
         """
         neutrons = DiffusingNeutrons(
-            [1],
-            [2],
+            [
+                pd.read_csv("data/h_cross_t.txt", sep="\s+"),
+                pd.read_csv("data/o_cross_t.txt", sep="\s+"),
+            ],
             [np.array([0.1, 0, 0]), np.array([1.01, 0, 0]), np.array([0.5, 0, 0])],
             [2 * 10**6, 2 * 10**6, 2 * 10**6],
+            (2, 1),
             1,
             1,
             np.array([0, 0, 0]),

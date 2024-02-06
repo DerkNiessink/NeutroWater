@@ -1,4 +1,5 @@
 import numpy as np
+import pandas as pd
 from typing import Sequence
 
 from neutrons.neutrons import Neutrons
@@ -11,10 +12,10 @@ class DiffusingNeutrons:
 
     def __init__(
         self,
-        mean_free_paths: Sequence[float],
-        energies: Sequence[float],
+        data: Sequence[pd.DataFrame],
         initial_positions: Sequence[np.ndarray[np.float64]],
         initial_energies: Sequence[float],
+        molecule_structure: Sequence = (2, 1),
         radius_tank: float = 1,
         height_tank: float = 1,
         position_tank: np.ndarray[np.float64] = np.array([0.0, 0.0, 0.0]),
@@ -22,20 +23,21 @@ class DiffusingNeutrons:
     ):
         """
         Parameters:
-        - mean_free_paths (list): Mean-free-paths in water as a function of neutron energy
-        in meters.
-        - energies (list): Neutron energies corresponding to the mean-free-paths.
-        - initial_positions (list): Initial positions of the neutrons.
-        - initial_energies (list): Initial energies of the neutrons.
+        - data (Sequence): cross section data of of the form of a pandas DataFrame
+        with columns "energy(eV)" and "sigma_t(b)"
+        - initial_positions (Sequence): Initial positions of the neutrons.
+        - initial_energies (Sequence): Initial energies of the neutrons.
+        - molecule_structure (Sequence): number of atoms in the molecule (Default:
+        (2, 1) for H20)
         - radius_tank (float): Radius of the tank in meters. Default is 1.
         - height_tank (float): Height of the tank in meters. Default is 1.
         - position_tank (np.ndarray): Position of the tank. Default is [0, 0, 0].
-        - xi (float): Logarithmic reduction of neutron energy per collision. Default is
-        0.920 (water).
+        - xi (float): Logarithmic reduction of neutron energy per collision. Default
+        is 0.920 (H20).
         """
         self.energy_loss_frac = 1 / np.exp(xi)
-        self.mean_free_paths = mean_free_paths
-        self.energies = energies
+        self.mol_struc = molecule_structure
+        self.data_processor = DataProcessor(data)
         self.neutrons = Neutrons(initial_energies, initial_positions)
         self.tank = Tank(radius_tank, height_tank, position_tank, xi)
         self.nNeutrons = len(self.neutrons)
@@ -52,13 +54,6 @@ class DiffusingNeutrons:
         mags = np.linalg.norm(vecs, axis=-1)
         return vecs / mags[..., np.newaxis]
 
-    def _mf_lookup(self, energy: float):
-        """
-        Get the closest value in the mean-free-path data, that corresponds
-        to the current energy of the neutron.
-        """
-        return self.mean_free_paths[idx_of_closest(self.energies, energy)]
-
     def diffuse(self, nCollisions: int):
         """
         Let the neutrons diffuse in the medium
@@ -70,7 +65,7 @@ class DiffusingNeutrons:
             for dir in directions:
                 if not self.tank.inside(neutron.positions[-1]):
                     break
-                neutron.travel(self._mf_lookup(neutron.energies[-1]), dir)
+                neutron.travel(self.data_processor.get_mfp(neutron.energies[-1]), dir)
                 neutron.collide(self.energy_loss_frac)
 
     def get_positions(self) -> list:
@@ -104,8 +99,3 @@ class DiffusingNeutrons:
                 if not self.tank.inside(neutron.positions[-1])
             ]
         )
-
-
-def idx_of_closest(lst: list, K: float):
-    lst = np.asarray(lst)
-    return (np.abs(lst - K)).argmin()
