@@ -1,30 +1,33 @@
 import pandas as pd
 import numpy as np
 from scipy.interpolate import Akima1DInterpolator
+from typing import Sequence
 
 
 class DataProcessor:
     """
     Class that holds the cross section data for neutrons in water and provides a
-    method for calculating the mean free path for a given energy.
+    method for calculating the mean free path for a given energy. The data is of
+    the form of a pandas DataFrame with columns "energy(eV)" and "sigma_t(b)".
     """
 
-    # constants for H2O
-    rho = 997  # kg/m^3
-    M = 0.01801528  # kg/mol
-    N_A = 6.02214076 * 10**23  # mol^-1
-    n = rho * N_A / M  # kg/m^3 * 1/mol * mol/kg = m^-3
-
-    def __init__(self, O_data: pd.DataFrame, H_data: pd.DataFrame):
+    def __init__(self, data: Sequence[pd.DataFrame]) -> None:
         """
-        Convert the cross section data from barns to m^2 and interpolate the data.
-        """
-        self.H_interpolater = self.interpolate(H_data)
-        self.O_interpolater = self.interpolate(O_data)
+        interpolate the data using scipy.interpolate.Akima1DInterpolator.
 
+        Parameters:
+        - data (Sequence[pd.DataFrame]): cross section data.
+        """
+        self.interpolaters = [self.interpolate(d) for d in data]
+
+    @classmethod
     def interpolate(self, data: pd.DataFrame) -> Akima1DInterpolator:
         """
         Preprocess the data to be used for the mean free path calculations.
+
+        Parameters:
+            - data (pd.DataFrame): cross section data of the form of a pandas
+            DataFrame with columns "energy(eV)" and "sigma_t(b)"
         """
         data = data.drop_duplicates(subset="energy(eV)")
         xp = data["energy(eV)"].values
@@ -33,18 +36,33 @@ class DataProcessor:
         y_log = np.log(fp)
         return Akima1DInterpolator(x_log, y_log)
 
+    @classmethod
     def cross_section(self, f: Akima1DInterpolator, energy: float) -> float:
         """
         Get the cross section for a given energy in m^2.
+
+        Parameters:
+        - f (Akima1DInterpolator): interpolater for the cross section data.
+        - energy (float): energy of the neutron in eV.
         """
         return np.exp(f(np.log(energy))) * 10 ** (-28)  # convert barns -> m^2
 
-    def get_mfp(self, energy: float) -> float:
+    def get_mfp(
+        self,
+        energy: float,
+        n: float = 3.3327677048150236e28,
+        nMolecules: Sequence = (2, 1),
+    ) -> float:
         """
-        Get the mean free path for a given energy.
+        Get the mean free path in meters for a given energy.
+
+        Parameters:
+        - energy (float): energy of the neutron in eV.
+        - n (float): number of atoms per volume in m^-3 (Default is for H20).
+        - nMolecules (Sequence): number of atoms in the molecule (Default:
+        (2, 1) for H20)
         """
-
-        cross_section_H = self.cross_section(self.H_interpolater, energy)
-        cross_section_O = self.cross_section(self.O_interpolater, energy)
-
-        return 1 / (self.n * (2 * cross_section_H + cross_section_O))
+        cross_sections = [self.cross_section(f, energy) for f in self.interpolaters]
+        return 1 / (
+            sum([nMolecules[i] * n * cs for i, cs in enumerate(cross_sections)])
+        )

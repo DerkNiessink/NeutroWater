@@ -28,7 +28,7 @@ class TestDataProcessor:
         ],
     )
     def test_interpolate(self, energy, expected, O_data, H_data):
-        data_processor = DataProcessor(O_data, H_data)
+        data_processor = DataProcessor([H_data, O_data])
         f = data_processor.interpolate(O_data)
         cross_section = data_processor.cross_section(f, energy)
         assert cross_section == pytest.approx(expected, rel=1e-6)
@@ -43,6 +43,6 @@ class TestDataProcessor:
         ],
     )
     def test_get_mfp(self, energy, expected, O_data, H_data):
-        data_processor = DataProcessor(O_data, H_data)
+        data_processor = DataProcessor([H_data, O_data])
         mfp = data_processor.get_mfp(energy)
         assert mfp == pytest.approx(expected, rel=1e-3)

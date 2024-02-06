@@ -3,6 +3,7 @@ from typing import Sequence
 
 from neutrons.neutrons import Neutrons
 from neutrons.tank import Tank
+from neutrons.data_processor import DataProcessor
 
 
 class DiffusingNeutrons:
