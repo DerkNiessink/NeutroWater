@@ -4,7 +4,7 @@ from typing import Sequence
 
 from neutrons.neutrons import Neutrons
 from neutrons.tank import Tank
-from neutrons.data_processor import DataProcessor
+from neutrons.data_processing.cross_section_processor import CrossSectionProcessor
 
 
 class DiffusingNeutrons:
@@ -37,7 +37,7 @@ class DiffusingNeutrons:
         """
         self.energy_loss_frac = 1 / np.exp(xi)
         self.mol_struc = molecule_structure
-        self.data_processor = DataProcessor(data)
+        self.data_processor = CrossSectionProcessor(data)
         self.neutrons = Neutrons(initial_energies, initial_positions)
         self.tank = Tank(radius_tank, height_tank, position_tank, xi)
         self.nNeutrons = len(self.neutrons)
