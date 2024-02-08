@@ -21,7 +21,9 @@ class DataProcessor:
         self.interpolaters = [self.interpolate(d) for d in data]
 
     @classmethod
-    def interpolate(self, data: pd.DataFrame) -> Akima1DInterpolator:
+    def interpolate(
+        self, data: pd.DataFrame, column1="energy(eV)", column2="sigma_t(b)"
+    ) -> Akima1DInterpolator:
         """
         Preprocess the data to be used for the mean free path calculations.
 
@@ -29,9 +31,9 @@ class DataProcessor:
             - data (pd.DataFrame): cross section data of the form of a pandas
             DataFrame with columns "energy(eV)" and "sigma_t(b)"
         """
-        data = data.drop_duplicates(subset="energy(eV)")
-        xp = data["energy(eV)"].values
-        fp = data["sigma_t(b)"].values
+        data = data.drop_duplicates(subset=column1)
+        xp = data[column1].values
+        fp = data[column2].values
         x_log = np.log(xp)
         y_log = np.log(fp)
         return Akima1DInterpolator(x_log, y_log)
