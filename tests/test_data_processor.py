@@ -1,7 +1,7 @@
 import pandas as pd
 import pytest
 
-from neutrons.data_processing.cross_section_processor import CrossSectionProcessor
+from neutrons.data_processor import CrossSectionProcessor
 
 
 test_data = {
@@ -29,8 +29,8 @@ class TestDataProcessor:
     )
     def test_interpolate(self, energy, expected, O_data, H_data):
         data_processor = CrossSectionProcessor([H_data, O_data])
-        f = data_processor.interpolate(O_data)
-        cross_section = data_processor.cross_section(f, energy)
+        f = data_processor.interpolate(O_data, log=True)
+        cross_section = data_processor.cross_section(energy, f)
         assert cross_section == pytest.approx(expected, rel=1e-6)
 
     # Test data from ../data/mean_free_path.csv

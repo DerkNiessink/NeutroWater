@@ -4,7 +4,7 @@ from typing import Sequence
 
 from neutrons.neutrons import Neutrons
 from neutrons.tank import Tank
-from neutrons.data_processing.cross_section_processor import CrossSectionProcessor
+from neutrons.data_processor import CrossSectionProcessor
 
 
 class DiffusingNeutrons:
