@@ -61,11 +61,10 @@ class CrossSectionProcessor(DataProcessor):
         """
         super().__init__(data=data, log=True)
 
-    @classmethod
     def cross_section(
         self,
         energy: float,
-        f: Akima1DInterpolator,
+        f: Akima1DInterpolator = None,
     ) -> float:
         """
         Get the cross section for a given energy in m^2.
@@ -74,6 +73,7 @@ class CrossSectionProcessor(DataProcessor):
         - energy (float): energy of the neutron in eV.
         - f (Akima1DInterpolator): interpolater for the cross section data.
         """
+        f = self.interpolaters[0] if f is None else f
         return np.exp(f(np.log(energy))) * 10 ** (-28)  # convert barns -> m^2
 
     def get_mfp(
