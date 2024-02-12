@@ -131,3 +131,23 @@ class DiffusingNeutrons:
                 if not self.tank.inside(neutron.positions[-1])
             ]
         )
+
+    def get_density(self, r, dr):
+        """
+        Get the density of the medium at a given radius r.
+
+        Args:
+            r (float): radius at which to compute the density.
+            dr (float): thickness of the shell.
+
+        Returns a float.
+        """
+        n = 0
+        for neutron in self.neutrons:
+            if (
+                np.linalg.norm(neutron.positions[-1]) < r + dr
+                and np.linalg.norm(neutron.positions[-1]) > r - dr
+            ):
+                n += 1
+
+        return n / (4 * np.pi * r**2)
