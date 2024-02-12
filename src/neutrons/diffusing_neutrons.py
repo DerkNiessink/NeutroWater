@@ -4,17 +4,19 @@ from typing import Sequence
 
 from neutrons.neutrons import Neutrons
 from neutrons.tank import Tank
-from neutrons.data_processor import CrossSectionProcessor
+from neutrons.data_processor import CrossSectionProcessor, SpectrumProcessor
 
 
 class DiffusingNeutrons:
-    """Class that simulates multiple neutrons diffusing in a medium"""
+    """
+    Class that simulates multiple neutrons from diffusing in a medium.
+    """
 
     def __init__(
         self,
-        data: Sequence[pd.DataFrame],
-        initial_positions: Sequence[np.ndarray[np.float64]],
-        initial_energies: Sequence[float],
+        cross_section_data: Sequence[pd.DataFrame],
+        spectrum_data: pd.DataFrame,
+        nNeutrons: int,
         molecule_structure: Sequence = (2, 1),
         radius_tank: float = 1,
         height_tank: float = 1,
@@ -23,10 +25,12 @@ class DiffusingNeutrons:
     ):
         """
         Parameters:
-        - data (Sequence): cross section data of of the form of a pandas DataFrame
-        with columns "energy(eV)" and "sigma_t(b)"
-        - initial_positions (Sequence): Initial positions of the neutrons.
-        - initial_energies (Sequence): Initial energies of the neutrons.
+        - cross_section_data (Sequence): Cross section data of the form of a pandas
+        DataFrame with two columns containing: energy [eV] and cross section [barns]
+        - spectrum_Data (pd.DataFrame): Data for the probability distribution of the
+        initial energy spectrum from the neutron source wich should have two columns
+        containing: energy [eV] and probability.
+        - nNeutrons (int): Number of neutrons to simulate
         - molecule_structure (Sequence): number of atoms in the molecule (Default:
         (2, 1) for H20)
         - radius_tank (float): Radius of the tank in meters. Default is 1.
@@ -37,10 +41,20 @@ class DiffusingNeutrons:
         """
         self.energy_loss_frac = 1 / np.exp(xi)
         self.mol_struc = molecule_structure
-        self.data_processor = CrossSectionProcessor(data)
-        self.neutrons = Neutrons(initial_energies, initial_positions)
         self.tank = Tank(radius_tank, height_tank, position_tank, xi)
-        self.nNeutrons = len(self.neutrons)
+
+        # For interpolating the cross section data and computing the mean-free-path.
+        self.cross_processor = CrossSectionProcessor(cross_section_data)
+
+        # Sample from the interpolated energy spectrum
+        spectrum_processor = SpectrumProcessor(spectrum_data)
+        initial_energies = spectrum_processor.sample(num_samples=nNeutrons)
+        # Convert the energies MeV -> eV
+        initial_energies = [energy * 10**6 for energy in initial_energies]
+
+        # All neutrons start at the origin
+        initial_positions = [np.array([0, 0, 0]) for _ in range(nNeutrons)]
+        self.neutrons = Neutrons(initial_energies, initial_positions)
 
     def _random_directions(self, N: int) -> np.ndarray[np.ndarray[np.float64]]:
         """
@@ -65,7 +79,7 @@ class DiffusingNeutrons:
             for dir in directions:
                 if not self.tank.inside(neutron.positions[-1]):
                     break
-                neutron.travel(self.data_processor.get_mfp(neutron.energies[-1]), dir)
+                neutron.travel(self.cross_processor.get_mfp(neutron.energies[-1]), dir)
                 neutron.collide(self.energy_loss_frac)
 
     def get_positions(self) -> list:

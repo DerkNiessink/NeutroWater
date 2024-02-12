@@ -63,3 +63,9 @@ class Neutrons:
         Returns the number of neutrons in the class.
         """
         return len(self.neutrons)
+
+    def __getitem__(self, index: int) -> Neutron:
+        """
+        Returns the neutron at a given index.
+        """
+        return self.neutrons[index]

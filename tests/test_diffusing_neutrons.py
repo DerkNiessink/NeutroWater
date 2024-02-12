@@ -11,8 +11,8 @@ test_data = [
                 pd.read_csv("data/h_cross_t.txt", sep="\s+"),
                 pd.read_csv("data/o_cross_t.txt", sep="\s+"),
             ],
-            [np.array([0, 0, 0]), np.array([1, 0, 0]), np.array([0, 1, 0])],
-            [2 * 10**6, 2 * 10**6, 2 * 10**6],
+            pd.read_csv("data/neutron_spectrum_normalized.txt", sep=","),
+            3,
             (2, 1),
             50,
             50,
@@ -28,8 +28,8 @@ test_data = [
                 pd.read_csv("data/h_cross_t.txt", sep="\s+"),
                 pd.read_csv("data/o_cross_t.txt", sep="\s+"),
             ],
-            [np.array([0, 0, 0])],
-            [2 * 10**6],
+            pd.read_csv("data/neutron_spectrum_normalized.txt", sep=","),
+            3,
             (2, 1),
             50,
             50,
@@ -74,6 +74,10 @@ class TestDiffusingNeutrons:
         Test the diffuse method and the final energy of the neutrons, which
         should be 1 eV for both tests (H20 and D as moderators).
         """
+        # Set the initial energy of the neutrons to 2 MeV
+        for neutron in diffusing_neutrons.neutrons:
+            neutron.energies[0] = 2 * 10**6
+
         diffusing_neutrons.diffuse(nCollisions=expected_collisions - 5)
         diffusing_neutrons.diffuse(nCollisions=5)
         assert diffusing_neutrons.get_energies()[0][-1] == pytest.approx(1, abs=0.2)
@@ -88,13 +92,17 @@ class TestDiffusingNeutrons:
                 pd.read_csv("data/h_cross_t.txt", sep="\s+"),
                 pd.read_csv("data/o_cross_t.txt", sep="\s+"),
             ],
-            [np.array([0.1, 0, 0]), np.array([1.01, 0, 0]), np.array([0.5, 0, 0])],
-            [2 * 10**6, 2 * 10**6, 2 * 10**6],
+            pd.read_csv("data/neutron_spectrum_normalized.txt", sep=","),
+            3,
             (2, 1),
-            1,
-            1,
+            0.1,
+            0.1,
             np.array([0, 0, 0]),
             0.920,
         )
+        neutrons.neutrons[0].positions[0] = np.array([0.1, 0, 0])
+        neutrons.neutrons[1].positions[0] = np.array([1.01, 0, 0])
+        neutrons.neutrons[2].positions[0] = np.array([0.5, 0, 0])
+
         neutrons.diffuse(nCollisions=30)
         assert neutrons.get_number_escaped() == 3
