@@ -22,6 +22,7 @@ class DiffusingNeutrons:
         height_tank: float = 1,
         position_tank: np.ndarray[np.float64] = np.array([0.0, 0.0, 0.0]),
         xi: float = 0.920,
+        temperature: float = 293,
     ):
         """
         Parameters:
@@ -38,7 +39,9 @@ class DiffusingNeutrons:
         - position_tank (np.ndarray): Position of the tank. Default is [0, 0, 0].
         - xi (float): Logarithmic reduction of neutron energy per collision. Default
         is 0.920 (H20).
+        - temperature (float): Temperature [K] of the medium.
         """
+        self.kT = 8.617333262145e-5 * temperature
         self.energy_loss_frac = 1 / np.exp(xi)
         self.mol_struc = molecule_structure
         self.tank = Tank(radius_tank, height_tank, position_tank, xi)
@@ -60,7 +63,8 @@ class DiffusingNeutrons:
         """
         Sample random 3D directions.
 
-        N (int): number of vectors to generate.
+        Args:
+            N (int): number of vectors to generate.
 
         Returns a np.ndarray of N  3D (np.ndarray) vectors.
         """
@@ -68,11 +72,24 @@ class DiffusingNeutrons:
         mags = np.linalg.norm(vecs, axis=-1)
         return vecs / mags[..., np.newaxis]
 
+    def _thermal_energy(self):
+        """
+        Sample an energy (in eV) from the Maxwell-Boltzmann distribution at a given temperature.
+
+        Args:
+            temperature (float): Temperature in Kelvin.
+
+        Returns a float sampled energy in eV.
+        """
+        v = np.random.normal(loc=np.sqrt(2 * self.kT), size=1)
+        return 0.5 * v**2
+
     def diffuse(self, nCollisions: int):
         """
         Let the neutrons diffuse in the medium
 
-        nCollisions (int): number of times each neutron collides with an atomic nucleus.
+        Args:
+            nCollisions (int): number of times each neutron collides with an atomic nucleus.
         """
         for neutron in self.neutrons:
             directions = self._random_directions(nCollisions)
