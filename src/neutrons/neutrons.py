@@ -26,6 +26,12 @@ class Neutron:
         """
         self.energies.append(self.energies[-1] * energy_loss_frac)
 
+    def set_energy(self, energy: float):
+        """
+        Set the energy of the neutron.
+        """
+        self.energies.append(energy)
+
 
 class Neutrons:
     """Class that holds multiple neutrons  and their parameters."""

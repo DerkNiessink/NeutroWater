@@ -5,6 +5,7 @@ from typing import Sequence
 from neutrons.neutrons import Neutrons
 from neutrons.tank import Tank
 from neutrons.data_processor import CrossSectionProcessor, SpectrumProcessor
+from neutrons.maxwell_boltzmann import MaxwellBoltzmann
 
 
 class DiffusingNeutrons:
@@ -41,7 +42,10 @@ class DiffusingNeutrons:
         is 0.920 (H20).
         - temperature (float): Temperature [K] of the medium.
         """
-        self.kT = 8.617333262145e-5 * temperature
+        self.kT = (
+            1.380649e-23 * temperature * 6.24150907 * 10**18
+        )  # [m^2 kg / (s^2 K) * K * (eV/J) = J*(eV/J) = eV]
+
         self.energy_loss_frac = 1 / np.exp(xi)
         self.mol_struc = molecule_structure
         self.tank = Tank(radius_tank, height_tank, position_tank, xi)
@@ -59,6 +63,9 @@ class DiffusingNeutrons:
         initial_positions = [np.array([0, 0, 0]) for _ in range(nNeutrons)]
         self.neutrons = Neutrons(initial_energies, initial_positions)
 
+        # Maxwell-Boltzmann distribution for the thermal energy
+        self.mw = MaxwellBoltzmann(T=temperature)
+
     def _random_directions(self, N: int) -> np.ndarray[np.ndarray[np.float64]]:
         """
         Sample random 3D directions.
@@ -72,18 +79,6 @@ class DiffusingNeutrons:
         mags = np.linalg.norm(vecs, axis=-1)
         return vecs / mags[..., np.newaxis]
 
-    def _thermal_energy(self):
-        """
-        Sample an energy (in eV) from the Maxwell-Boltzmann distribution at a given temperature.
-
-        Args:
-            temperature (float): Temperature in Kelvin.
-
-        Returns a float sampled energy in eV.
-        """
-        v = np.random.normal(loc=np.sqrt(2 * self.kT), size=1)
-        return 0.5 * v**2
-
     def diffuse(self, nCollisions: int):
         """
         Let the neutrons diffuse in the medium
@@ -94,10 +89,16 @@ class DiffusingNeutrons:
         for neutron in self.neutrons:
             directions = self._random_directions(nCollisions)
             for dir in directions:
+
                 if not self.tank.inside(neutron.positions[-1]):
                     break
+
                 neutron.travel(self.cross_processor.get_mfp(neutron.energies[-1]), dir)
-                neutron.collide(self.energy_loss_frac)
+
+                if neutron.energies[-1] < 0.2:
+                    neutron.set_energy(self.mw.thermal_energy())
+                else:
+                    neutron.collide(self.energy_loss_frac)
 
     def get_positions(self) -> list:
         """
