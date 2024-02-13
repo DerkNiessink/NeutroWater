@@ -1,5 +1,10 @@
 import numpy as np
-from typing import Sequence
+from typing import Sequence, overload
+from collections.abc import Iterator
+import typing
+
+
+Vector = np.ndarray[typing.Any, np.dtype[np.float64]]
 
 
 class Neutron:
@@ -8,11 +13,11 @@ class Neutron:
     traveling and colliding, which adjust the relevant class parameters.
     """
 
-    def __init__(self, initial_energy: float, initial_position: np.ndarray[np.float64]):
+    def __init__(self, initial_energy: float, initial_position: Vector):
         self.positions: list = [initial_position]
         self.energies: list = [initial_energy]
 
-    def travel(self, distance: float, direction: np.ndarray[np.float64]):
+    def travel(self, distance: float, direction: Vector):
         """
         Update the position by letting the neutron travel in a given direction
         for a given distance.
@@ -34,10 +39,12 @@ class Neutron:
 
 
 class Neutrons:
-    """Class that holds multiple neutrons  and their parameters."""
+    """Class that holds multiple neutrons and their parameters."""
 
     def __init__(
-        self, energies: Sequence[float], positions: Sequence[np.ndarray[np.float64]]
+        self,
+        energies: Sequence[float],
+        positions: Sequence[Vector],
     ):
         """
         energies (Sequence[float]): initial energies of the neutrons, should be
@@ -58,7 +65,7 @@ class Neutrons:
             for energy, position in zip(self.energies, self.positions)
         ]
 
-    def __iter__(self) -> iter:
+    def __iter__(self) -> Iterator[Neutron]:
         """
         Allows for iterating over the neutrons in the class.
         """
@@ -70,7 +77,13 @@ class Neutrons:
         """
         return len(self.neutrons)
 
-    def __getitem__(self, index: int) -> Neutron:
+    @overload
+    def __getitem__(self, index: int) -> Neutron: ...
+
+    @overload
+    def __getitem__(self, index: slice) -> list[Neutron]: ...
+
+    def __getitem__(self, index: int | slice) -> Neutron | list[Neutron]:
         """
         Returns the neutron at a given index.
         """

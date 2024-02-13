@@ -37,7 +37,8 @@ class Measurer:
                 1
                 for neutron in self.neutrons
                 if not self.sim.tank.inside(neutron.positions[-1])
-            ]
+            ],
+            start=0,
         )
 
     def density(self, r, dr):
@@ -71,7 +72,6 @@ class Measurer:
 
         thermalize_positions = []
         for energies, positions in zip(self.energies(), self.positions()):
-
             # Get the first element of the list of energies that is less than 0.2
             res = list(filter((lambda val: val < E), energies))
             if len(res) > 0:

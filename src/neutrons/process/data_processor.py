@@ -64,7 +64,7 @@ class CrossSectionProcessor(DataProcessor):
     def cross_section(
         self,
         energy: float,
-        f: Akima1DInterpolator = None,
+        f: Akima1DInterpolator | None = None,
     ) -> float:
         """
         Get the cross section for a given energy in m^2.

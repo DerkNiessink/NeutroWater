@@ -5,8 +5,8 @@ from neutrons.process.data_processor import CrossSectionProcessor
 
 
 test_data = {
-    "O_data": pd.read_csv("data/o_cross_t.txt", sep="\s+"),
-    "H_data": pd.read_csv("data/h_cross_t.txt", sep="\s+"),
+    "O_data": pd.read_csv("data/o_cross_t.txt", sep=r"\s+"),
+    "H_data": pd.read_csv("data/h_cross_t.txt", sep=r"\s+"),
 }
 
 
@@ -17,7 +17,6 @@ test_data = {
     ],
 )
 class TestDataProcessor:
-
     # Test data from ../data/o_cross_t.txt and converted to m^2
     @pytest.mark.parametrize(
         "energy, expected",

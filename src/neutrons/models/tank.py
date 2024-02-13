@@ -10,14 +10,14 @@ class Tank:
 
     radius (float): radius of the tank.
     height (float): height of the tank.
+    position (np.ndarray): position of the tank, default [0, 0, 0].
     xi (float): logarithmic reduction of neutron energy per collision
                 (depends on the medium in the tank).
-    position (np.ndarray): position of the tank, default [0, 0, 0].
     """
 
     radius: float
     height: float
-    position: float
+    position: np.ndarray
     xi: float
 
     def __post_init__(self):
@@ -33,7 +33,7 @@ class Tank:
 
         position (np.ndarray): position to check.
         """
-        return (
+        return bool(
             np.linalg.norm(position[:2]) < self.radius
-            and abs(position[2]) < self.height / 2
+            and abs(position[2]) < (self.height / 2 - self.position[2])
         )

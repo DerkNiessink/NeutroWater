@@ -1,9 +1,11 @@
 import numpy as np
 import pandas as pd
-from typing import Sequence
+from typing import Sequence, Any
 from tqdm import tqdm
+import multiprocessing
+from itertools import repeat
 
-from neutrons.models.neutrons import Neutrons
+from neutrons.models.neutrons import Neutrons, Vector
 from neutrons.models.tank import Tank
 from neutrons.process.data_processor import CrossSectionProcessor, SpectrumProcessor
 from neutrons.process.maxwell_boltzmann import MaxwellBoltzmann
@@ -22,7 +24,7 @@ class DiffusingNeutrons:
         molecule_structure: Sequence = (2, 1),
         radius_tank: float = 1,
         height_tank: float = 1,
-        position_tank: np.ndarray[np.float64] = np.array([0.0, 0.0, 0.0]),
+        position_tank: Vector = np.array([0.0, 0.0, 0.0]),
         xi: float = 0.920,
         temperature: float = 293,
     ):
@@ -67,14 +69,14 @@ class DiffusingNeutrons:
         # Maxwell-Boltzmann distribution for the thermal energy
         self.mw = MaxwellBoltzmann(T=temperature)
 
-    def _random_directions(self, N: int) -> np.ndarray[np.ndarray[np.float64]]:
+    def _random_directions(self, N: int) -> np.ndarray[Any, np.dtype[np.float64]]:
         """
         Sample random 3D directions.
 
         Args:
             N (int): number of vectors to generate.
 
-        Returns a np.ndarray of N  3D (np.ndarray) vectors.
+        Returns a np.ndarray of N 3D (np.ndarray) vectors.
         """
         vecs = np.random.normal(size=(N, 3))
         mags = np.linalg.norm(vecs, axis=-1)
@@ -87,16 +89,44 @@ class DiffusingNeutrons:
         Args:
             nCollisions (int): number of times each neutron collides with an atomic nucleus.
         """
-        for neutron in tqdm(self.neutrons):
-            directions = self._random_directions(nCollisions)
-            for dir in directions:
+        num_processes = multiprocessing.cpu_count() - 2
+        chunk_size = (len(self.neutrons) + num_processes - 1) // num_processes
+        chunks = [
+            self.neutrons[i : i + chunk_size]
+            for i in range(0, len(self.neutrons), chunk_size)
+        ]
 
-                if not self.tank.inside(neutron.positions[-1]):
-                    break
+        with multiprocessing.Pool(processes=num_processes) as pool:
+            results = list(
+                tqdm(
+                    pool.starmap(
+                        self._diffuse_chunk, zip(chunks, [nCollisions] * len(chunks))
+                    ),
+                    total=len(chunks),
+                )
+            )
 
-                neutron.travel(self.cross_processor.get_mfp(neutron.energies[-1]), dir)
+        # Update the neutrons list with the results
+        self.neutrons = [neutron for chunk in results for neutron in chunk]
 
-                if neutron.energies[-1] < 0.2:
-                    neutron.set_energy(self.mw.thermal_energy())
-                else:
-                    neutron.collide(self.energy_loss_frac)
+    def _diffuse_chunk(self, chunk, nCollisions):
+        np.random.seed()
+        return [self._diffuse_neutron(neutron, nCollisions) for neutron in chunk]
+
+    def _diffuse_neutron(self, neutron, nCollisions):
+        directions = self._random_directions(nCollisions)
+
+        for direction in directions:
+            if not self.tank.inside(neutron.positions[-1]):
+                break
+
+            neutron.travel(
+                self.cross_processor.get_mfp(neutron.energies[-1]), direction
+            )
+
+            if neutron.energies[-1] < 0.2:
+                neutron.set_energy(self.mw.thermal_energy())
+            else:
+                neutron.collide(self.energy_loss_frac)
+
+        return neutron

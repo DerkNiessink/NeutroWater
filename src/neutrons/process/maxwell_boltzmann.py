@@ -13,11 +13,11 @@ class MaxwellBoltzmann:
     Class to sample from the Maxwell-Boltzmann distribution.
     """
 
-    def __init__(self, m=1.67493e-27, T=293):
+    def __init__(self, m: float = 1.67493e-27, T: float = 293):
         self.m = m
         self.T = T
 
-    def distribution(self, v):
+    def distribution(self, v: float) -> float:
         """
         Maxwell-Boltzmann distribution for velocities.
 
@@ -46,10 +46,10 @@ class MaxwellBoltzmann:
 
     def _sample(
         self,
-        x_min=0,
-        x_max=10000,
-        y_max=0.0004,
-        num_samples=1,
+        x_min: float = 0,
+        x_max: float = 10000,
+        y_max: float = 0.0004,
+        num_samples: int = 1,
     ) -> list:
         """
         Sample from a function using Monte Carlo sampling.

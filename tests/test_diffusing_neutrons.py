@@ -9,8 +9,8 @@ test_data = [
     {
         "class_object": DiffusingNeutrons(
             [
-                pd.read_csv("data/h_cross_t.txt", sep="\s+"),
-                pd.read_csv("data/o_cross_t.txt", sep="\s+"),
+                pd.read_csv("data/h_cross_t.txt", sep=r"\s+"),
+                pd.read_csv("data/o_cross_t.txt", sep=r"\s+"),
             ],
             pd.read_csv("data/neutron_spectrum_normalized.txt", sep=","),
             3,
@@ -26,8 +26,8 @@ test_data = [
     {
         "class_object": DiffusingNeutrons(
             [
-                pd.read_csv("data/h_cross_t.txt", sep="\s+"),
-                pd.read_csv("data/o_cross_t.txt", sep="\s+"),
+                pd.read_csv("data/h_cross_t.txt", sep=r"\s+"),
+                pd.read_csv("data/o_cross_t.txt", sep=r"\s+"),
             ],
             pd.read_csv("data/neutron_spectrum_normalized.txt", sep=","),
             3,
@@ -44,7 +44,6 @@ test_data = [
 
 
 class TestDiffusingNeutrons:
-
     # Only use the DiffusingNeutrons objects
     @pytest.mark.parametrize(
         "diffusing_neutrons",
@@ -91,8 +90,8 @@ class TestDiffusingNeutrons:
         """
         neutrons = DiffusingNeutrons(
             [
-                pd.read_csv("data/h_cross_t.txt", sep="\s+"),
-                pd.read_csv("data/o_cross_t.txt", sep="\s+"),
+                pd.read_csv("data/h_cross_t.txt", sep=r"\s+"),
+                pd.read_csv("data/o_cross_t.txt", sep=r"\s+"),
             ],
             pd.read_csv("data/neutron_spectrum_normalized.txt", sep=","),
             3,
