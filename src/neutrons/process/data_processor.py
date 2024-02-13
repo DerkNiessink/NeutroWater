@@ -22,10 +22,10 @@ class DataProcessor:
         sequence of pandas DataFrames with columns x and y.
         - log (bool): if True, the data is log-log transformed.
         """
-        self.interpolaters = [self.interpolate(d, log) for d in data]
+        self.interpolaters = [self._interpolate(d, log) for d in data]
 
-    @classmethod
-    def interpolate(self, data: pd.DataFrame, log: bool = False) -> Akima1DInterpolator:
+    @staticmethod
+    def _interpolate(data: pd.DataFrame, log: bool = False) -> Akima1DInterpolator:
         """
         Preprocess the data to be used for the mean free path calculations.
 

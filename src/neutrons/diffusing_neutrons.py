@@ -1,6 +1,7 @@
 import numpy as np
 import pandas as pd
 from typing import Sequence
+from tqdm import tqdm
 
 from neutrons.models.neutrons import Neutrons
 from neutrons.models.tank import Tank
@@ -86,7 +87,7 @@ class DiffusingNeutrons:
         Args:
             nCollisions (int): number of times each neutron collides with an atomic nucleus.
         """
-        for neutron in self.neutrons:
+        for neutron in tqdm(self.neutrons):
             directions = self._random_directions(nCollisions)
             for dir in directions:
 
