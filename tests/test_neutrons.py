@@ -1,4 +1,4 @@
-from neutrons.neutrons import Neutron, Neutrons
+from neutrons.models.neutrons import Neutron, Neutrons
 
 import pytest
 import numpy as np

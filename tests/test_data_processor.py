@@ -1,7 +1,7 @@
 import pandas as pd
 import pytest
 
-from neutrons.data_processor import CrossSectionProcessor
+from neutrons.process.data_processor import CrossSectionProcessor
 
 
 test_data = {

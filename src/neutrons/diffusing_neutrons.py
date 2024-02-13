@@ -2,10 +2,10 @@ import numpy as np
 import pandas as pd
 from typing import Sequence
 
-from neutrons.neutrons import Neutrons
-from neutrons.tank import Tank
-from neutrons.data_processor import CrossSectionProcessor, SpectrumProcessor
-from neutrons.maxwell_boltzmann import MaxwellBoltzmann
+from neutrons.models.neutrons import Neutrons
+from neutrons.models.tank import Tank
+from neutrons.process.data_processor import CrossSectionProcessor, SpectrumProcessor
+from neutrons.process.maxwell_boltzmann import MaxwellBoltzmann
 
 
 class DiffusingNeutrons:
@@ -99,55 +99,3 @@ class DiffusingNeutrons:
                     neutron.set_energy(self.mw.thermal_energy())
                 else:
                     neutron.collide(self.energy_loss_frac)
-
-    def get_positions(self) -> list:
-        """
-        Get the positions of the neutrons.
-
-        Returns a list where each element is a list of length nNeutrons:
-        [[np.ndarray, np.ndarray, ...], [np.ndarray, np.ndarray, ...], ...]
-        """
-        return [neutron.positions for neutron in self.neutrons]
-
-    def get_energies(self) -> list:
-        """
-        Get the energies of the neutrons.
-
-        Returns a list where each element is a list of length nNeutrons:
-        [[float, float, ...], [float, float, ...], ...]
-        """
-        return [neutron.energies for neutron in self.neutrons]
-
-    def get_number_escaped(self) -> int:
-        """
-        Get the number of neutrons that escaped the tank.
-
-        Returns an int.
-        """
-        return sum(
-            [
-                1
-                for neutron in self.neutrons
-                if not self.tank.inside(neutron.positions[-1])
-            ]
-        )
-
-    def get_density(self, r, dr):
-        """
-        Get the density of the medium at a given radius r.
-
-        Args:
-            r (float): radius at which to compute the density.
-            dr (float): thickness of the shell.
-
-        Returns a float.
-        """
-        n = 0
-        for neutron in self.neutrons:
-            if (
-                np.linalg.norm(neutron.positions[-1]) < r + dr
-                and np.linalg.norm(neutron.positions[-1]) > r - dr
-            ):
-                n += 1
-
-        return n / (4 * np.pi * r**2)

@@ -3,6 +3,7 @@ import numpy as np
 import pandas as pd
 
 from neutrons.diffusing_neutrons import DiffusingNeutrons
+from neutrons.post_measure import Measurer
 
 test_data = [
     {
@@ -80,7 +81,8 @@ class TestDiffusingNeutrons:
 
         diffusing_neutrons.diffuse(nCollisions=expected_collisions - 5)
         diffusing_neutrons.diffuse(nCollisions=5)
-        assert diffusing_neutrons.get_energies()[0][-1] == pytest.approx(1, abs=0.2)
+        measure = Measurer(diffusing_neutrons)
+        assert measure.energies()[0][-1] == pytest.approx(1, abs=0.2)
 
     def test_get_number_escaped(self) -> None:
         """
@@ -105,4 +107,5 @@ class TestDiffusingNeutrons:
         neutrons.neutrons[2].positions[0] = np.array([0.5, 0, 0])
 
         neutrons.diffuse(nCollisions=30)
-        assert neutrons.get_number_escaped() == 3
+        measure = Measurer(neutrons)
+        assert measure.number_escaped() == 3

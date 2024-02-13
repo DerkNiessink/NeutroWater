@@ -1,4 +1,4 @@
-from neutrons.tank import Tank
+from neutrons.models.tank import Tank
 import numpy as np
 import pytest
 
