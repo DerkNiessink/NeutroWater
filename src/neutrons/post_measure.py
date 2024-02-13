@@ -1,5 +1,6 @@
 import numpy as np
 
+from neutrons.models.neutrons import Vector
 from neutrons.diffusing_neutrons import DiffusingNeutrons
 
 
@@ -8,7 +9,7 @@ class Measurer:
         self.neutrons = sim.neutrons
         self.sim = sim
 
-    def positions(self) -> list:
+    def positions(self) -> list[list[Vector]]:
         """
         Get the positions of the neutrons.
 
@@ -17,7 +18,7 @@ class Measurer:
         """
         return [neutron.positions for neutron in self.neutrons]
 
-    def energies(self) -> list:
+    def energies(self) -> list[list[float]]:
         """
         Get the energies of the neutrons.
 
@@ -41,7 +42,7 @@ class Measurer:
             start=0,
         )
 
-    def density(self, r, dr):
+    def density(self, r: float, dr: float):
         """
         Get the density of the medium at a given radius r.
 
