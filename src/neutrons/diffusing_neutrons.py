@@ -3,9 +3,9 @@ import pandas as pd
 from typing import Sequence, Any
 from tqdm import tqdm
 import multiprocessing
-from itertools import repeat
+from tqdm.contrib.concurrent import process_map
 
-from neutrons.models.neutrons import Neutrons, Vector
+from neutrons.models.neutrons import Neutrons, Neutron, Vector
 from neutrons.models.tank import Tank
 from neutrons.process.data_processor import CrossSectionProcessor, SpectrumProcessor
 from neutrons.process.maxwell_boltzmann import MaxwellBoltzmann
@@ -84,36 +84,54 @@ class DiffusingNeutrons:
 
     def diffuse(self, nCollisions: int):
         """
-        Let the neutrons diffuse in the medium
+        Let the neutrons diffuse in the medium.
 
         Args:
-            nCollisions (int): number of times each neutron collides with an atomic nucleus.
+            nCollisions (int): number of times each neutron collides with an
+            atomic nucleus.
         """
+
+        # Using not all cores but 2 less than the total number of cores, tends
+        # to be faster
         num_processes = multiprocessing.cpu_count() - 2
+
+        # Split the neutrons into chunks
         chunk_size = (len(self.neutrons) + num_processes - 1) // num_processes
         chunks = [
             self.neutrons[i : i + chunk_size]
             for i in range(0, len(self.neutrons), chunk_size)
         ]
 
+        # Diffuse the chuncks of neutrons in parallel
         with multiprocessing.Pool(processes=num_processes) as pool:
             results = list(
-                tqdm(
-                    pool.starmap(
-                        self._diffuse_chunk, zip(chunks, [nCollisions] * len(chunks))
-                    ),
-                    total=len(chunks),
-                )
+                process_map(self._diffuse_chunk, chunks, [nCollisions] * len(chunks)),
             )
 
-        # Update the neutrons list with the results
+        # Update the neutrons list with the results from the parallel processess
         self.neutrons = [neutron for chunk in results for neutron in chunk]
 
-    def _diffuse_chunk(self, chunk, nCollisions):
-        np.random.seed()
+    def _diffuse_chunk(self, chunk: Neutrons, nCollisions: int):
+        """
+        Diffuse a chunk of all neutrons in the medium.
+
+        Args:
+            chunk (Sequence[Neutron]): chunk of neutrons to diffuse
+            nCollisions (int): number of times each neutron collides with an atomic
+            nucleus.
+        """
+        np.random.seed()  # Set a new seed for each process
         return [self._diffuse_neutron(neutron, nCollisions) for neutron in chunk]
 
-    def _diffuse_neutron(self, neutron, nCollisions):
+    def _diffuse_neutron(self, neutron: Neutron, nCollisions: int):
+        """
+        Diffuse a single neutron in the medium.
+
+        Args:
+            neutron (Neutron): Neutron to diffuse
+            nCollisions (int): number of times the neutron collides with an atomic
+            nucleus.
+        """
         directions = self._random_directions(nCollisions)
 
         for direction in directions:
