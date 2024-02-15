@@ -37,7 +37,7 @@ class Measurer:
             [
                 1
                 for neutron in self.neutrons
-                if not self.sim.tank.inside(neutron.positions[-1])
+                if not self.sim.tank.inside(neutron.position)
             ],
             start=0,
         )
@@ -55,8 +55,8 @@ class Measurer:
         n = 0
         for neutron in self.neutrons:
             if (
-                np.linalg.norm(neutron.positions[-1]) < r + dr
-                and np.linalg.norm(neutron.positions[-1]) > r - dr
+                np.linalg.norm(neutron.position) < r + dr
+                and np.linalg.norm(neutron.position) > r - dr
             ):
                 n += 1
 
@@ -92,3 +92,15 @@ class Measurer:
 
         thermalize_positions = self.thermalize_positions(E)
         return [np.linalg.norm(pos) for pos in thermalize_positions]
+
+    def number_absorbed(self) -> int:
+        """
+        Get the number of neutrons that were absorbed.
+        """
+        n = 0
+        for neutron in self.neutrons:
+            if len(neutron.positions) < self.sim.nCollisions and self.sim.tank.inside(
+                neutron.position
+            ):
+                n += 1
+        return n

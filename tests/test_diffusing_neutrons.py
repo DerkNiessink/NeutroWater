@@ -12,6 +12,14 @@ test_data = [
                 pd.read_csv("data/h_cross_t.txt", sep=r"\s+"),
                 pd.read_csv("data/o_cross_t.txt", sep=r"\s+"),
             ],
+            [
+                pd.read_csv("data/h_cross_s.txt", sep=r"\s+"),
+                pd.read_csv("data/o_cross_s.txt", sep=r"\s+"),
+            ],
+            [
+                pd.read_csv("data/h_cross_a.txt", sep=r"\s+"),
+                pd.read_csv("data/o_cross_a.txt", sep=r"\s+"),
+            ],
             pd.read_csv("data/neutron_spectrum_normalized.txt", sep=","),
             3,
             (2, 1),
@@ -28,6 +36,14 @@ test_data = [
             [
                 pd.read_csv("data/h_cross_t.txt", sep=r"\s+"),
                 pd.read_csv("data/o_cross_t.txt", sep=r"\s+"),
+            ],
+            [
+                pd.read_csv("data/h_cross_s.txt", sep=r"\s+"),
+                pd.read_csv("data/o_cross_s.txt", sep=r"\s+"),
+            ],
+            [
+                pd.read_csv("data/h_cross_a.txt", sep=r"\s+"),
+                pd.read_csv("data/o_cross_a.txt", sep=r"\s+"),
             ],
             pd.read_csv("data/neutron_spectrum_normalized.txt", sep=","),
             3,
@@ -76,7 +92,7 @@ class TestDiffusingNeutrons:
         """
         # Set the initial energy of the neutrons to 2 MeV
         for neutron in diffusing_neutrons.neutrons:
-            neutron.energies[0] = 2 * 10**6
+            neutron.energy = 2 * 10**6
 
         diffusing_neutrons.diffuse(nCollisions=expected_collisions - 5)
         diffusing_neutrons.diffuse(nCollisions=5)
@@ -93,6 +109,14 @@ class TestDiffusingNeutrons:
                 pd.read_csv("data/h_cross_t.txt", sep=r"\s+"),
                 pd.read_csv("data/o_cross_t.txt", sep=r"\s+"),
             ],
+            [
+                pd.read_csv("data/h_cross_s.txt", sep=r"\s+"),
+                pd.read_csv("data/o_cross_s.txt", sep=r"\s+"),
+            ],
+            [
+                pd.read_csv("data/h_cross_a.txt", sep=r"\s+"),
+                pd.read_csv("data/o_cross_a.txt", sep=r"\s+"),
+            ],
             pd.read_csv("data/neutron_spectrum_normalized.txt", sep=","),
             3,
             (2, 1),
@@ -101,9 +125,9 @@ class TestDiffusingNeutrons:
             np.array([0, 0, 0]),
             0.920,
         )
-        neutrons.neutrons[0].positions[0] = np.array([0.1, 0, 0])
-        neutrons.neutrons[1].positions[0] = np.array([1.01, 0, 0])
-        neutrons.neutrons[2].positions[0] = np.array([0.5, 0, 0])
+        neutrons.neutrons[0].position = np.array([0.1, 0, 0])
+        neutrons.neutrons[1].position = np.array([1.01, 0, 0])
+        neutrons.neutrons[2].position = np.array([0.5, 0, 0])
 
         neutrons.diffuse(nCollisions=30)
         measure = Measurer(neutrons)

@@ -2,6 +2,7 @@ import pandas as pd
 import numpy as np
 from scipy.interpolate import Akima1DInterpolator
 from typing import Sequence
+import itertools
 
 
 class DataProcessor:
@@ -35,11 +36,14 @@ class DataProcessor:
             - log (bool): if True, the data is log-log transformed.
         """
         data = data.drop_duplicates(subset=data.columns.values.tolist()[0])
+        data = data.loc[(data != 0.0).all(axis=1)]
+
         x = data.iloc[:, 0]
         y = data.iloc[:, 1]
         if log:
             x = np.log(x)
             y = np.log(y)
+
         return Akima1DInterpolator(x, y)
 
 
@@ -76,6 +80,13 @@ class CrossSectionProcessor(DataProcessor):
         f = self.interpolaters[0] if f is None else f
         return np.exp(f(np.log(energy))) * 10 ** (-28)  # convert barns -> m^2
 
+
+class TotalProcessor(CrossSectionProcessor):
+    """
+    Class that holds the total cross section data for neutrons and provides a
+    method for calculating the mean free path for a given energy.
+    """
+
     def get_mfp(
         self,
         energy: float,
@@ -94,6 +105,55 @@ class CrossSectionProcessor(DataProcessor):
         cross_sections = [self.cross_section(energy, f) for f in self.interpolaters]
         return 1 / (
             sum([nMolecules[i] * n * cs for i, cs in enumerate(cross_sections)])
+        )
+
+
+class AbsorptionProcessor(CrossSectionProcessor):
+    """
+    Class that holds the absorption cross section data for neutrons and provides
+    a method for calculating the absorption rate for a given energy.
+    """
+
+    def __init__(
+        self,
+        scattering_data: Sequence[pd.DataFrame],
+        absorption_data: Sequence[pd.DataFrame],
+    ):
+        """
+        Parameters:
+        - scattering_data (Sequence[pd.DataFrame]): scattering cross section data
+        of the form of a sequence of pandas DataFrames with columns x and y
+        - absorption_data (Sequence[pd.DataFrame]): absorption cross section data
+        of the form of a sequence of pandas DataFrames with columns x and y.
+
+        Scattering and absorption data should be in the same order of atoms and
+        of the same length.
+        """
+        # List with the scattering and absorption data interleaved.
+        data = list(itertools.chain(*zip(scattering_data, absorption_data)))
+        super().__init__(data)
+
+    def get_absorption_rate(
+        self,
+        energy,
+        nMolecules: Sequence = (2, 1),
+    ) -> float:
+        """
+        Get the absorption rate for a given energy.
+
+        Parameters:
+        - energy (float): energy of the neutron in eV.
+        - n (float): number of atoms per volume in m^-3 (Default is for H20).
+        - nMolecules (Sequence): number of atoms in the molecule (Default:
+        (2, 1) for H20)
+        """
+        # list with the scattering and absorption data interleaved.
+        cross_sections = [self.cross_section(energy, f) for f in self.interpolaters]
+        return 1 / sum(
+            [
+                nMolecules[i] * (cross_sections[i] / cross_sections[i + 1])
+                for i in range(len(cross_sections) // 2)
+            ]
         )
 
 

@@ -17,25 +17,35 @@ class Neutron:
         self.positions: list = [initial_position]
         self.energies: list = [initial_energy]
 
+    @property
+    def position(self) -> Vector:
+        return self.positions[-1]
+
+    @property
+    def energy(self) -> float:
+        return self.energies[-1]
+
+    @position.setter
+    def position(self, vector: Vector) -> None:
+        self.positions.append(vector)
+
+    @energy.setter
+    def energy(self, value: float) -> None:
+        self.energies.append(value)
+
     def travel(self, distance: float, direction: Vector):
         """
         Update the position by letting the neutron travel in a given direction
         for a given distance.
         """
-        self.positions.append(self.positions[-1] + distance * direction)
+        self.position = self.position + distance * direction
 
     def collide(self, energy_loss_frac: float):
         """
         Update the energy by letting the neutron collide resulting in a given
         energy loss.
         """
-        self.energies.append(self.energies[-1] * energy_loss_frac)
-
-    def set_energy(self, energy: float):
-        """
-        Set the energy of the neutron.
-        """
-        self.energies.append(energy)
+        self.energy = self.energy * energy_loss_frac
 
 
 class Neutrons:

@@ -1,7 +1,7 @@
 import pandas as pd
 import pytest
 
-from neutrons.process.data_processor import CrossSectionProcessor
+from neutrons.process.data_processor import TotalProcessor
 
 
 test_data = {
@@ -27,7 +27,7 @@ class TestDataProcessor:
         ],
     )
     def test_interpolate(self, energy, expected, O_data, H_data):
-        data_processor = CrossSectionProcessor([H_data, O_data])
+        data_processor = TotalProcessor([H_data, O_data])
         f = data_processor.interpolaters[1]
         cross_section = data_processor.cross_section(energy, f)
         assert cross_section == pytest.approx(expected, rel=1e-6)
@@ -42,6 +42,6 @@ class TestDataProcessor:
         ],
     )
     def test_get_mfp(self, energy, expected, O_data, H_data):
-        data_processor = CrossSectionProcessor([H_data, O_data])
+        data_processor = TotalProcessor([H_data, O_data])
         mfp = data_processor.get_mfp(energy)
         assert mfp == pytest.approx(expected, rel=1e-3)
