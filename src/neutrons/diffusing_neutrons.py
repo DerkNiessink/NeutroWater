@@ -3,6 +3,7 @@ import pandas as pd
 from typing import Sequence, Any
 import multiprocessing
 from tqdm.contrib.concurrent import process_map
+from dataclasses import dataclass
 
 from neutrons.models.neutrons import Neutrons, Neutron, Vector
 from neutrons.models.tank import Tank
@@ -14,80 +15,89 @@ from neutrons.process.data_processor import (
 from neutrons.process.maxwell_boltzmann import MaxwellBoltzmann
 
 
+@dataclass
+class Parameters:
+    """
+    Parameters:
+    - total_data (Sequence): Total cross section data of the form of
+        a pandas DataFrame with two columns containing: energy [eV] and total
+        cross section [barns].
+    - scattering_data (Sequence): Scattering cross section data of
+        the form of a pandas DataFrame with two columns containing:
+        energy [eV] and scattering cross section [barns].
+    - absorption_data (Sequence): Absorption cross section data of the form
+        of a pandas DataFrame with two columns containing: energy [eV] and
+        absorption cross section [barns].
+    - spectrum_Data (pd.DataFrame): Data for the probability distribution of the
+        initial energy spectrum from the neutron source wich should have two columns
+        containing: energy [eV] and probability.
+    - nNeutrons (int): Number of neutrons to simulate
+    - molecule_structure (Sequence): number of atoms in the molecule (Default:
+        (2, 1) for H20)
+    - radius_tank (float): Radius of the tank in meters. Default is 1.
+    - height_tank (float): Height of the tank in meters. Default is 1.
+    - position_tank (np.ndarray): Position of the tank. Default is [0, 0, 0].
+    - xi (float): Logarithmic reduction of neutron energy per collision. Default
+        is 0.920 (H20).
+    - temperature (float): Temperature [K] of the medium.
+    """
+
+    total_data: Sequence[pd.DataFrame]
+    scattering_data: Sequence[pd.DataFrame]
+    absorption_data: Sequence[pd.DataFrame]
+    spectrum_data: pd.DataFrame
+    nNeutrons: int
+    molecule_structure: Sequence = (2, 1)
+    radius_tank: float = 1
+    height_tank: float = 1
+    position_tank: Vector = np.array([0.0, 0.0, 0.0])
+    xi: float = 0.920
+    temperature: float = 293
+
+
 class DiffusingNeutrons:
     """
     Class that simulates multiple neutrons from diffusing in a medium.
+
+    Args:
+        p (Parameters): Parameters for the simulation.
     """
 
     def __init__(
         self,
-        total_data: Sequence[pd.DataFrame],
-        scattering_data: Sequence[pd.DataFrame],
-        absorption_data: Sequence[pd.DataFrame],
-        spectrum_data: pd.DataFrame,
-        nNeutrons: int,
-        molecule_structure: Sequence = (2, 1),
-        radius_tank: float = 1,
-        height_tank: float = 1,
-        position_tank: Vector = np.array([0.0, 0.0, 0.0]),
-        xi: float = 0.920,
-        temperature: float = 293,
+        p: Parameters,
     ):
-        """
-        Parameters:
-        - total_data (Sequence): Total cross section data of the form of
-            a pandas DataFrame with two columns containing: energy [eV] and total
-            cross section [barns].
-        - scattering_data (Sequence): Scattering cross section data of
-            the form of a pandas DataFrame with two columns containing:
-            energy [eV] and scattering cross section [barns].
-        - absorption_data (Sequence): Absorption cross section data of the form
-            of a pandas DataFrame with two columns containing: energy [eV] and
-            absorption cross section [barns].
-        - spectrum_Data (pd.DataFrame): Data for the probability distribution of the
-            initial energy spectrum from the neutron source wich should have two columns
-            containing: energy [eV] and probability.
-        - nNeutrons (int): Number of neutrons to simulate
-        - molecule_structure (Sequence): number of atoms in the molecule (Default:
-            (2, 1) for H20)
-        - radius_tank (float): Radius of the tank in meters. Default is 1.
-        - height_tank (float): Height of the tank in meters. Default is 1.
-        - position_tank (np.ndarray): Position of the tank. Default is [0, 0, 0].
-        - xi (float): Logarithmic reduction of neutron energy per collision. Default
-            is 0.920 (H20).
-        - temperature (float): Temperature [K] of the medium.
-        """
         self.kT = (
-            1.380649e-23 * temperature * 6.24150907 * 10**18
+            1.380649e-23 * p.temperature * 6.24150907 * 10**18
         )  # [m^2 kg / (s^2 K) * K * (eV/J) = J*(eV/J) = eV]
 
         self.nCollisions = 0
-        self.energy_loss_frac = 1 / np.exp(xi)
-        self.mol_struc = molecule_structure
-        self.tank = Tank(radius_tank, height_tank, position_tank, xi)
+        self.energy_loss_frac = 1 / np.exp(p.xi)
+        self.mol_struc = p.molecule_structure
+        self.tank = Tank(p.radius_tank, p.height_tank, p.position_tank, p.xi)
 
         # For interpolating the total cross section data and computing the
         # mean-free-path.
-        self.total_processor = TotalProcessor(total_data)
+        self.total_processor = TotalProcessor(p.total_data)
 
         # For interpolating the scattering and absorption cross section and
         # computing the aborption ratio.
         self.absorption_processor = AbsorptionProcessor(
-            scattering_data, absorption_data
+            p.scattering_data, p.absorption_data
         )
 
         # Sample from the interpolated energy spectrum
-        spectrum_processor = SpectrumProcessor(spectrum_data)
-        initial_energies = spectrum_processor.sample(num_samples=nNeutrons)
+        spectrum_processor = SpectrumProcessor(p.spectrum_data)
+        initial_energies = spectrum_processor.sample(num_samples=p.nNeutrons)
         # Convert the energies MeV -> eV
         initial_energies = [energy * 10**6 for energy in initial_energies]
 
         # All neutrons start at the origin
-        initial_positions = [np.array([0, 0, 0]) for _ in range(nNeutrons)]
+        initial_positions = [np.array([0, 0, 0]) for _ in range(p.nNeutrons)]
         self.neutrons = Neutrons(initial_energies, initial_positions)
 
         # Maxwell-Boltzmann distribution for the thermal energy
-        self.mw = MaxwellBoltzmann(T=temperature)
+        self.mw = MaxwellBoltzmann(T=p.temperature)
 
     def _random_directions(self, N: int) -> np.ndarray[Any, np.dtype[np.float64]]:
         """
