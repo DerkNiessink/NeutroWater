@@ -1,10 +1,11 @@
 import numpy as np
 
-from neutrons.models.neutrons import Vector
-from neutrons.diffusing_neutrons import DiffusingNeutrons
+from neutrons.diffusing_neutrons import DiffusingNeutrons, Vector
 
 
 class Measurer:
+    """Class to measure the properties of the neutrons after the simulation."""
+
     def __init__(self, sim: DiffusingNeutrons):
         self.neutrons = sim.neutrons
         self.sim = sim
@@ -26,6 +27,14 @@ class Measurer:
         [[float, float, ...], [float, float, ...], ...]
         """
         return [neutron.energies for neutron in self.neutrons]
+
+    def number_total(self) -> int:
+        """
+        Get the total number of neutrons.
+
+        Returns an int.
+        """
+        return len(self.neutrons)
 
     def number_escaped(self) -> int:
         """
@@ -62,6 +71,18 @@ class Measurer:
 
         return n / (4 * np.pi * r**2)
 
+    def number_thermal(self, E=0.2):
+        """
+        Get the number of neutrons that are thermalized.
+
+        Returns an int.
+        """
+        n = 0
+        for energies in self.energies():
+            if energies[-1] < E:
+                n += 1
+        return n
+
     def thermalize_positions(self, E=0.2) -> list:
         """
         Get the positions of the neutrons where their energy is less than E for
@@ -89,13 +110,13 @@ class Measurer:
         Args:
             E (float): energy threshold.
         """
-
-        thermalize_positions = self.thermalize_positions(E)
-        return [np.linalg.norm(pos) for pos in thermalize_positions]
+        return [np.linalg.norm(pos) for pos in self.thermalize_positions(E)]
 
     def number_absorbed(self) -> int:
         """
         Get the number of neutrons that were absorbed.
+
+        Returns an int.
         """
         n = 0
         for neutron in self.neutrons:
@@ -104,3 +125,40 @@ class Measurer:
             ):
                 n += 1
         return n
+
+    def absorbed_positions(self) -> list[Vector]:
+        """
+        Get the positions of the neutrons that were absorbed.
+
+        Returns a list of np.ndarray.
+        """
+        return [
+            neutron.positions[-1]
+            for neutron in self.neutrons
+            if len(neutron.positions) < self.sim.nCollisions
+            and self.sim.tank.inside(neutron.position)
+        ]
+
+    def absorbed_distances(self) -> list[np.float64]:
+        """
+        Get the distances of the neutrons that were absorbed.
+
+        Returns a list of floats.
+        """
+        return [np.linalg.norm(pos) for pos in self.absorbed_positions()]
+
+    def flux(self, r: float) -> float:
+        """
+        Get the flux of the neutrons.
+
+        Returns a float.
+        """
+        count = 0
+        for positions in self.positions():
+            positions = np.array(positions)
+            norms = np.linalg.norm(positions, axis=1)
+            # Count the number of neutrons that have been in the shell
+            count += np.sum((norms[:-1] < r) & (r < norms[1:])) + np.sum(
+                (norms[1:] < r) & (r < norms[:-1])
+            )
+        return count / (4 * np.pi * r**2)
