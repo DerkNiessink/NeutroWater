@@ -1,4 +1,5 @@
 import numpy as np
+from typing import Sequence
 
 
 class Collisions:
@@ -6,7 +7,7 @@ class Collisions:
     Class to simulate the collisions of neutrons with atomic nuclei.
     """
 
-    def __init__(self, masses: list[float]):
+    def __init__(self, masses: Sequence[float]):
         """
         masses: list of atomic masses of the nuclei in the medium.
         """

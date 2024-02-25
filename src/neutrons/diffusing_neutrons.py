@@ -35,6 +35,8 @@ class Parameters:
     - nNeutrons (int): Number of neutrons to simulate
     - molecule_structure (Sequence): number of atoms in the molecule (Default:
         (2, 1) for H20)
+    - nuclei_masses (Sequence): Masses of the nuclei in the molecule, should be
+        in the same order as the molecule_structure. (Default: (1, 16) for H20)
     - radius_tank (float): Radius of the tank in meters. Default is 1.
     - height_tank (float): Height of the tank in meters. Default is 1.
     - position_tank (np.ndarray): Position of the tank. Default is [0, 0, 0].
@@ -49,6 +51,7 @@ class Parameters:
     spectrum_data: pd.DataFrame
     nNeutrons: int
     molecule_structure: Sequence = (2, 1)
+    nuclei_masses: Sequence = (1, 16)
     radius_tank: float = 1
     height_tank: float = 1
     position_tank: Vector = np.array([0.0, 0.0, 0.0])
@@ -97,7 +100,8 @@ class DiffusingNeutrons:
         self.neutrons = Neutrons(initial_energies, initial_positions)
 
         # For handling the collisions with the atomic nuclei, hydrogen and oxygen.
-        self.collisions = Collisions(masses=[1, 16])
+        self.collisions = Collisions(masses=p.nuclei_masses)
+        self.nuclei_masses = p.nuclei_masses
 
         # Maxwell-Boltzmann distribution for the thermal energy
         self.mw = MaxwellBoltzmann(T=p.temperature)
@@ -171,11 +175,11 @@ class DiffusingNeutrons:
             neutron.travel(self.total_processor.get_mfp(neutron.energy), direction)
 
             # Determine the nucleus the neutron collides with and handle the collision
-            # accordingly (nucleus mass = 1 for H collisions and 16 for O).
+            # accordingly.
             direction, energy_loss_frac = (
-                self._handle_collision(neutron, 0, mass=1)
+                self._handle_collision(neutron, self.nuclei_masses[0])
                 if np.random.random() < self.total_processor.get_ratio(neutron.energy)
-                else self._handle_collision(neutron, 1, mass=16)
+                else self._handle_collision(neutron, self.nuclei_masses[1])
             )
 
             # If the neutron is absorbed, break the loop
@@ -189,9 +193,7 @@ class DiffusingNeutrons:
 
         return neutron
 
-    def _handle_collision(
-        self, neutron: Neutron, index: int, mass: float
-    ) -> tuple[Vector, float]:
+    def _handle_collision(self, neutron: Neutron, mass: float) -> tuple[Vector, float]:
         """
         Handle a collisions of a neutron with a nucleus.
 
@@ -203,7 +205,7 @@ class DiffusingNeutrons:
         """
         return (
             (np.zeros(3), 1)
-            if self._absorbed(neutron, index)
+            if self._absorbed(neutron, self.nuclei_masses.index(mass))
             else (
                 self._get_direction(self.collisions.theta(mass)),
                 self.collisions.energy_loss_frac(mass),
