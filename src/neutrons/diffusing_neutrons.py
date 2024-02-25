@@ -174,22 +174,24 @@ class DiffusingNeutrons:
 
             neutron.travel(self.total_processor.get_mfp(neutron.energy), direction)
 
+            collision = (
+                self._handle_thermal_collision
+                if neutron.energy < 10 * self.kT
+                else self._handle_collision
+            )
+
             # Determine the nucleus the neutron collides with and handle the collision
             # accordingly.
             direction, energy_loss_frac = (
-                self._handle_collision(neutron, self.nuclei_masses[0])
+                collision(neutron, self.nuclei_masses[0])
                 if np.random.random() < self.total_processor.get_ratio(neutron.energy)
-                else self._handle_collision(neutron, self.nuclei_masses[1])
+                else collision(neutron, self.nuclei_masses[1])
             )
 
+            neutron.collide(energy_loss_frac)
             # If the neutron is absorbed, break the loop
             if energy_loss_frac == 1:
                 break
-
-            if neutron.energy < 0.2:
-                neutron.energy = self.mw.thermal_energy()
-            else:
-                neutron.collide(energy_loss_frac)
 
         return neutron
 
@@ -209,6 +211,26 @@ class DiffusingNeutrons:
             else (
                 self._get_direction(self.collisions.theta(mass)),
                 self.collisions.energy_loss_frac(mass),
+            )
+        )
+
+    def _handle_thermal_collision(
+        self, neutron: Neutron, mass: float
+    ) -> tuple[Vector, float]:
+        """
+        Handle a collisions of a thermal neutron with a nucleus.
+
+        neutron (Neutron): Neutron to handle.
+        mass (float): mass of the nucleus.
+
+        Returns a tuple with the new direction and the fraction of energy lost.
+        """
+        return (
+            (np.zeros(3), 1)
+            if self._absorbed(neutron, self.nuclei_masses.index(mass))
+            else (
+                self._random_direction(),
+                neutron.energy / self.mw.thermal_energy(),
             )
         )
 
