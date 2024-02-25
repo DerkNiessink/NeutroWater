@@ -162,3 +162,24 @@ class Measurer:
                 (norms[1:] < r) & (r < norms[:-1])
             )
         return count / (4 * np.pi * r**2)
+
+    def energy_spectrum(self, r: float) -> list[float]:
+        """
+        Get the energy spectrum of the neutrons at a given radius r.
+
+        Args:
+            r (float): radius at which to compute the energy spectrum.
+
+        Returns a list of floats.
+        """
+        result_energies = []
+        for positions, energies in zip(self.positions(), self.energies()):
+            positions = np.array(positions)
+            energies = np.array(energies)
+            norms = np.linalg.norm(positions, axis=1)
+            # Create boolean arrays for the conditions
+            cond1 = np.concatenate([(norms[:-1] < r) & (r < norms[1:]), [False]])
+            cond2 = np.concatenate([[False], (norms[1:] < r) & (r < norms[:-1])])
+            # Get the energies of the neutrons that have been in the shell
+            result_energies += list(energies[cond1]) + list(energies[cond2])
+        return result_energies
