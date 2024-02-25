@@ -72,7 +72,6 @@ class DiffusingNeutrons:
         )  # [m^2 kg / (s^2 K) * K * (eV/J) = J*(eV/J) = eV]
 
         self.nCollisions = 0
-        self.energy_loss_frac = 1 / np.exp(p.xi)
         self.mol_struc = p.molecule_structure
         self.tank = Tank(p.radius_tank, p.height_tank, p.position_tank, p.xi)
 
@@ -162,23 +161,75 @@ class DiffusingNeutrons:
             nCollisions (int): number of times the neutron collides with an atomic
             nucleus.
         """
-        directions = self._random_directions(nCollisions)
+        direction = self._random_directions(1)[0]
 
-        for direction in directions:
+        for _ in range(nCollisions):
 
             if not self.tank.inside(neutron.position):
                 break
 
             neutron.travel(self.total_processor.get_mfp(neutron.energy), direction)
 
-            if np.random.random() < self.absorption_processor.get_absorption_rate(
-                neutron.energy
-            ):
-                break
+            # H collision
+            if np.random.random() < self.total_processor.get_ratio(neutron.energy):
+
+                if (
+                    np.random.random()
+                    < self.absorption_processor.get_absorption_rates(neutron.energy)[0]
+                ):
+                    break
+                energy_loss_frac, theta = self._result_H_collision()
+
+            # O collision
+            else:
+                if (
+                    np.random.random()
+                    < self.absorption_processor.get_absorption_rates(neutron.energy)[1]
+                ):
+                    break
+                energy_loss_frac, theta = self._result_O_collision()
+
+            phi = np.random.random() * 2 * np.pi
+            direction = np.array(
+                [
+                    np.sin(phi) * np.cos(theta),
+                    np.sin(phi) * np.sin(theta),
+                    np.cos(phi),
+                ]
+            )
 
             if neutron.energy < 0.2:
                 neutron.energy = self.mw.thermal_energy()
             else:
-                neutron.collide(self.energy_loss_frac)
+                neutron.collide(energy_loss_frac)
 
         return neutron
+
+    def _result_H_collision(self) -> tuple[float, Any]:
+        """
+        Handle a collision with a hydrogen atom.
+
+        Args:
+            neutron (Neutron): Neutron to handle the collision.
+            energy_loss_frac (float): Fraction of energy loss in the collision.
+
+        Returns a float.
+        """
+        energy_loss_frac = np.random.random()
+        return energy_loss_frac, np.arccos(np.sqrt(energy_loss_frac))
+
+    def _result_O_collision(self) -> tuple[float, Any]:
+        """
+        Handle a collision with an oxygen atom.
+
+        Args:
+            neutron (Neutron): Neutron to handle the collision.
+            energy_loss_frac (float): Fraction of energy loss in the collision.
+
+        Returns a float.
+        """
+        E_min = ((16 - 1) / (16 + 1)) ** 2
+        energy_loss_frac = np.random.uniform(E_min, 1)
+        return energy_loss_frac, np.arccos(
+            np.sqrt(((1 + 16) ** 2 / (4 * 16)) * (1 - energy_loss_frac))
+        )

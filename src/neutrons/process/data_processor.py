@@ -107,6 +107,30 @@ class TotalProcessor(CrossSectionProcessor):
             sum([nMolecules[i] * n * cs for i, cs in enumerate(cross_sections)])
         )
 
+    def get_ratio(
+        self,
+        energy: float,
+        nMolecules: Sequence = (2, 1),
+    ):
+        """
+        Get the ratio of the total cross section of the first atom to the total
+        cross section of the molecule.
+
+        Parameters:
+        - energy (float): energy of the neutron in eV.
+        - n (float): number of atoms per volume in m^-3 (Default is for H20).
+        - nMolecules (Sequence): number of atoms in the molecule (Default:
+        (2, 1) for H20)
+        """
+        cross_sections = [self.cross_section(energy, f) for f in self.interpolaters]
+        return (
+            cross_sections[0]
+            * nMolecules[0]
+            / sum(
+                [nMolecules[i] * cross_sections[i] for i in range(len(cross_sections))]
+            )
+        )
+
 
 class AbsorptionProcessor(CrossSectionProcessor):
     """
@@ -133,7 +157,7 @@ class AbsorptionProcessor(CrossSectionProcessor):
         data = list(itertools.chain(*zip(scattering_data, absorption_data)))
         super().__init__(data)
 
-    def get_absorption_rate(
+    def get_total_absorption_rate(
         self,
         energy,
         nMolecules: Sequence = (2, 1),
@@ -151,10 +175,23 @@ class AbsorptionProcessor(CrossSectionProcessor):
         cross_sections = [self.cross_section(energy, f) for f in self.interpolaters]
         return 1 / sum(
             [
-                nMolecules[i] * (cross_sections[i] / cross_sections[i + 1])
-                for i in range(len(cross_sections) // 2)
+                nMolecules[i // 2] * (cross_sections[i] / cross_sections[i + 1])
+                for i in range(0, len(cross_sections), 2)
             ]
         )
+
+    def get_absorption_rates(self, energy: float) -> list:
+        """
+        Get the absorption rates for a given energy.
+
+        Parameters:
+        - energy (float): energy of the neutron in eV.
+        """
+        cross_sections = [self.cross_section(energy, f) for f in self.interpolaters]
+        return [
+            cross_sections[i + 1] / cross_sections[i]
+            for i in range(0, len(cross_sections), 2)
+        ]
 
 
 class SpectrumProcessor(DataProcessor):
