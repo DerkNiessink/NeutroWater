@@ -34,6 +34,6 @@ class Tank:
         position (np.ndarray): position to check.
         """
         return bool(
-            np.linalg.norm(position[:2]) < self.radius
-            and abs(position[2]) < (self.height / 2 - self.position[2])
+            np.linalg.norm(position[:2] - self.position[:2]) < self.radius
+            and abs(position[2] - self.position[2]) < self.height / 2
         )

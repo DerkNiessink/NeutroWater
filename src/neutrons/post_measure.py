@@ -83,7 +83,7 @@ class Measurer:
                 n += 1
         return n
 
-    def thermalize_positions(self, E=0.2) -> list:
+    def thermalize_positions(self) -> list:
         """
         Get the positions of the neutrons where their energy is less than E for
         the first time.
@@ -94,15 +94,15 @@ class Measurer:
 
         thermalize_positions = []
         for energies, positions in zip(self.energies(), self.positions()):
-            # Get the first element of the list of energies that is less than 0.2
-            res = list(filter((lambda val: val < E), energies))
+            # Get the first element of the list of energies that is less than 10kT
+            res = list(filter((lambda val: val < (10 * self.sim.kT)), energies))
             if len(res) > 0:
                 index = energies.index(res[0])
                 thermalize_positions.append(positions[index])
 
         return thermalize_positions
 
-    def thermalize_distances(self, E=0.2) -> list:
+    def thermalize_distances(self) -> list:
         """
         Get the distance of the neutrons where their energy is less than E for
         the first time.
@@ -110,7 +110,7 @@ class Measurer:
         Args:
             E (float): energy threshold.
         """
-        return [np.linalg.norm(pos) for pos in self.thermalize_positions(E)]
+        return [np.linalg.norm(pos) for pos in self.thermalize_positions()]
 
     def number_absorbed(self) -> int:
         """

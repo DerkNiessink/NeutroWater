@@ -230,7 +230,7 @@ class DiffusingNeutrons:
             if self._absorbed(neutron, self.nuclei_masses.index(mass))
             else (
                 self._random_direction(),
-                neutron.energy / self.mw.thermal_energy(),
+                self.mw.thermal_energy() / neutron.energy,
             )
         )
 
