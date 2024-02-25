@@ -7,6 +7,7 @@ from dataclasses import dataclass
 
 from neutrons.models.neutrons import Neutrons, Neutron, Vector
 from neutrons.models.tank import Tank
+from neutrons.models.collisions import Collisions
 from neutrons.process.data_processor import (
     TotalProcessor,
     SpectrumProcessor,
@@ -95,21 +96,20 @@ class DiffusingNeutrons:
         initial_positions = [np.array([0, 0, 0]) for _ in range(p.nNeutrons)]
         self.neutrons = Neutrons(initial_energies, initial_positions)
 
+        # For handling the collisions with the atomic nuclei, hydrogen and oxygen.
+        self.collisions = Collisions(masses=[1, 16])
+
         # Maxwell-Boltzmann distribution for the thermal energy
         self.mw = MaxwellBoltzmann(T=p.temperature)
 
-    def _random_directions(self, N: int) -> np.ndarray[Any, np.dtype[np.float64]]:
+    def _random_direction(self) -> Vector:
         """
-        Sample random 3D directions.
-
-        Args:
-            N (int): number of vectors to generate.
+        Sample a random 3D direction.
 
         Returns a np.ndarray of N 3D (np.ndarray) vectors.
         """
-        vecs = np.random.normal(size=(N, 3))
-        mags = np.linalg.norm(vecs, axis=-1)
-        return vecs / mags[..., np.newaxis]
+        vec = np.random.normal(size=3)
+        return vec / np.linalg.norm(vec, axis=-1)
 
     def diffuse(self, nCollisions: int):
         """
@@ -161,7 +161,7 @@ class DiffusingNeutrons:
             nCollisions (int): number of times the neutron collides with an atomic
             nucleus.
         """
-        direction = self._random_directions(1)[0]
+        direction = self._random_direction()
 
         for _ in range(nCollisions):
 
@@ -170,33 +170,17 @@ class DiffusingNeutrons:
 
             neutron.travel(self.total_processor.get_mfp(neutron.energy), direction)
 
-            # H collision
-            if np.random.random() < self.total_processor.get_ratio(neutron.energy):
-
-                if (
-                    np.random.random()
-                    < self.absorption_processor.get_absorption_rates(neutron.energy)[0]
-                ):
-                    break
-                energy_loss_frac, theta = self._result_H_collision()
-
-            # O collision
-            else:
-                if (
-                    np.random.random()
-                    < self.absorption_processor.get_absorption_rates(neutron.energy)[1]
-                ):
-                    break
-                energy_loss_frac, theta = self._result_O_collision()
-
-            phi = np.random.random() * 2 * np.pi
-            direction = np.array(
-                [
-                    np.sin(phi) * np.cos(theta),
-                    np.sin(phi) * np.sin(theta),
-                    np.cos(phi),
-                ]
+            # Determine the nucleus the neutron collides with and handle the collision
+            # accordingly (nucleus mass = 1 for H collisions and 16 for O).
+            direction, energy_loss_frac = (
+                self._handle_collision(neutron, 0, mass=1)
+                if np.random.random() < self.total_processor.get_ratio(neutron.energy)
+                else self._handle_collision(neutron, 1, mass=16)
             )
+
+            # If the neutron is absorbed, break the loop
+            if energy_loss_frac == 1:
+                break
 
             if neutron.energy < 0.2:
                 neutron.energy = self.mw.thermal_energy()
@@ -205,31 +189,53 @@ class DiffusingNeutrons:
 
         return neutron
 
-    def _result_H_collision(self) -> tuple[float, Any]:
+    def _handle_collision(
+        self, neutron: Neutron, index: int, mass: float
+    ) -> tuple[Vector, float]:
         """
-        Handle a collision with a hydrogen atom.
+        Handle a collisions of a neutron with a nucleus.
 
-        Args:
-            neutron (Neutron): Neutron to handle the collision.
-            energy_loss_frac (float): Fraction of energy loss in the collision.
+        neutron (Neutron): Neutron to handle.
+        index (int): index of the nucleus in the molecule.
+        mass (float): mass of the nucleus.
 
-        Returns a float.
+        Returns a tuple with the new direction and the fraction of energy lost.
         """
-        energy_loss_frac = np.random.random()
-        return energy_loss_frac, np.arccos(np.sqrt(energy_loss_frac))
-
-    def _result_O_collision(self) -> tuple[float, Any]:
-        """
-        Handle a collision with an oxygen atom.
-
-        Args:
-            neutron (Neutron): Neutron to handle the collision.
-            energy_loss_frac (float): Fraction of energy loss in the collision.
-
-        Returns a float.
-        """
-        E_min = ((16 - 1) / (16 + 1)) ** 2
-        energy_loss_frac = np.random.uniform(E_min, 1)
-        return energy_loss_frac, np.arccos(
-            np.sqrt(((1 + 16) ** 2 / (4 * 16)) * (1 - energy_loss_frac))
+        return (
+            (np.zeros(3), 1)
+            if self._absorbed(neutron, index)
+            else (
+                self._get_direction(self.collisions.theta(mass)),
+                self.collisions.energy_loss_frac(mass),
+            )
         )
+
+    def _get_direction(self, theta: float) -> Vector:
+        """
+        Get a direction in cartesian coordinates.
+
+        theta (float): angle in radians.
+        """
+        phi = np.random.random() * 2 * np.pi
+        return np.array(
+            [
+                np.sin(phi) * np.cos(theta),
+                np.sin(phi) * np.sin(theta),
+                np.cos(phi),
+            ]
+        )
+
+    def _absorbed(self, neutron: Neutron, index: int) -> bool:
+        """
+        Check if the neutron is absorbed by the nucleus.
+
+        neutron (Neutron): Neutron to check.
+        index (int): index of the nucleus in the molecule.
+        """
+        if (
+            np.random.random()
+            < self.absorption_processor.get_absorption_rates(neutron.energy)[index]
+        ):
+            return True
+        else:
+            return False
