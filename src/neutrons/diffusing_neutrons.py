@@ -174,7 +174,7 @@ class DiffusingNeutrons:
 
             neutron.travel(self.total_processor.get_mfp(neutron.energy), direction)
 
-            collision = (
+            collision_func = (
                 self._handle_thermal_collision
                 if neutron.energy < 10 * self.kT
                 else self._handle_collision
@@ -183,9 +183,9 @@ class DiffusingNeutrons:
             # Determine the nucleus the neutron collides with and handle the collision
             # accordingly.
             direction, energy_loss_frac = (
-                collision(neutron, self.nuclei_masses[0])
+                collision_func(neutron, self.nuclei_masses[0])
                 if np.random.random() < self.total_processor.get_ratio(neutron.energy)
-                else collision(neutron, self.nuclei_masses[1])
+                else collision_func(neutron, self.nuclei_masses[1])
             )
 
             neutron.collide(energy_loss_frac)
