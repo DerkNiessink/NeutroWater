@@ -1,4 +1,5 @@
 import numpy as np
+from numpy.random import random
 import pandas as pd
 from typing import Sequence, Any
 import multiprocessing
@@ -172,7 +173,10 @@ class DiffusingNeutrons:
             if not self.tank.inside(neutron.position):
                 break
 
-            neutron.travel(self.total_processor.get_mfp(neutron.energy), direction)
+            # Sample the distance the neutron travels from an exponential distribution
+            # with mean free path as the scale parameter.
+            l = -self.total_processor.get_mfp(neutron.energy) * np.log(random())
+            neutron.travel(l, direction)
 
             collision_func = (
                 self._handle_thermal_collision
@@ -184,7 +188,7 @@ class DiffusingNeutrons:
             # accordingly.
             direction, energy_loss_frac = (
                 collision_func(neutron, self.nuclei_masses[0])
-                if np.random.random() < self.total_processor.get_ratio(neutron.energy)
+                if random() < self.total_processor.get_ratio(neutron.energy)
                 else collision_func(neutron, self.nuclei_masses[1])
             )
 
@@ -240,7 +244,7 @@ class DiffusingNeutrons:
 
         theta (float): angle in radians.
         """
-        phi = np.random.random() * 2 * np.pi
+        phi = random() * 2 * np.pi
         return np.array(
             [
                 np.sin(phi) * np.cos(theta),
@@ -257,7 +261,7 @@ class DiffusingNeutrons:
         index (int): index of the nucleus in the molecule.
         """
         if (
-            np.random.random()
+            random()
             < self.absorption_processor.get_absorption_rates(neutron.energy)[index]
         ):
             return True
