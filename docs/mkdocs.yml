@@ -1,0 +1,11 @@
+site_name: Neutron Moderation MC
+site_url: https://example.com/
+theme: readthedocs
+
+nav:
+  - Introduction: index.md
+  - Theory: theory.md
+  - Simulation: simulation.md
+  - Results: results.md
+  - User Guide: guide.md
+  - References: references.md
