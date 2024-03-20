@@ -14,6 +14,11 @@ class MaxwellBoltzmann:
     """
 
     def __init__(self, m: float = 1.67493e-27, T: float = 293):
+        """
+        Args:
+            - m (float): mass of the particle in kg.
+            - T (float): temperature in K.
+        """
         self.m = m
         self.T = T
 
@@ -22,7 +27,7 @@ class MaxwellBoltzmann:
         Maxwell-Boltzmann distribution for velocities.
 
         Args:
-            v (float): velocity
+            - v (float): velocity
         """
         return (
             (self.m / (2 * np.pi * kB * self.T)) ** 1.5
@@ -35,12 +40,16 @@ class MaxwellBoltzmann:
     def thermal_velocity(self) -> float:
         """
         Samples a thermal velocity of the particle.
+
+        Returns: thermal velocity in m/s.
         """
         return self._sample()[0]
 
     def thermal_energy(self) -> float:
         """
         Sample a thermal energy of the particle.
+
+        Returns: thermal energy in eV.
         """
         return 0.5 * self.m * self.thermal_velocity() ** 2 * J
 
@@ -56,10 +65,12 @@ class MaxwellBoltzmann:
 
         Args:
             - f (Callable): function to sample from.
-            - x_min (float)
-            - x_max (float)
-            - y_max (float)
-            - num_samples (int)
+            - x_min (float): minimum x value.
+            - x_max (float): maximum x value.
+            - y_max (float): maximum y value.
+            - num_samples (int): number of samples to take.
+
+        Returns: list of sampled points.
         """
         sampled_points = []
         while len(sampled_points) < num_samples:

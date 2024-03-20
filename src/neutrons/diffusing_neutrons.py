@@ -65,7 +65,7 @@ class DiffusingNeutrons:
     Class that simulates multiple neutrons from diffusing in a medium.
 
     Args:
-        p (Parameters): Parameters for the simulation.
+        - p (Parameters): Parameters for the simulation.
     """
 
     def __init__(
@@ -111,7 +111,7 @@ class DiffusingNeutrons:
         """
         Sample a random 3D direction.
 
-        Returns a np.ndarray of N 3D (np.ndarray) vectors.
+        Returns: a np.ndarray of N 3D (np.ndarray) vectors.
         """
         vec = np.random.normal(size=3)
         return vec / np.linalg.norm(vec, axis=-1)
@@ -121,7 +121,7 @@ class DiffusingNeutrons:
         Let the neutrons diffuse in the medium.
 
         Args:
-            nCollisions (int): number of times each neutron collides with an
+            - nCollisions (int): number of times each neutron collides with an
             atomic nucleus.
         """
         self.nCollisions += nCollisions
@@ -150,9 +150,11 @@ class DiffusingNeutrons:
         Diffuse a chunk of all neutrons in the medium.
 
         Args:
-            chunk (Sequence[Neutron]): chunk of neutrons to diffuse
-            nCollisions (int): number of times each neutron collides with an atomic
+            - chunk (Sequence[Neutron]): chunk of neutrons to diffuse
+            - nCollisions (int): number of times each neutron collides with an atomic
             nucleus.
+
+        Returns: the neutrons after diffusing in the medium.
         """
         np.random.seed()  # Set a new seed for each process
         return [self._diffuse_neutron(neutron, nCollisions) for neutron in chunk]
@@ -162,9 +164,11 @@ class DiffusingNeutrons:
         Diffuse a single neutron in the medium.
 
         Args:
-            neutron (Neutron): Neutron to diffuse
-            nCollisions (int): number of times the neutron collides with an atomic
+            - neutron (Neutron): Neutron to diffuse
+            - nCollisions (int): number of times the neutron collides with an atomic
             nucleus.
+
+        Returns: the neutron after diffusing in the medium.
         """
         direction = self._random_direction()
 
@@ -203,11 +207,12 @@ class DiffusingNeutrons:
         """
         Handle a collisions of a neutron with a nucleus.
 
-        neutron (Neutron): Neutron to handle.
-        index (int): index of the nucleus in the molecule.
-        mass (float): mass of the nucleus.
+        Args:
+            - neutron (Neutron): Neutron to handle.
+            - index (int): index of the nucleus in the molecule.
+            - mass (float): mass of the nucleus.
 
-        Returns a tuple with the new direction and the fraction of energy lost.
+        Returns: a tuple with the new direction and the fraction of energy lost.
         """
         return (
             (np.zeros(3), 1)
@@ -224,10 +229,11 @@ class DiffusingNeutrons:
         """
         Handle a collisions of a thermal neutron with a nucleus.
 
-        neutron (Neutron): Neutron to handle.
-        mass (float): mass of the nucleus.
+        Args:
+            - neutron (Neutron): Neutron to handle.
+            - mass (float): mass of the nucleus.
 
-        Returns a tuple with the new direction and the fraction of energy lost.
+        Returns: a tuple with the new direction and the fraction of energy lost.
         """
         return (
             (np.zeros(3), 1)
@@ -242,7 +248,8 @@ class DiffusingNeutrons:
         """
         Get a direction in cartesian coordinates.
 
-        theta (float): angle in radians.
+        Args:
+            - theta (float): angle in radians.
         """
         phi = random() * 2 * np.pi
         return np.array(
@@ -257,8 +264,11 @@ class DiffusingNeutrons:
         """
         Check if the neutron is absorbed by the nucleus.
 
-        neutron (Neutron): Neutron to check.
-        index (int): index of the nucleus in the molecule.
+        Args:
+            - neutron (Neutron): Neutron to check.
+            - index (int): index of the nucleus in the molecule.
+
+        Returns: True if the neutron is absorbed, False otherwise.
         """
         if (
             random()

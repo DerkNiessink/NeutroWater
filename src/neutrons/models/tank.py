@@ -8,11 +8,12 @@ class Tank:
     Class that holds the parameters of the tank, providing a method for
     checking if a position is inside the tank.
 
-    radius (float): radius of the tank.
-    height (float): height of the tank.
-    position (np.ndarray): position of the tank, default [0, 0, 0].
-    xi (float): logarithmic reduction of neutron energy per collision
-                (depends on the medium in the tank).
+    Args:
+        - radius (float): radius of the tank.
+        - height (float): height of the tank.
+        - position (np.ndarray): position of the tank, default [0, 0, 0].
+        - xi (float): logarithmic reduction of neutron energy per collision
+                    (depends on the medium in the tank).
     """
 
     radius: float
@@ -31,7 +32,10 @@ class Tank:
         """
         Check if a position is inside the tank.
 
-        position (np.ndarray): position to check.
+        Args:
+            - position (np.ndarray): position to check.
+
+        Returns: True if the position is inside the tank, False otherwise.
         """
         return bool(
             np.linalg.norm(position[:2] - self.position[:2]) < self.radius

@@ -18,10 +18,10 @@ class DataProcessor:
         """
         interpolate the data using scipy.interpolate.Akima1DInterpolator.
 
-        Parameters:
-        - data (Sequence[pd.DataFrame]): cross section data of the form of a
-        sequence of pandas DataFrames with columns x and y.
-        - log (bool): if True, the data is log-log transformed.
+        Args:
+            - data (Sequence[pd.DataFrame]): cross section data of the form of a
+            sequence of pandas DataFrames with columns x and y.
+            - log (bool): if True, the data is log-log transformed.
         """
         self.interpolaters = [self._interpolate(d, log) for d in data]
 
@@ -30,7 +30,7 @@ class DataProcessor:
         """
         Preprocess the data to be used for the mean free path calculations.
 
-        Parameters:
+        Args:
             - data (pd.DataFrame): cross section data of the form of a pandas
             DataFrame with columns x and y.
             - log (bool): if True, the data is log-log transformed.
@@ -59,9 +59,9 @@ class CrossSectionProcessor(DataProcessor):
 
     def __init__(self, data: Sequence[pd.DataFrame]):
         """
-        Parameters:
-        - data (Sequence[pd.DataFrame]): cross section data of the form of a
-        sequence of pandas DataFrames with columns x and y.
+        Args:
+            - data (Sequence[pd.DataFrame]): cross section data of the form of a
+            sequence of pandas DataFrames with columns x and y.
         """
         super().__init__(data=data, log=True)
 
@@ -73,9 +73,9 @@ class CrossSectionProcessor(DataProcessor):
         """
         Get the cross section for a given energy in m^2.
 
-        Parameters:
-        - energy (float): energy of the neutron in eV.
-        - f (Akima1DInterpolator): interpolater for the cross section data.
+        Args:
+            - energy (float): energy of the neutron in eV.
+            - f (Akima1DInterpolator): interpolater for the cross section data.
         """
         f = self.interpolaters[0] if f is None else f
         return np.exp(f(np.log(energy))) * 10 ** (-28)  # convert barns -> m^2
@@ -96,11 +96,11 @@ class TotalProcessor(CrossSectionProcessor):
         """
         Get the mean free path in meters for a given energy.
 
-        Parameters:
-        - energy (float): energy of the neutron in eV.
-        - n (float): number of atoms per volume in m^-3 (Default is for H20).
-        - nMolecules (Sequence): number of atoms in the molecule (Default:
-        (2, 1) for H20)
+        Args:
+            - energy (float): energy of the neutron in eV.
+            - n (float): number of atoms per volume in m^-3 (Default is for H20).
+            - nMolecules (Sequence): number of atoms in the molecule (Default:
+            (2, 1) for H20)
         """
         cross_sections = [self.cross_section(energy, f) for f in self.interpolaters]
         return 1 / (
@@ -116,11 +116,11 @@ class TotalProcessor(CrossSectionProcessor):
         Get the ratio of the total cross section of the first atom to the total
         cross section of the molecule.
 
-        Parameters:
-        - energy (float): energy of the neutron in eV.
-        - n (float): number of atoms per volume in m^-3 (Default is for H20).
-        - nMolecules (Sequence): number of atoms in the molecule (Default:
-        (2, 1) for H20)
+        Args:
+            - energy (float): energy of the neutron in eV.
+            - n (float): number of atoms per volume in m^-3 (Default is for H20).
+            - nMolecules (Sequence): number of atoms in the molecule (Default:
+            (2, 1) for H20)
         """
         cross_sections = [self.cross_section(energy, f) for f in self.interpolaters]
         return (
@@ -144,11 +144,11 @@ class AbsorptionProcessor(CrossSectionProcessor):
         absorption_data: Sequence[pd.DataFrame],
     ):
         """
-        Parameters:
-        - scattering_data (Sequence[pd.DataFrame]): scattering cross section data
-        of the form of a sequence of pandas DataFrames with columns x and y
-        - absorption_data (Sequence[pd.DataFrame]): absorption cross section data
-        of the form of a sequence of pandas DataFrames with columns x and y.
+        Args:
+            - scattering_data (Sequence[pd.DataFrame]): scattering cross section data
+            of the form of a sequence of pandas DataFrames with columns x and y
+            - absorption_data (Sequence[pd.DataFrame]): absorption cross section data
+            of the form of a sequence of pandas DataFrames with columns x and y.
 
         Scattering and absorption data should be in the same order of atoms and
         of the same length.
@@ -165,11 +165,13 @@ class AbsorptionProcessor(CrossSectionProcessor):
         """
         Get the absorption rate for a given energy.
 
-        Parameters:
-        - energy (float): energy of the neutron in eV.
-        - n (float): number of atoms per volume in m^-3 (Default is for H20).
-        - nMolecules (Sequence): number of atoms in the molecule (Default:
-        (2, 1) for H20)
+        Args:
+            - energy (float): energy of the neutron in eV.
+            - n (float): number of atoms per volume in m^-3 (Default is for H20).
+            - nMolecules (Sequence): number of atoms in the molecule (Default:
+            (2, 1) for H20)
+
+        Returns: absorption rate
         """
         # list with the scattering and absorption data interleaved.
         cross_sections = [self.cross_section(energy, f) for f in self.interpolaters]
@@ -184,8 +186,10 @@ class AbsorptionProcessor(CrossSectionProcessor):
         """
         Get the absorption rates for a given energy.
 
-        Parameters:
-        - energy (float): energy of the neutron in eV.
+        Args:
+            - energy (float): energy of the neutron in eV.
+
+        Returns: list of absorption rates for each atom.
         """
         cross_sections = [self.cross_section(energy, f) for f in self.interpolaters]
         return [
@@ -200,15 +204,15 @@ class SpectrumProcessor(DataProcessor):
     sampling the spectrum.
 
     Attributes:
-    - interpolaters (Sequence[Akima1DInterpolator]): interpolaters for the data.
+        - interpolaters (Sequence[Akima1DInterpolator]): interpolaters for the data.
     """
 
     def __init__(self, data: pd.DataFrame):
         """
-        Parameters:
-        - data (pd.DataFrame): spectrum data of the form of a pandas DataFrame with
-        columns x and y.
-        - log (bool): if True, the data is log-log transformed.
+        Args:
+            - data (pd.DataFrame): spectrum data of the form of a pandas DataFrame with
+            columns x and y.
+            - log (bool): if True, the data is log-log transformed.
         """
         x = data.iloc[:, 0]
         self.bounds = (min(x), max(x))
@@ -221,8 +225,10 @@ class SpectrumProcessor(DataProcessor):
         """
         Sample the spectrum using Monte Carlo sampling.
 
-        Parameters:
-        - num_samples (int): number of samples to take.
+        Args:
+            - num_samples (int): number of samples to take.
+
+        Returns: list of sampled energies.
         """
         f = self.interpolaters[0]
         sampled_points = []

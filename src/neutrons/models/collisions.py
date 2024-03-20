@@ -9,7 +9,8 @@ class Collisions:
 
     def __init__(self, masses: Sequence[float]):
         """
-        masses: list of atomic masses of the nuclei in the medium.
+        Args:
+            - masses: list of atomic masses of the nuclei in the medium.
         """
         self.masses = masses
         self.min_energies = [((m - 1) / (m + 1)) ** 2 for m in masses]
@@ -19,7 +20,10 @@ class Collisions:
         """
         Get the fraction of energy lost in a collision with a nucleus of mass `mass`.
 
-        mass (float): atomic mass of the nucleus.
+        Args:
+            - mass (float): atomic mass of the nucleus.
+
+        Returns: fraction of energy lost.
         """
         return np.random.uniform(self.min_energies[self.masses.index(mass)], 1)
 
@@ -27,7 +31,10 @@ class Collisions:
         """
         Get the scattering angle of a neutron with a nucleus of mass `mass`.
 
-        mass (float): atomic mass of the nucleus.
+        Args:
+            - mass (float): atomic mass of the nucleus.
+
+        Returns: scattering angle in radians.
         """
         Esc = self.energy_loss_frac(mass)
         E = Esc if mass == 1 else 1 - Esc
