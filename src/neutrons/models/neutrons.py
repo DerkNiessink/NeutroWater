@@ -33,18 +33,19 @@ class Neutron:
     def energy(self, value: float) -> None:
         self.energies.append(value)
 
-    def travel(self, distance: float, direction: Vector):
+    def travel(self, distance: float):
         """
         Update the position by letting the neutron travel in a given direction
         for a given distance.
         """
-        self.position = self.position + distance * direction
+        self.position = self.position + distance * self.direction
 
-    def collide(self, energy_loss_frac: float):
+    def collide(self, energy_loss_frac: float, direction: Vector):
         """
         Update the energy by letting the neutron collide resulting in a given
         energy loss.
         """
+        self.direction = direction
         self.energy = self.energy * energy_loss_frac
 
 

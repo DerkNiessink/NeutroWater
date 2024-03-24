@@ -67,7 +67,7 @@ class AngularProcessor:
         self,
         mass: float,
         E: float,
-        num_samples: int,
+        num_samples: int,   
     ) -> list:
         """
         Sample the spectrum using Monte Carlo sampling.

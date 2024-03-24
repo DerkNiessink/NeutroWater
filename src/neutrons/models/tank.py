@@ -12,21 +12,17 @@ class Tank:
         - radius (float): radius of the tank.
         - height (float): height of the tank.
         - position (np.ndarray): position of the tank, default [0, 0, 0].
-        - xi (float): logarithmic reduction of neutron energy per collision
-                    (depends on the medium in the tank).
     """
 
     radius: float
     height: float
     position: np.ndarray
-    xi: float
 
     def __post_init__(self):
         """
         Calculate the volume and energy loss fraction.
         """
         self.volume = np.pi * self.radius**2 * self.height
-        self.energy_loss_frac = 1 / np.exp(self.xi)
 
     def inside(self, position: np.ndarray) -> bool:
         """

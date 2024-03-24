@@ -8,13 +8,14 @@ from dataclasses import dataclass
 
 from neutrons.models.neutrons import Neutrons, Neutron, Vector
 from neutrons.models.tank import Tank
-from neutrons.models.collisions import Collisions
+from neutrons.models.collisions import Collision, random_direction
 from neutrons.process.data_processor import (
     TotalProcessor,
     SpectrumProcessor,
     AbsorptionProcessor,
 )
-from neutrons.process.maxwell_boltzmann import MaxwellBoltzmann
+from neutrons.process.angular_processor import AngularProcessor
+from neutrons.models.maxwell_boltzmann import MaxwellBoltzmann
 
 
 @dataclass
@@ -41,14 +42,13 @@ class Parameters:
     - radius_tank (float): Radius of the tank in meters. Default is 1.
     - height_tank (float): Height of the tank in meters. Default is 1.
     - position_tank (np.ndarray): Position of the tank. Default is [0, 0, 0].
-    - xi (float): Logarithmic reduction of neutron energy per collision. Default
-        is 0.920 (H20).
     - temperature (float): Temperature [K] of the medium.
     """
 
     total_data: Sequence[pd.DataFrame]
     scattering_data: Sequence[pd.DataFrame]
     absorption_data: Sequence[pd.DataFrame]
+    angular_data: Sequence[pd.DataFrame]
     spectrum_data: pd.DataFrame
     nNeutrons: int
     molecule_structure: Sequence = (2, 1)
@@ -56,7 +56,6 @@ class Parameters:
     radius_tank: float = 1
     height_tank: float = 1
     position_tank: Vector = np.array([0.0, 0.0, 0.0])
-    xi: float = 0.920
     temperature: float = 293
 
 
@@ -78,7 +77,7 @@ class DiffusingNeutrons:
 
         self.nCollisions = 0
         self.mol_struc = p.molecule_structure
-        self.tank = Tank(p.radius_tank, p.height_tank, p.position_tank, p.xi)
+        self.tank = Tank(p.radius_tank, p.height_tank, p.position_tank)
 
         # For interpolating the total cross section data and computing the
         # mean-free-path.
@@ -101,20 +100,13 @@ class DiffusingNeutrons:
         self.neutrons = Neutrons(initial_energies, initial_positions)
 
         # For handling the collisions with the atomic nuclei, hydrogen and oxygen.
-        self.collisions = Collisions(masses=p.nuclei_masses)
         self.nuclei_masses = p.nuclei_masses
 
         # Maxwell-Boltzmann distribution for the thermal energy
         self.mw = MaxwellBoltzmann(T=p.temperature)
 
-    def _random_direction(self) -> Vector:
-        """
-        Sample a random 3D direction.
-
-        Returns: a np.ndarray of N 3D (np.ndarray) vectors.
-        """
-        vec = np.random.normal(size=3)
-        return vec / np.linalg.norm(vec, axis=-1)
+        # For handling the angular distribution of the scattering.
+        self.angular_processor = AngularProcessor(p.angular_data, p.nuclei_masses)
 
     def diffuse(self, nCollisions: int):
         """
@@ -159,7 +151,7 @@ class DiffusingNeutrons:
         np.random.seed()  # Set a new seed for each process
         return [self._diffuse_neutron(neutron, nCollisions) for neutron in chunk]
 
-    def _diffuse_neutron(self, neutron: Neutron, nCollisions: int):
+    def _diffuse_neutron(self, neutron: Neutron, nCollisions: int) -> Neutron:
         """
         Diffuse a single neutron in the medium.
 
@@ -170,7 +162,7 @@ class DiffusingNeutrons:
 
         Returns: the neutron after diffusing in the medium.
         """
-        direction = self._random_direction()
+        neutron.direction = random_direction()
 
         for _ in range(nCollisions):
 
@@ -180,85 +172,34 @@ class DiffusingNeutrons:
             # Sample the distance the neutron travels from an exponential distribution
             # with mean free path as the scale parameter.
             l = -self.total_processor.get_mfp(neutron.energy) * np.log(random())
-            neutron.travel(l, direction)
+            neutron.travel(l)
 
-            collision_func = (
-                self._handle_thermal_collision
-                if neutron.energy < 10 * self.kT
-                else self._handle_collision
-            )
-
-            # Determine the nucleus the neutron collides with and handle the collision
-            # accordingly.
-            direction, energy_loss_frac = (
-                collision_func(neutron, self.nuclei_masses[0])
+            # Determine the nucleus the neutron collides with
+            mass = (
+                self.nuclei_masses[0]
                 if random() < self.total_processor.get_ratio(neutron.energy)
-                else collision_func(neutron, self.nuclei_masses[1])
+                else self.nuclei_masses[1]
             )
 
-            neutron.collide(energy_loss_frac)
+            collision = Collision(
+                initial_E=neutron.energy,
+                initial_direction=neutron.direction,
+                mass=mass,
+                scattering_cosine=self.angular_processor.get_CM_cosines(
+                    mass, neutron.energy, 1
+                )[0],
+                absorption=self._absorbed(neutron, self.nuclei_masses.index(mass)),
+                thermal=neutron.energy < 10 * self.kT,
+            )
+
+            # Update the neutron's energy and direction
+            neutron.collide(collision.energy_loss_frac, collision.scattering_direction)
+
             # If the neutron is absorbed, break the loop
-            if energy_loss_frac == 1:
+            if collision.energy_loss_frac == 1:
                 break
 
         return neutron
-
-    def _handle_collision(self, neutron: Neutron, mass: float) -> tuple[Vector, float]:
-        """
-        Handle a collisions of a neutron with a nucleus.
-
-        Args:
-            - neutron (Neutron): Neutron to handle.
-            - index (int): index of the nucleus in the molecule.
-            - mass (float): mass of the nucleus.
-
-        Returns: a tuple with the new direction and the fraction of energy lost.
-        """
-        return (
-            (np.zeros(3), 1)
-            if self._absorbed(neutron, self.nuclei_masses.index(mass))
-            else (
-                self._get_direction(self.collisions.theta(mass)),
-                self.collisions.energy_loss_frac(mass),
-            )
-        )
-
-    def _handle_thermal_collision(
-        self, neutron: Neutron, mass: float
-    ) -> tuple[Vector, float]:
-        """
-        Handle a collisions of a thermal neutron with a nucleus.
-
-        Args:
-            - neutron (Neutron): Neutron to handle.
-            - mass (float): mass of the nucleus.
-
-        Returns: a tuple with the new direction and the fraction of energy lost.
-        """
-        return (
-            (np.zeros(3), 1)
-            if self._absorbed(neutron, self.nuclei_masses.index(mass))
-            else (
-                self._random_direction(),
-                self.mw.thermal_energy() / neutron.energy,
-            )
-        )
-
-    def _get_direction(self, theta: float) -> Vector:
-        """
-        Get a direction in cartesian coordinates.
-
-        Args:
-            - theta (float): angle in radians.
-        """
-        phi = random() * 2 * np.pi
-        return np.array(
-            [
-                np.sin(phi) * np.cos(theta),
-                np.sin(phi) * np.sin(theta),
-                np.cos(phi),
-            ]
-        )
 
     def _absorbed(self, neutron: Neutron, index: int) -> bool:
         """
