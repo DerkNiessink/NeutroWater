@@ -183,3 +183,26 @@ class Measurer:
             # Get the energies of the neutrons that have been in the shell
             result_energies += list(energies[cond1]) + list(energies[cond2])
         return result_energies
+
+    def energy_spectrum_escaped(self) -> list[float]:
+        """
+        Get the energy spectrum of the neutrons that escaped the tank.
+
+        Returns a list of floats.
+        """
+        return [
+            neutron.energy
+            for neutron in self.neutrons
+            if not self.sim.tank.inside(neutron.position)
+        ]
+
+    def number_above_energy(self, E: float) -> int:
+        """
+        Get the number of neutrons with energy above a given energy.
+
+        Args:
+            E (float): energy threshold.
+
+        Returns an int.
+        """
+        return sum([1 for neutron in self.neutrons if neutron.energies[0] > E])

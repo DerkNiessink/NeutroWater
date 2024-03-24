@@ -41,7 +41,7 @@ class Collision:
         """
 
         # Initial velocity of neutron in the labframe
-        v_n = self.initial_direction * np.sqrt(2 * self.initial_E)
+        v_n = self.initial_direction * np.sqrt(self.initial_E)
 
         # Velocity of the center of mass
         v_cm = v_n / (1 + self.mass)
@@ -70,8 +70,11 @@ class Collision:
         v = mu * v + np.sqrt(1 - mu**2) * (
             v * w * np.cos(phi) + u * np.sin(phi)
         ) / np.sqrt(1 - w**2)
-        w = mu * w - np.sqrt(1 - mu**2) * np.cos(phi) * np.sqrt(1 - w**2)
-        return np.array([u, v, w])
+        w = mu * w - np.sqrt(1 - mu**2) * np.sqrt(1 - w**2) * np.cos(phi)
+
+        direction = np.array([u, v, w])
+
+        return direction / np.linalg.norm(direction)
 
     @property
     def energy_loss_frac(self) -> float:
