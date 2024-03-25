@@ -36,17 +36,17 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://example.com/theory/</loc>
-         <lastmod>2024-03-25</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
          <loc>https://example.com/theory/geometry/</loc>
          <lastmod>2024-03-25</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://example.com/theory/interpolating/</loc>
+         <lastmod>2024-03-25</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://example.com/theory/introduction/</loc>
          <lastmod>2024-03-25</lastmod>
          <changefreq>daily</changefreq>
     </url>
