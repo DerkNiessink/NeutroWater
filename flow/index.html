@@ -121,7 +121,25 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
             <div class="section" itemprop="articleBody">
               
-                
+                <p>The initialization consists of the following:</p>
+<ul>
+<li>Interpolating the total, absorbtion, and scattering cross section data.</li>
+<li>Interpolating data of the initial energy distribution of the neutrons.</li>
+<li>Sampling the initial neutron energies from the energy distribution.</li>
+<li>Setting the initial position of the neutrons.</li>
+</ul>
+<p>After the initializing, the actual simulation of the diffusing neutrons can start. Each neutron's energy and position is updated consecutively which consists of the following steps:</p>
+<ol>
+<li>Give the neutron a random direction.</li>
+<li>Check if the neutron is inside the tank, if false end the loop else continue.</li>
+<li>Get the total cross section corresponding to the current energy of the neutron and compute the mean free path.</li>
+<li>Determine the nuclide with which the neutron collides.</li>
+<li>Determine the type of reaction. If it is absorption, end the loop; if it  is elastic scattering, proceed.</li>
+<li>Sample a direction from the angular distribution and compute the associated energy loss fraction. </li>
+<li>Update the Neutron's position and energy.</li>
+<li>Repeat steps 2-8 until the neutron either escaped or is absorbed.</li>
+</ol>
+<p>Positions and energies of the neutrons are stored. Several properties can be computed and measured from this data post-simulation.</p>
               
             </div>
           </div><footer>
