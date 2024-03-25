@@ -40,15 +40,50 @@
 
       <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul>
+                <li class="toctree-l1"><a class="" href="../install_guide.md">Quick Install Guide</a>
+                </li>
+              </ul>
+              <ul>
                 <li class="toctree-l1"><a class="reference internal" href="..">Introduction</a>
                 </li>
               </ul>
               <ul>
-                <li class="toctree-l1"><a class="reference internal" href="../theory/">Theory</a>
+                <li class="toctree-l1"><a class="reference internal" href="../flow/">Program Flow</a>
                 </li>
               </ul>
+              <p class="caption"><span class="caption-text">Theory and Methodology</span></p>
               <ul>
-                <li class="toctree-l1"><a class="reference internal" href="../simulation/">Simulation</a>
+                  <li class="toctree-l1"><a class="reference internal" href="#">Neutron Physics</a>
+    <ul>
+                <li class="toctree-l2"><a class="" href="../cross_sections.md">Cross Sections</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="#">Neutron Interactions</a>
+    <ul>
+                <li class="toctree-l3"><a class="" href="../elastic.md">Elastic Scattering</a>
+                </li>
+                <li class="toctree-l3"><a class="" href="../absorption.md">Absorption</a>
+                </li>
+                <li class="toctree-l3"><a class="" href="../reactions.md">Other Reactions</a>
+                </li>
+    </ul>
+                </li>
+                <li class="toctree-l2"><a class="" href="../distance.md">Neutron Distance to Next Collision</a>
+                </li>
+                <li class="toctree-l2"><a class="" href="../transform.md">Transforming Coordinates</a>
+                </li>
+                <li class="toctree-l2"><a class="" href="../thermal.md">Thermal Motion</a>
+                </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="" href="../geometry.md">Geometry</a>
+                  </li>
+                  <li class="toctree-l1"><a class="" href="../monte_carlo.md">Monte Carlo Sampling</a>
+                  </li>
+                  <li class="toctree-l1"><a class="" href="../interpolating.md">Interpolation</a>
+                  </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="" href="../details.md">Technical Details</a>
                 </li>
               </ul>
               <ul>
@@ -57,6 +92,8 @@
               </ul>
               <ul class="current">
                 <li class="toctree-l1 current"><a class="reference internal current" href="./">User Guide</a>
+    <ul class="current">
+    </ul>
                 </li>
               </ul>
               <ul>
@@ -86,7 +123,24 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
             <div class="section" itemprop="articleBody">
               
-                
+                <h1 id="quick-install-guide">Quick Install Guide</h1>
+<ol>
+<li>Clone the repository</li>
+</ol>
+<pre><code>git clone https://github.com/DerkNiessink/Neutrons.git
+</code></pre>
+<ol>
+<li>Create a conda virtual environment and activate it</li>
+</ol>
+<pre><code>conda create -n env python=3.10
+conda activate env
+</code></pre>
+<ol>
+<li>Install the requirements</li>
+</ol>
+<pre><code>poetry install
+</code></pre>
+<h1 id="usage">Usage</h1>
               
             </div>
           </div><footer>
