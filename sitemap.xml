@@ -6,12 +6,42 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
+         <loc>https://example.com/details/</loc>
+         <lastmod>2024-03-25</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
          <loc>https://example.com/flow/</loc>
          <lastmod>2024-03-25</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
+         <loc>https://example.com/geometry/</loc>
+         <lastmod>2024-03-25</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
          <loc>https://example.com/guide/</loc>
+         <lastmod>2024-03-25</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://example.com/install_guide/</loc>
+         <lastmod>2024-03-25</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://example.com/interpolating/</loc>
+         <lastmod>2024-03-25</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://example.com/monte_carlo/</loc>
+         <lastmod>2024-03-25</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://example.com/physics/</loc>
          <lastmod>2024-03-25</lastmod>
          <changefreq>daily</changefreq>
     </url>
@@ -22,16 +52,6 @@
     </url>
     <url>
          <loc>https://example.com/results/</loc>
-         <lastmod>2024-03-25</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://example.com/simulation/</loc>
-         <lastmod>2024-03-25</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://example.com/theory/</loc>
          <lastmod>2024-03-25</lastmod>
          <changefreq>daily</changefreq>
     </url>
