@@ -1,12 +1,35 @@
-[tool.poetry]
-name = "neutrons"
-version = "0.1.0"
-description = ""
-authors = ["DerkNiessink <derk@niessink.com>"]
+[project]
+name = "neutrons_DerkNiessink"
+version = "0.0.1"
+authors = [
+    {name = "DerkNiessink, email = derk@niessink.com"}
+]
+description = "Monte Carlo simulation of neutron moderation"
 readme = "README.md"
 packages = [
     { include = "neutrons", from = "src" },
 ]
+requires-python = ">=3.8"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+]
+
+[project.urls]
+Homepage = "https://github.com/DerkNiessink/neutrons"
+Issues = "https://github.com/DerkNiessink/neutrons/issues"
+
+[tool.poetry]
+name = "neutrons_DerkNiessink"
+version = "0.0.1"
+authors = ["DerkNiessink <derk@niessink.com>"]
+description = "Monte Carlo simulation of neutron moderation"
+readme = "README.md"
+packages = [
+    { include = "neutrons", from = "src" },
+]
+
 
 [tool.poetry.dependencies]
 python = "^3.10"
