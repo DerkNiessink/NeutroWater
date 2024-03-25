@@ -60,4 +60,9 @@
          <lastmod>2024-03-25</lastmod>
          <changefreq>daily</changefreq>
     </url>
+    <url>
+         <loc>https://example.com/theory/post_measurements/</loc>
+         <lastmod>2024-03-25</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
 </urlset>
