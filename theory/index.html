@@ -139,28 +139,79 @@
 <li>Repeat steps 2-8 until the neutron either escaped or is absorbed.</li>
 </ol>
 <p>Positions and energies of the neutrons are stored. Several properties can be computed and measured from this data post-simulation. Each step is discussed in more detail in the following sections:</p>
-<p><center>
-| Steps       | Section                                                                 |
-| ----------- | -----------                                                             |
-| 2           | <a href="./#2-geometry">Geometry</a>                                      |
-| 3-4         | <a href="./#11-cross-sections">Cross Sections</a>                         |
-| 5           | <a href="./#13-distance-to-next-collision">Distance To Next Collision</a> |
-| 6           | <a href="./#11-cross-sections">Cross Sections</a>                         |
-| 7-8         | <a href="./#14-transforming-coordinates">Transforming Coordinates</a>     |
-</center></p>
+<p><center></p>
+<table>
+<thead>
+<tr>
+<th>Steps</th>
+<th>Section</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2</td>
+<td><a href="./#2-geometry">Geometry</a></td>
+</tr>
+<tr>
+<td>3-4</td>
+<td><a href="./#11-cross-sections">Cross Sections</a></td>
+</tr>
+<tr>
+<td>5</td>
+<td><a href="./#13-distance-to-next-collision">Distance To Next Collision</a></td>
+</tr>
+<tr>
+<td>6</td>
+<td><a href="./#11-cross-sections">Cross Sections</a></td>
+</tr>
+<tr>
+<td>7-8</td>
+<td><a href="./#14-transforming-coordinates">Transforming Coordinates</a></td>
+</tr>
+</tbody>
+</table>
+<p></center></p>
 <h2 id="2-neutron-physics">2. Neutron Physics</h2>
 <h3 id="21-initial-energy-spectrum">2.1 Initial Energy Spectrum</h3>
 <h3 id="22-cross-sections">2.2 Cross Sections</h3>
 <p>The cross section indicates the likelihood of a particular interaction occurring between two particles. It is influenced by two main factors: the types of particles involved and their energies. In our scenario, there are two possible combinations of particles in an interaction: a neutron with an H-nucleus and a neutron with an O-nucleus. Unfortunately, it's not possible to calculate the cross section as a function of energy analytically. However, there is an abundance of freely accessible nuclear data available to everyone. In the program, cross section data from <a href="https://www.nndc.bnl.gov/endf-b8.0/">ENDF/B</a> is used an interpolated following the procedure outlined in <a href="#5-interpolation">Interpolation</a>.</p>
 <p>In various reactions, different cross sections are involved. To proceed, we employ the following notations:</p>
-<p><center>
-| Notation                                                          | Description                                                | <br />
-| --------                                                          | --------                                                   |
-| <script type="math/tex">\sigma_{H, tot}, \sigma_{O, tot}</script>                              | Total cross section for the specified nuclide.             |
-| <script type="math/tex">\sigma_{H, s}, \sigma_{O, s}</script>                                  | Scattering cross section for the specified nuclide.        |
-| <script type="math/tex">\sigma_{H, a}, \sigma_{O, a}</script>                                  | Absorption cross section for the specified nuclide.        |
-| <script type="math/tex">\Sigma_{H_2O}, \Sigma_{H}, \Sigma_{O}</script>                         | Total macroscopic for the specified nuclide or molecule.   |      <br />
-</center></p>
+<p><center></p>
+<table>
+<thead>
+<tr>
+<th>Notation</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<script type="math/tex">\sigma_{H, tot}, \sigma_{O, tot}</script>
+</td>
+<td>Total cross section for the specified nuclide.</td>
+</tr>
+<tr>
+<td>
+<script type="math/tex">\sigma_{H, s}, \sigma_{O, s}</script>
+</td>
+<td>Scattering cross section for the specified nuclide.</td>
+</tr>
+<tr>
+<td>
+<script type="math/tex">\sigma_{H, a}, \sigma_{O, a}</script>
+</td>
+<td>Absorption cross section for the specified nuclide.</td>
+</tr>
+<tr>
+<td>
+<script type="math/tex">\Sigma_{H_2O}, \Sigma_{H}, \Sigma_{O}</script>
+</td>
+<td>Total macroscopic for the specified nuclide or molecule.</td>
+</tr>
+</tbody>
+</table>
+<p></center></p>
 <p>The theory behind these reactions is described in detail in <a href="./#23-neutron-interactions">Neutron Interactions</a>. For each type of cross section of the nuclides there are separate datafiles. Total macroscopic cross section for a molecule can be computed as follows:</p>
 <p>
 <script type="math/tex; mode=display">\Sigma = \sum_i N_i \sigma_i, </script>
