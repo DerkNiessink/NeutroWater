@@ -22,7 +22,11 @@
     <![endif]-->
       <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
       <script>hljs.highlightAll();</script> 
-</head>
+ <link href="../assets/stylesheets/glightbox.min.css" rel="stylesheet"/><style>
+    html.glightbox-open { overflow: initial; height: 100%; }
+    .gslide-title { margin-top: 0px; user-select: text; }
+    .gslide-desc { color: #666; user-select: text; }
+    .gslide-image img { background: white; }</style> <script src="../assets/javascripts/glightbox.min.js"></script></head>
 
 <body class="wy-body-for-nav" role="document">
 
@@ -31,11 +35,7 @@
     <div class="wy-side-scroll">
       <div class="wy-side-nav-search">
           <a href=".." class="icon icon-home"> Neutron Moderation MC
-        </a><div role="search">
-  <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
-      <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
-  </form>
-</div>
+        </a>
       </div>
 
       <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
@@ -184,7 +184,7 @@
 <tbody>
 <tr>
 <td>
-<script type="math/tex">\sigma_{H, tot}, \sigma_{O, tot}, \sigma_{H_2O, tot}$</script>
+<script type="math/tex">\sigma_{H, tot}, \sigma_{O, tot}</script>
 </td>
 <td>Total cross section for the specified nuclide.</td>
 </tr>
@@ -202,7 +202,7 @@
 </tr>
 <tr>
 <td>
-<script type="math/tex">\Sigma_{H_2O}$, \Sigma_{H}, \Sigma_{O}</script>
+<script type="math/tex">\Sigma_{H_2O}, \Sigma_{H}, \Sigma_{O}</script>
 </td>
 <td>Total macroscopic for the specified nuclide or molecule.</td>
 </tr>
@@ -216,10 +216,11 @@
 <p>
 <script type="math/tex; mode=display"> N_i = \frac{\rho N_a}{M} n_i, </script>
 </p>
-<p>where $\rho$ is the density of the compound, <script type="math/tex">M</script> the molecular weight, $N_a$ Avogrado's constant, and <script type="math/tex">n_i</script> the number of atoms of type <script type="math/tex">i</script> in the molecule. Thus, the total macrocscopic cross section for <script type="math/tex">H_2O</script> is given by:</p>
+<p>where <script type="math/tex">\rho</script> is the density of the compound, <script type="math/tex">M</script> the molecular weight, <script type="math/tex">N_a</script> Avogrado's constant, and <script type="math/tex">n_i</script> the number of atoms of type <script type="math/tex">i</script> in the molecule. Thus, the total macrocscopic cross section for <script type="math/tex">H_2O</script> is given by:</p>
 <p>
 <script type="math/tex; mode=display">\Sigma = \frac{\rho_{H_20} N_a}{M_{H_20}} (2 \sigma_{H, t} + \sigma_{O, t}).</script>
 </p>
+<p><a class="glightbox" href="../figures/H_cross.pdf" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img align="left" alt="Hydrogen Cross Sections" src="../figures/H_cross.pdf" /></a></p>
 <h3 id="23-neutron-interactions">2.3 Neutron Interactions</h3>
 <h3 id="24-distance-to-next-collision">2.4 Distance to Next Collision</h3>
 <h3 id="25-transforming-coordinates">2.5 Transforming Coordinates</h3>
@@ -267,12 +268,11 @@
     <script src="../js/theme_extra.js"></script>
     <script src="../js/theme.js"></script>
       <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-      <script src="../search/main.js"></script>
     <script>
         jQuery(function () {
             SphinxRtdTheme.Navigation.enable(true);
         });
     </script>
 
-</body>
+<script>const lightbox = GLightbox({"touchNavigation": true, "loop": false, "zoomable": true, "draggable": true, "openEffect": "zoom", "closeEffect": "zoom", "slideEffect": "slide"});</script></body>
 </html>
