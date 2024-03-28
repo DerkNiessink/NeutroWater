@@ -54,6 +54,30 @@
               <ul class="current">
                 <li class="toctree-l1 current"><a class="reference internal current" href="./">Theory and Methodology</a>
     <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#1-general-program-flow">1. General Program Flow</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#2-neutron-physics">2. Neutron Physics</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#21-initial-energy-spectrum">2.1 Initial Energy Spectrum</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#22-cross-sections">2.2 Cross Sections</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#23-neutron-interactions">2.3 Neutron Interactions</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#24-distance-to-next-collision">2.4 Distance to Next Collision</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#25-transforming-coordinates">2.5 Transforming Coordinates</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#26-thermal-motion">2.6 Thermal Motion</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#3-geometry">3 Geometry</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#4-monte-carlo-sampling">4 Monte Carlo Sampling</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#5-interpolation">5 Interpolation</a>
+    </li>
     </ul>
                 </li>
               </ul>
@@ -92,16 +116,17 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
             <div class="section" itemprop="articleBody">
               
-                <h1 id="1-general-program-flow">1. General Program Flow</h1>
+                <h1 id="theory-and-methodology">Theory and Methodology</h1>
+<h2 id="1-general-program-flow">1. General Program Flow</h2>
 <p>The software conducts a collision-driven Monte Carlo simulation, where it simulates each particle individually. Prior to running the simulation, it must undergo initialization, which involves the following steps:</p>
 <ul>
 <li>Interpolating the total, absorbtion, and scattering cross section data.</li>
 <li>Interpolating data of the initial energy distribution of the neutrons.</li>
 <li>Sampling the initial neutron energies from the energy distribution.</li>
-<li>Setting the initial position of the neutrons.</li>
+<li>Setting the initial position and energies of the neutrons.</li>
 <li>Setting the position and size of the tank.</li>
 </ul>
-<p>The method of sampling from a distribution is described in <a href="./#3-monte-carlo-sampling">Monte Carlo Sampling</a> and the interpolation of distributions in <a href="./#4-interpolation">Interpolation</a>. After the initializing, the actual simulation of the diffusing neutrons can start. Each neutron's energy and position is updated consecutively which consists of the following steps:</p>
+<p>The initial spectrum is discussed in <a href="./#21-initial-energy-spectrum">Spectrum</a>, the method of sampling from a distribution is described in <a href="./#3-monte-carlo-sampling">Monte Carlo Sampling</a>, and the interpolation of distributions in <a href="./#4-interpolation">Interpolation</a>. After the initializing, the actual simulation of the diffusing neutrons can start. Each neutron's energy and position is updated consecutively which consists of the following steps:</p>
 <ol>
 <li>Give the neutron a random direction.</li>
 <li>Check if the neutron is inside the tank, if false end the loop else continue.</li>
@@ -113,11 +138,11 @@
 <li>Update the Neutron's position and energy.</li>
 <li>Repeat steps 2-8 until the neutron either escaped or is absorbed.</li>
 </ol>
-<p>Positions and energies of the neutrons are stored. Several properties can be computed and measured from this data post-simulation. Each step is discussed in more detail in the <a href="./">Theory</a> section:</p>
+<p>Positions and energies of the neutrons are stored. Several properties can be computed and measured from this data post-simulation. Each step is discussed in more detail in the following sections:</p>
 <table>
 <thead>
 <tr>
-<th>Step</th>
+<th>Steps</th>
 <th>Section</th>
 </tr>
 </thead>
@@ -144,12 +169,47 @@
 </tr>
 </tbody>
 </table>
-<h1 id="2-neutron-physics">2. Neutron Physics</h1>
-<h2 id="21-cross-sections">2.1 Cross Sections</h2>
-<h2 id="22-neutron-interactions">2.2 Neutron Interactions</h2>
-<h2 id="23-distance-to-next-collision">2.3 Distance to Next Collision</h2>
-<h2 id="24-transforming-coordinates">2.4 Transforming Coordinates</h2>
-<h2 id="25-thermal-motion">2.5 Thermal Motion</h2>
+<h2 id="2-neutron-physics">2. Neutron Physics</h2>
+<h3 id="21-initial-energy-spectrum">2.1 Initial Energy Spectrum</h3>
+<h3 id="22-cross-sections">2.2 Cross Sections</h3>
+<p>The cross section indicates the likelihood of a particular interaction occurring between two particles. It is influenced by two main factors: the types of particles involved and their energies. In our scenario, there are two possible combinations of particles in an interaction: a neutron with an H-nucleus and a neutron with an O-nucleus. Unfortunately, it's not possible to calculate the cross section as a function of energy analytically. However, there is an abundance of freely accessible nuclear data available to everyone. In the program cross section data from <a href="https://www.nndc.bnl.gov/endf-b8.0/">ENDF/B</a> is used an interpolated following the procedure outlined in <a href="#5-interpolation">Interpolation</a>.</p>
+<p>In various reactions, different cross sections are involved. To proceed, we employ the following notations:</p>
+<table>
+<thead>
+<tr>
+<th>Notation</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$\sigma_{H, tot}, \sigma_{O, tot}, \sigma_{H_2O, tot}$</td>
+<td>Total cross section for the specified nuclide.</td>
+</tr>
+<tr>
+<td>$\sigma_{H, s}, \sigma_{O, s}$</td>
+<td>Scattering cross section for the specified nuclide.</td>
+</tr>
+<tr>
+<td>$\sigma_{H, a}, \sigma_{O, a}$</td>
+<td>Absorption cross section for the specified nuclide.</td>
+</tr>
+<tr>
+<td>$\Sigma_{H_2O}$, \Sigma_{H}, \Sigma_{O}$</td>
+<td>Total macroscopic for the specified nuclide or molecule.</td>
+</tr>
+</tbody>
+</table>
+<p>The theory behind these reactions is described in detail in <a href="./#23-neutron-interactions">Neutron Interactions</a>. For each type of cross section of the nuclides there are separate datafiles. Total macroscopic cross section for a molecule can be computed as follows:</p>
+<p>$$\Sigma = \sum_i N_i \sigma_i $$,</p>
+<p>where N_i is the atomic density of atoms of type $i$:</p>
+<p>$$ N_i = \frac{\rho N_a}{M} n_i $$,</p>
+<p>where $\rho$ is the density of the compound, $M$ the molecular weight, $N_a$ Avogrado's constant, and $n_i$ the number of atoms of type i in the molecule. Thus, the total macrocscopic cross section for $H_2O$ is given by:</p>
+<p>$$\Sigma = \frac{\rho_{H_20} N_a}{M_{H_20}} (2 \sigma_{H, t} + \sigma_{O, t})$$.</p>
+<h3 id="23-neutron-interactions">2.3 Neutron Interactions</h3>
+<h3 id="24-distance-to-next-collision">2.4 Distance to Next Collision</h3>
+<h3 id="25-transforming-coordinates">2.5 Transforming Coordinates</h3>
+<h3 id="26-thermal-motion">2.6 Thermal Motion</h3>
 <h2 id="3-geometry">3 Geometry</h2>
 <h2 id="4-monte-carlo-sampling">4 Monte Carlo Sampling</h2>
 <h2 id="5-interpolation">5 Interpolation</h2>
