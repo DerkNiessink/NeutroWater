@@ -172,7 +172,7 @@
 <h2 id="2-neutron-physics">2. Neutron Physics</h2>
 <h3 id="21-initial-energy-spectrum">2.1 Initial Energy Spectrum</h3>
 <h3 id="22-cross-sections">2.2 Cross Sections</h3>
-<p>The cross section indicates the likelihood of a particular interaction occurring between two particles. It is influenced by two main factors: the types of particles involved and their energies. In our scenario, there are two possible combinations of particles in an interaction: a neutron with an H-nucleus and a neutron with an O-nucleus. Unfortunately, it's not possible to calculate the cross section as a function of energy analytically. However, there is an abundance of freely accessible nuclear data available to everyone. In the program cross section data from <a href="https://www.nndc.bnl.gov/endf-b8.0/">ENDF/B</a> is used an interpolated following the procedure outlined in <a href="#5-interpolation">Interpolation</a>.</p>
+<p>The cross section indicates the likelihood of a particular interaction occurring between two particles. It is influenced by two main factors: the types of particles involved and their energies. In our scenario, there are two possible combinations of particles in an interaction: a neutron with an H-nucleus and a neutron with an O-nucleus. Unfortunately, it's not possible to calculate the cross section as a function of energy analytically. However, there is an abundance of freely accessible nuclear data available to everyone. In the program, cross section data from <a href="https://www.nndc.bnl.gov/endf-b8.0/">ENDF/B</a> is used an interpolated following the procedure outlined in <a href="#5-interpolation">Interpolation</a>.</p>
 <p>In various reactions, different cross sections are involved. To proceed, we employ the following notations:</p>
 <table>
 <thead>
@@ -183,32 +183,43 @@
 </thead>
 <tbody>
 <tr>
-<td>$\sigma_{H, tot}, \sigma_{O, tot}, \sigma_{H_2O, tot}$</td>
+<td>
+<script type="math/tex">\sigma_{H, tot}, \sigma_{O, tot}, \sigma_{H_2O, tot}$</script>
+</td>
 <td>Total cross section for the specified nuclide.</td>
 </tr>
 <tr>
-<td>$\sigma_{H, s}, \sigma_{O, s}$</td>
+<td>
+<script type="math/tex">\sigma_{H, s}, \sigma_{O, s}</script>
+</td>
 <td>Scattering cross section for the specified nuclide.</td>
 </tr>
 <tr>
-<td>$\sigma_{H, a}, \sigma_{O, a}$</td>
+<td>
+<script type="math/tex">\sigma_{H, a}, \sigma_{O, a}</script>
+</td>
 <td>Absorption cross section for the specified nuclide.</td>
 </tr>
 <tr>
-<td>$\Sigma_{H_2O}$, \Sigma_{H}, \Sigma_{O}$</td>
+<td>
+<script type="math/tex">\Sigma_{H_2O}$, \Sigma_{H}, \Sigma_{O}</script>
+</td>
 <td>Total macroscopic for the specified nuclide or molecule.</td>
 </tr>
 </tbody>
 </table>
 <p>The theory behind these reactions is described in detail in <a href="./#23-neutron-interactions">Neutron Interactions</a>. For each type of cross section of the nuclides there are separate datafiles. Total macroscopic cross section for a molecule can be computed as follows:</p>
 <p>
-<script type="math/tex; mode=display">\Sigma = \sum_i N_i \sigma_i </script>,</p>
-<p>where N_i is the atomic density of atoms of type $i$:</p>
+<script type="math/tex; mode=display">\Sigma = \sum_i N_i \sigma_i, </script>
+</p>
+<p>where N_i is the atomic density of atoms of type <script type="math/tex">i</script>:</p>
 <p>
-<script type="math/tex; mode=display"> N_i = \frac{\rho N_a}{M} n_i </script>,</p>
-<p>where $\rho$ is the density of the compound, $M$ the molecular weight, $N_a$ Avogrado's constant, and $n_i$ the number of atoms of type i in the molecule. Thus, the total macrocscopic cross section for $H_2O$ is given by:</p>
+<script type="math/tex; mode=display"> N_i = \frac{\rho N_a}{M} n_i, </script>
+</p>
+<p>where $\rho$ is the density of the compound, <script type="math/tex">M</script> the molecular weight, $N_a$ Avogrado's constant, and <script type="math/tex">n_i</script> the number of atoms of type <script type="math/tex">i</script> in the molecule. Thus, the total macrocscopic cross section for <script type="math/tex">H_2O</script> is given by:</p>
 <p>
-<script type="math/tex; mode=display">\Sigma = \frac{\rho_{H_20} N_a}{M_{H_20}} (2 \sigma_{H, t} + \sigma_{O, t})</script>.</p>
+<script type="math/tex; mode=display">\Sigma = \frac{\rho_{H_20} N_a}{M_{H_20}} (2 \sigma_{H, t} + \sigma_{O, t}).</script>
+</p>
 <h3 id="23-neutron-interactions">2.3 Neutron Interactions</h3>
 <h3 id="24-distance-to-next-collision">2.4 Distance to Next Collision</h3>
 <h3 id="25-transforming-coordinates">2.5 Transforming Coordinates</h3>
