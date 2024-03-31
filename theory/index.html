@@ -236,7 +236,7 @@
 <h3 id="23-distance-to-next-collision">2.3 Distance to Next Collision</h3>
 <p>The distance to the next collision <script type="math/tex">l</script> follows a distribution function given by:</p>
 <p>
-<script type="math/tex; mode=display"> p(l)dl=\Sigma_t e^{-\Sigma l}dl, </script>
+<script type="math/tex; mode=display"> p(l)dl=\Sigma e^{-\Sigma l}dl, </script>
 </p>
 <p>where <script type="math/tex">\Sigma</script> is the total macroscopic cross section of an arbitrary material. Integrating both sides to some distance <script type="math/tex">l</script> gives:</p>
 <p>
@@ -248,10 +248,17 @@ number <script type="math/tex">\xi</script> on the interval <script type="math/t
 <script type="math/tex; mode=display"> l = -\frac{\ln{\xi}}{\Sigma_{H_2O}}. </script>
 </p>
 <h3 id="24-neutron-interactions">2.4 Neutron Interactions</h3>
-<p>To determine the type of reaction with a nuclide, we first have to determine which type of nuclide the neutron collides with, H or O. The probability that the neutron interacts with H is given by:</p>
+<p>To determine the type of reaction involving a nuclide, we initially identify which type of nuclide the neutron interacts with, either <script type="math/tex"> H</script> or <script type="math/tex"> O</script>. The probability of the neutron interacting with H is determined by::</p>
 <p>
-<script type="math/tex; mode=display"> P(H) = \frac{\Sigma_{H}}{\Sigma_{H_2O}} </script>
+<script type="math/tex; mode=display"> P(H) = \frac{2\sigma_{H,tot} }{2\sigma_{H, tot} + \sigma_{O, tot}}.</script>
 </p>
+<p>If <script type="math/tex">\xi < P(H)</script>, where <script type="math/tex">\xi</script> is another uniformly distributed random number on the interval <script type="math/tex"> [0, 1) </script>, the neutron interacts with an <script type="math/tex"> H </script> nuclide; otherwise, it interacts with an <script type="math/tex"> O </script> nuclide.</p>
+<p>Once the nuclide of interaction is determined, it is necessary to consider the reactions that can take place. Firstly we check absorbtion. The probability for absorbtion is given by:</p>
+<p>
+<script type="math/tex; mode=display"> P(\text{absorbtion}) = \frac{\sigma_{i,a}}{\sigma_{i,tot}},</script>
+</p>
+<p>where <script type="math/tex"> \sigma_{i, tot} </script> and <script type="math/tex"> \sigma_{i, a} </script> are the total and absorbtion cross section of the previously identified nuclide respectively. Again, if <script type="math/tex">\xi < P(\text{absorbtion})</script>, then the neutron is absorbed by the nuclide. Absorption results in the complete dissipation of the neutron's energy and we proceed to simulate the next neutron. </p>
+<p>If the criteria mentioned above is not met, we consider a scattering interaction. This interaction results in a energy loss of the neutron, which dependends on the outgoing angle. </p>
 <h3 id="25-transforming-coordinates">2.5 Transforming Coordinates</h3>
 <h3 id="26-thermal-motion">2.6 Thermal Motion</h3>
 <h2 id="3-geometry">3 Geometry</h2>
