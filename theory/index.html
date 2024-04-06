@@ -132,11 +132,12 @@
 <li>Check if the neutron is inside the tank, if false end the loop else continue.</li>
 <li>Get the total cross section corresponding to the current energy of the neutron. </li>
 <li>Determine the nuclide with which the neutron collides.</li>
+<li>Check if the the neutron has a thermal energy.</li>
 <li>Compute the mean free path of the neutron and sample the distance to the next collision.</li>
 <li>Determine the type of reaction. If it is absorption, end the loop; if it is elastic scattering, proceed.</li>
 <li>Sample a direction from the angular distribution and compute the associated energy loss fraction. </li>
 <li>Update the Neutron's position and energy.</li>
-<li>Repeat steps 2-8 until the neutron either escaped or is absorbed.</li>
+<li>Repeat steps 2-9 until the neutron either escaped or is absorbed.</li>
 </ol>
 <p>Positions and energies of the neutrons are stored. Several properties can be computed and measured from this data post-simulation. Each step is discussed in more detail in the following sections:</p>
 <table>
@@ -157,14 +158,18 @@
 </tr>
 <tr>
 <td>5</td>
-<td><a href="./#13-distance-to-next-collision">Distance To Next Collision</a></td>
+<td><a href="./#26-thermal-motion">Thermal Motion</a></td>
 </tr>
 <tr>
 <td>6</td>
-<td><a href="./#11-cross-sections">Cross Sections</a></td>
+<td><a href="./#13-distance-to-next-collision">Distance To Next Collision</a></td>
 </tr>
 <tr>
-<td>7-8</td>
+<td>7</td>
+<td><a href="./#24-neutron-interactions">Neutron Interactions</a></td>
+</tr>
+<tr>
+<td>8-9</td>
 <td><a href="./#14-transforming-coordinates">Transforming Coordinates</a></td>
 </tr>
 </tbody>
@@ -245,21 +250,76 @@
 <p>As the probability distribution is normalized, we can set the this cummulative distribution to a uniformly distributed random 
 number <script type="math/tex">\xi</script> on the interval <script type="math/tex"> [0, 1) </script>. Isolating <script type="math/tex">l </script> and using that in this case <script type="math/tex">\Sigma \equiv \Sigma_{H_2O} </script>, gives us a formula for sampling the distance to the next collision:</p>
 <p>
-<script type="math/tex; mode=display"> l = -\frac{\ln{\xi}}{\Sigma_{H_2O}}. </script>
+<script type="math/tex; mode=display"> l = - \lambda \ln{\xi}, </script>
 </p>
-<h3 id="24-neutron-interactions">2.4 Neutron Interactions</h3>
-<p>To determine the type of reaction involving a nuclide, we initially identify which type of nuclide the neutron interacts with, either <script type="math/tex"> H</script> or <script type="math/tex"> O</script>. The probability of the neutron interacting with H is determined by::</p>
+<p>where <script type="math/tex">\lambda </script> is the mean-free-path which is given by</p>
 <p>
-<script type="math/tex; mode=display"> P(H) = \frac{2\sigma_{H,tot} }{2\sigma_{H, tot} + \sigma_{O, tot}}.</script>
+<script type="math/tex; mode=display"> \lambda = 1 / \Sigma_{H_2O}. </script>
 </p>
-<p>If <script type="math/tex">\xi < P(H)</script>, where <script type="math/tex">\xi</script> is another uniformly distributed random number on the interval <script type="math/tex"> [0, 1) </script>, the neutron interacts with an <script type="math/tex"> H </script> nuclide; otherwise, it interacts with an <script type="math/tex"> O </script> nuclide.</p>
+<p>The mean-free-path as a function of neutron energy is shown in Figure 3.</p>
+<p><center></p>
+<figure>
+  <a class="glightbox" href="../figures/mean_free_path.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="Oxygen Cross Sections" src="../figures/mean_free_path.png" width="400" /></a>
+  <figcaption><i>Figure 3: Mean-free-path in water as a function of neutron energy. </i></figcaption>
+</figure>
+<p></center></p>
+<h3 id="24-neutron-interactions">2.4 Neutron Interactions</h3>
+<p>To determine the type of reaction involving a nuclide, we initially identify which type of nuclide the neutron interacts with, either <script type="math/tex"> H</script> or <script type="math/tex"> O</script>. The probability of the neutron interacting with H is determined by:</p>
+<p>
+<script type="math/tex; mode=display"> P(H) = \frac{\Sigma_{H_2}}{\Sigma_{H_2O}} = \frac{2\sigma_{H,tot} }{2\sigma_{H, tot} + \sigma_{O, tot}}.</script>
+</p>
+<p>If <script type="math/tex">\xi < P(H)</script>, where <script type="math/tex">\xi</script> is another uniformly distributed random number on the interval <script type="math/tex"> [0, 1) </script>, the neutron interacts with an <script type="math/tex"> H </script> nuclide; otherwise, it interacts with an <script type="math/tex"> O </script> nuclide. Since the cross sections depend on the energy of the neutron, <script type="math/tex">P(H) </script> also varies accordingly. The dependence of <script type="math/tex"> P(H) </script> on neutron energy is depicted in Figure 4.</p>
+<p><center></p>
+<figure>
+  <a class="glightbox" href="../figures/H_probability.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="Oxygen Cross Sections" src="../figures/H_probability.png" width="400" /></a>
+  <figcaption><i>Figure 4: Probability of H collision as a function of neutron energy. </i></figcaption>
+</figure>
+<p></center></p>
 <p>Once the nuclide of interaction is determined, it is necessary to consider the reactions that can take place. Firstly we check absorbtion. The probability for absorbtion is given by:</p>
 <p>
 <script type="math/tex; mode=display"> P(\text{absorbtion}) = \frac{\sigma_{i,a}}{\sigma_{i,tot}},</script>
 </p>
-<p>where <script type="math/tex"> \sigma_{i, tot} </script> and <script type="math/tex"> \sigma_{i, a} </script> are the total and absorbtion cross section of the previously identified nuclide respectively. Again, if <script type="math/tex">\xi < P(\text{absorbtion})</script>, then the neutron is absorbed by the nuclide. Absorption results in the complete dissipation of the neutron's energy and we proceed to simulate the next neutron. </p>
-<p>If the criteria mentioned above is not met, we consider a scattering interaction. This interaction results in a energy loss of the neutron, which dependends on the outgoing angle. </p>
+<p>where <script type="math/tex"> \sigma_{i, tot} </script> and <script type="math/tex"> \sigma_{i, a} </script> are the total and absorbtion cross section of the previously identified nuclide respectively. Again, if <script type="math/tex">\xi < P(\text{absorbtion})</script>, then the neutron is absorbed by the nuclide. Absorption results in the complete dissipation of the neutron's energy and we proceed to simulate the next neutron. The absorption probability <script type="math/tex">P(\text{absorbtion})</script> as a function of neutron energy for H and O are shown in Figure 5 and 6 respectively.</p>
+<p><center></p>
+<figure>
+  <a class="glightbox" href="../figures/H_absorbtion.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="Oxygen Cross Sections" src="../figures/H_absorbtion.png" width="400" /></a>
+  <figcaption><i>Figure 5: Absorbtion probability of H as a function of neutron energy.</i></figcaption>
+</figure>
+<p></center></p>
+<p><center></p>
+<figure>
+  <a class="glightbox" href="../figures/O_absorbtion.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="Oxygen Cross Sections" src="../figures/O_absorbtion.png" width="400" /></a>
+  <figcaption><i>Figure 6: Absorbtion probability of O as a function of neutron energy.</i></figcaption>
+</figure>
+<p></center></p>
+<p>If the criteria mentioned above is not met, we consider a scattering interaction. This interaction leads to a reduction in the neutron's energy, determined by the outgoing angle. This angle is sampled from a distribution specific to the nuclide in question. The process of sampling the angle and computing the neutron's new direction and energy is elaborated upon in the Section <a href="./#25-transforming-coordinates">Transforming Coordinates</a>.</p>
 <h3 id="25-transforming-coordinates">2.5 Transforming Coordinates</h3>
+<p>A scattering interaction involving a neutron and nuclide results in an energy loss, which depends on the outgoing angle of the neutron. At lower (thermal) neutron energies, there is notable relative motion between the neutron and the nuclide. The treatment of this scenario is discussed in the Section <a href="./#26-thermal-motion">Thermal Motion</a>. However, at higher energies, it is a reasonable approximation to consider the nuclides as stationary. We can extract the outgoing angles from datasets containing angular distributions sourced from <a href="https://www.nndc.bnl.gov/endf-b8.0/">ENDF/B</a>. These distributions, which vary with increasing neutron energies, are defined by Legendre polynomials and are provided in the center-of-mass frame. The representation of these angular distributions using Legendre polynomials is detailed in the <a href="https://www.oecd-nea.org/dbdata/data/manual-endf/endf102.pdf">ENDF-6 Formats Manual</a>, which we will briefly explain here.</p>
+<p>The angular distributions depend on the energy <script type="math/tex">E</script> in the labframe and the cosine of the outgoing angle in the center-of-mass frame <script type="math/tex">\mu</script>. The distributions are normalized:</p>
+<p>
+<script type="math/tex; mode=display"> \int^1_{-1} f(\mu, E) d\mu = 1. </script>
+</p>
+<p>We assume that the angular distributions of the scattered neutrons have azimuthal symmetry. This implies that we can uniformly select the azimuthal angle <script type="math/tex">\phi</script> from the range <script type="math/tex"> [0,2\pi) </script>. The distributions <script type="math/tex"> f(\mu, E) </script> are represented as Legendre polynomials:</p>
+<p>
+<script type="math/tex; mode=display"> f(\mu, E) =  \sum_{l=0}^{NL} \frac{2l+1}{2} a_l(E) P_l(\mu), </script>
+</p>
+<p>where <script type="math/tex"> l</script> is the order of the Legendre polynomial, <script type="math/tex">a_l </script> the <script type="math/tex">l^{th}</script> Legendre polynomial coefficient, and <script type="math/tex"> NL </script> the number of Legendre polynomials that represent the distribution. Below in Figure 7 and 8 the angular distributions are plotted for varying neutron energy.</p>
+<p><center></p>
+<figure>
+  <a class="glightbox" href="../figures/H_angular.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="Hydrogen Cross Sections" src="../figures/H_angular.png" width="400" /></a>
+  <figcaption><i>Figure 7: Hydrogen scattering angular distribution for varying energy.</i></figcaption>
+</figure>
+<figure>
+  <a class="glightbox" href="../figures/O_angular.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="Oxygen Cross Sections" src="../figures/O_angular.png" width="400" /></a>
+  <figcaption><i>Figure 8: Oxygen scattering angular distribution for varying energy.</i></figcaption>
+</figure>
+<p></center></p>
+<p>EXPLANATION ABOVE FIGURES</p>
+<p>The neutron energy distributions are discretely spaced for each incoming neutron energy <script type="math/tex">E_i </script>, requiring a selection between the distribution corresponding to the energy immediately above or below the current neutron energy. This is done by defining an interpolation factor:</p>
+<p>
+<script type="math/tex; mode=display"> f =  \frac{E - E_i}{E_{i+1} - E_i}, </script>
+</p>
+<p>where <script type="math/tex"> E </script> is the incoming energy of the neutron. We designate <script type="math/tex">l</script> as the selected distribution index. If <script type="math/tex"> \xi > f </script>, then <script type="math/tex">l=i</script>; otherwise, <script type="math/tex">l=i+1</script>, where <script type="math/tex"> \xi </script> is a uniform distributed random number on the interval <script type="math/tex"> [0, 1) </script>. </p>
 <h3 id="26-thermal-motion">2.6 Thermal Motion</h3>
 <h2 id="3-geometry">3 Geometry</h2>
 <h2 id="4-monte-carlo-sampling">4 Monte Carlo Sampling</h2>
