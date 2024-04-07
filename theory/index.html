@@ -66,7 +66,13 @@
     </li>
     <li class="toctree-l3"><a class="reference internal" href="#24-neutron-interactions">2.4 Neutron Interactions</a>
     </li>
-    <li class="toctree-l3"><a class="reference internal" href="#25-transforming-coordinates">2.5 Transforming Coordinates</a>
+    <li class="toctree-l3"><a class="reference internal" href="#25-result-scattering-interaction">2.5 Result Scattering Interaction</a>
+        <ul>
+    <li class="toctree-l4"><a class="reference internal" href="#251-angular-distributions">2.5.1 Angular Distributions</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#252-transforming-coordinates">2.5.2 Transforming Coordinates</a>
+    </li>
+        </ul>
     </li>
     <li class="toctree-l3"><a class="reference internal" href="#26-thermal-motion">2.6 Thermal Motion</a>
     </li>
@@ -170,7 +176,7 @@
 </tr>
 <tr>
 <td>8-9</td>
-<td><a href="./#14-transforming-coordinates">Transforming Coordinates</a></td>
+<td><a href="./#25-result-scattering-interaction">Result Scattering Interaction</a></td>
 </tr>
 </tbody>
 </table>
@@ -292,9 +298,10 @@ number <script type="math/tex">\xi</script> on the interval <script type="math/t
   <figcaption><i>Figure 6: Absorbtion probability of O as a function of neutron energy.</i></figcaption>
 </figure>
 <p></center></p>
-<p>If the criteria mentioned above is not met, we consider a scattering interaction. This interaction leads to a reduction in the neutron's energy, determined by the outgoing angle. This angle is sampled from a distribution specific to the nuclide in question. The process of sampling the angle and computing the neutron's new direction and energy is elaborated upon in the Section <a href="./#25-transforming-coordinates">Transforming Coordinates</a>.</p>
-<h3 id="25-transforming-coordinates">2.5 Transforming Coordinates</h3>
-<p>A scattering interaction involving a neutron and nuclide results in an energy loss, which depends on the outgoing angle of the neutron. At lower (thermal) neutron energies, there is notable relative motion between the neutron and the nuclide. The treatment of this scenario is discussed in the Section <a href="./#26-thermal-motion">Thermal Motion</a>. However, at higher energies, it is a reasonable approximation to consider the nuclides as stationary. We can extract the outgoing angles from datasets containing angular distributions sourced from <a href="https://www.nndc.bnl.gov/endf-b8.0/">ENDF/B</a>. These distributions, which vary with increasing neutron energies, are defined by Legendre polynomials and are provided in the center-of-mass frame. The representation of these angular distributions using Legendre polynomials is detailed in the <a href="https://www.oecd-nea.org/dbdata/data/manual-endf/endf102.pdf">ENDF-6 Formats Manual</a>, which we will briefly explain here.</p>
+<p>If the criteria mentioned above is not met, we consider a scattering interaction. This interaction leads to a reduction in the neutron's energy, determined by the outgoing angle. This angle is sampled from a distribution specific to the nuclide in question. The process of sampling the angle and computing the neutron's new direction and energy is elaborated upon in the Section <a href="./#25-result-scattering-interaction">Result Scattering Interaction</a>.</p>
+<h3 id="25-result-scattering-interaction">2.5 Result Scattering Interaction</h3>
+<p>A scattering interaction involving a neutron and nuclide results in an energy loss, which depends on the outgoing angle of the neutron. At lower (thermal) neutron energies, there is notable relative motion between the neutron and the nuclide. The treatment of this scenario is discussed in the Section <a href="./#26-thermal-motion">Thermal Motion</a>. However, at higher energies, it is a reasonable approximation to consider the nuclides as stationary. We can extract the outgoing angles from datasets containing angular distributions sourced from <a href="https://www.nndc.bnl.gov/endf-b8.0/">ENDF/B</a>. These distributions, which vary with increasing neutron energies, are defined by Legendre polynomials and are provided in the center-of-mass frame. The representation of these angular distributions using Legendre polynomials is detailed in the <a href="https://www.oecd-nea.org/dbdata/data/manual-endf/endf102.pdf">ENDF-6 Formats Manual</a>, which we will briefly explain in <a href="./#251-angular-distributions">Angular Distributions</a>. With this angle the new energy and direction of the neutron can be computed as described in <a href="./#252-transforming-coordinates">Transforming Coordinates</a>.</p>
+<h4 id="251-angular-distributions">2.5.1 Angular Distributions</h4>
 <p>The angular distributions depend on the energy <script type="math/tex">E</script> in the labframe and the cosine of the outgoing angle in the center-of-mass frame <script type="math/tex">\mu</script>. The distributions are normalized:</p>
 <p>
 <script type="math/tex; mode=display"> \int^1_{-1} f(\mu, E) d\mu = 1. </script>
@@ -319,7 +326,21 @@ number <script type="math/tex">\xi</script> on the interval <script type="math/t
 <p>
 <script type="math/tex; mode=display"> f =  \frac{E - E_i}{E_{i+1} - E_i}, </script>
 </p>
-<p>where <script type="math/tex"> E </script> is the incoming energy of the neutron. We designate <script type="math/tex">l</script> as the selected distribution index. If <script type="math/tex"> \xi > f </script>, then <script type="math/tex">l=i</script>; otherwise, <script type="math/tex">l=i+1</script>, where <script type="math/tex"> \xi </script> is a uniform distributed random number on the interval <script type="math/tex"> [0, 1) </script>. </p>
+<p>where <script type="math/tex"> E </script> is the incoming energy of the neutron. We designate <script type="math/tex">k</script> as the selected distribution index. If <script type="math/tex"> \xi > f </script>, then <script type="math/tex">k=i</script>; otherwise, <script type="math/tex">k=i+1</script>, where <script type="math/tex"> \xi </script> is a uniform distributed random number on the interval <script type="math/tex"> [0, 1) </script>. The cosine of the scattering angle <script type="math/tex">\mu </script> in the center-of-mass (CM) frame is sampled from the angular distribution corresponding to <script type="math/tex">E_k</script>.</p>
+<h4 id="252-transforming-coordinates">2.5.2 Transforming Coordinates</h4>
+<p>Using <script type="math/tex">\mu </script>, the secondary velocity of the neutron can be calculated analytically as follows. </p>
+<p>We start by considering the velocity of the neutron in the CM frame is given by:</p>
+<p>
+<script type="math/tex; mode=display"> \mathbf{v}_{cm} = \frac{\mathbf{v}_n + A \mathbf{v}_t}{1+A} = \frac{\mathbf{v}_n}{1+A}, </script>
+</p>
+<p>where A is the mass of the target nuclide, <script type="math/tex"> v_n </script> the initial velocity of the neutron, and <script type="math/tex"> v_t </script> is the velocity of the target nuclide. For energies significantly surpassing thermal energy, <script type="math/tex"> v_t </script> can be considered negligble. The velocity of the neutron can now be transformed to the CM frame:</p>
+<p>
+<script type="math/tex; mode=display"> \mathbf{V}_n = \mathbf{v}_n - \mathbf{v}_{cm}, </script>
+</p>
+<p>where the capital letter <script type="math/tex"> \mathbf{V} </script> denotes the CM frame. The direction of the neutron can be computed by dividing the magnitude of the velocity:</p>
+<p>
+<script type="math/tex; mode=display"> \Omega = \frac{\mathbf{V}_n}{\mathbf{||V}_n||}</script>
+</p>
 <h3 id="26-thermal-motion">2.6 Thermal Motion</h3>
 <h2 id="3-geometry">3 Geometry</h2>
 <h2 id="4-monte-carlo-sampling">4 Monte Carlo Sampling</h2>
