@@ -51,27 +51,7 @@ class Measurer:
             start=0,
         )
 
-    def density(self, r: float, dr: float):
-        """
-        Get the density of the medium at a given radius r.
-
-        Args:
-            r (float): radius at which to compute the density.
-            dr (float): thickness of the shell.
-
-        Returns a float.
-        """
-        n = 0
-        for neutron in self.neutrons:
-            if (
-                np.linalg.norm(neutron.position) < r + dr
-                and np.linalg.norm(neutron.position) > r - dr
-            ):
-                n += 1
-
-        return n / (4 * np.pi * r**2)
-
-    def number_thermal(self, E=0.2):
+    def number_thermal(self):
         """
         Get the number of neutrons that are thermalized.
 
@@ -79,19 +59,15 @@ class Measurer:
         """
         n = 0
         for energies in self.energies():
-            if energies[-1] < E:
+            if energies[-1] < (10 * self.sim.kT):
                 n += 1
         return n
 
     def thermalize_positions(self) -> list:
         """
-        Get the positions of the neutrons where their energy is less than E for
+        Get the positions of the neutrons where their energy is thermal for
         the first time.
-
-        Args:
-            E (float): energy threshold.
         """
-
         thermalize_positions = []
         for energies, positions in zip(self.energies(), self.positions()):
             # Get the first element of the list of energies that is less than 10kT
@@ -104,11 +80,8 @@ class Measurer:
 
     def thermalize_distances(self) -> list:
         """
-        Get the distance of the neutrons where their energy is less than E for
+        Get the distance of the neutrons where their energy is thermal for
         the first time.
-
-        Args:
-            E (float): energy threshold.
         """
         return [np.linalg.norm(pos) for pos in self.thermalize_positions()]
 
@@ -149,9 +122,12 @@ class Measurer:
 
     def flux(self, r: float) -> float:
         """
-        Get the flux of the neutrons.
+        Get the flux of the neutrons at a given radius r.
 
-        Returns a float.
+        Args:
+            - r (float): radius at which to compute the flux.
+
+        Returns a float value of the flux.
         """
         count = 0
         for positions in self.positions():
@@ -168,7 +144,7 @@ class Measurer:
         Get the energy spectrum of the neutrons at a given radius r.
 
         Args:
-            r (float): radius at which to compute the energy spectrum.
+            - r (float): radius at which to compute the energy spectrum.
 
         Returns a list of floats.
         """
@@ -201,7 +177,7 @@ class Measurer:
         Get the number of neutrons with energy above a given energy.
 
         Args:
-            E (float): energy threshold.
+            - E (float): energy threshold.
 
         Returns an int.
         """

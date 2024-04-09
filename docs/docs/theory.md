@@ -10,7 +10,7 @@ The software conducts a collision-driven Monte Carlo simulation, where it simula
 * Setting the initial position and energies of the neutrons.
 * Setting the position and size of the tank.
 
-The initial spectrum is discussed in [Spectrum](./theory.md#21-initial-energy-spectrum), the method of sampling from a distribution is described in [Monte Carlo Sampling](./theory.md#3-monte-carlo-sampling), and the interpolation of distributions in [Interpolation](./theory.md#4-interpolation). After the initializing, the actual simulation of the diffusing neutrons can start. Each neutron's energy and position is updated consecutively which consists of the following steps:
+The initial spectrum is discussed in [Initial Energy Spectrum](./theory.md#21-initial-energy-spectrum), the method of sampling from a distribution is described in [Monte Carlo Sampling](./theory.md#3-monte-carlo-sampling), and the interpolation of distributions in [Interpolation](./theory.md#4-interpolation). After the initializing, the actual simulation of the diffusing neutrons can start. Each neutron's energy and position is updated consecutively which consists of the following steps:
 
 1. Give the neutron a random direction.
 2. Check if the neutron is inside the tank, if false end the loop else continue.
@@ -23,7 +23,7 @@ The initial spectrum is discussed in [Spectrum](./theory.md#21-initial-energy-sp
 9. Update the Neutron's position and energy.
 10. Repeat steps 2-9 until the neutron either escaped or is absorbed.
 
-Positions and energies of the neutrons are stored. Several properties can be computed and measured from this data post-simulation. Each step is discussed in more detail in the following sections:
+Each step is discussed in more detail in the following sections:
 
 
 | Steps       | Section                                                                 |
@@ -34,6 +34,8 @@ Positions and energies of the neutrons are stored. Several properties can be com
 | 6           | [Distance To Next Collision](./theory.md#13-distance-to-next-collision) |
 | 7           | [Neutron Interactions](./theory.md#24-neutron-interactions)             |
 | 8-9         | [Handling Scattering Interaction](./theory.md#25-handling-scattering-interaction)     |
+
+In the simulation, positions and energies of the neutrons are stored. Several properties can be computed and measured from this data post-simulation. The procedure of measuring these properties is described in [Measuring Quantities](#6-measuring-quantities).
 
 
 ## 2. Neutron Physics
@@ -253,10 +255,21 @@ where \( l \) is obtained following the methodology outlined in [Distance to Nex
 
 ### 2.6 Thermal Motion
 
-When the energy of the neutron approaches thermal energies, the target nuclide cannot be assumed to be at rest. 
+When the energy of the neutron approaches thermal energies, the target nuclide cannot be assumed to be at rest. The target nucleus will have motion associated with its thermal vibration. Thermal motion has an effect on the cross sections and the secondary angular distribution. In [The OpenMC Monte Carlo Code](https://docs.openmc.org/en/stable/index.html) a method is described for sampling the velocity of the target nucleus to be used in the elastic scattering kinematic equations described in [Handling Scattering Interaction](#25-handling-scattering-interaction). 
+
+For the activation process we are mainly interested in the high energy neutrons. For simplicity in the simulation, thermal neutron energies are drawn from a Maxwell-Boltzmann distribution. Furthermore, the resulting direction of a neutron from a scattering reaction is chosen to be random. A neutron is considered thermal when it reaches an energy below the threshold of \( 10 K_B T \), where \( K_B \) is Boltzmann's constant and \(T \) is the temperature of the water. The Maxwell-Boltzmann distribution for \( T = 293 K \) is used in the simulation and shown in Figure 11.
+
+<center>
+<figure markdown="span">
+  ![Maxwell](./figures/){ width="400" }
+  <figcaption><i>Figure 11: </i></figcaption>
+</figure>
+</center>
 
 ## 3 Geometry
 
 ## 4 Monte Carlo Sampling
 
 ## 5 Interpolation
+
+## 6 Measuring Quantities

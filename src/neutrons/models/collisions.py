@@ -52,6 +52,8 @@ class Collision:
         """
         Get the fraction of energy lost in a collision for a given scattering direction
         and a nucleus of a given mass.
+
+        Returns: fraction of energy lost.
         """
 
         # New velocity of neutron in the labframe after collision
