@@ -58,7 +58,7 @@ class AngularProcessor:
         # Use interpolation factor to decide which index to use
         f = (E - energies[i - 1]) / (energies[i] - energies[i - 1])
 
-        if np.random.random() < f:
+        if np.random.random() > f:
             return i - 1
         else:
             return i
@@ -67,7 +67,7 @@ class AngularProcessor:
         self,
         mass: float,
         E: float,
-        num_samples: int,   
+        num_samples: int,
     ) -> list:
         """
         Sample the spectrum using Monte Carlo sampling.

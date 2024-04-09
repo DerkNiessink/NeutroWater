@@ -12,9 +12,9 @@ class Collision:
 
     Args:
         - initial_E (float): initial energy of the neutron.
-        - initial_direction (Vector): initial direction of the neutron.
+        - initial_direction (Vector): initial direction of the neutron in the labframe.
         - mass (float): mass of the nucleus.
-        - scattering_cosine (float): cosine of the scattering angle.
+        - scattering_cosine (float): cosine of the scattering angle in the CM frame.
         - absorption (bool): flag to indicate if the collision is an absorption.
         - thermal (bool): flag to indicate if the collision is thermal.
 
@@ -28,11 +28,25 @@ class Collision:
     thermal: bool
 
     def __post_init__(self):
+        """
+        Define the initial conditions of the collision.
+        """
+
         self.mw = MaxwellBoltzmann()
-        if self.thermal:
-            self.scattering_direction = random_direction()
-        else:
-            self.scattering_direction = self._compute_scattering_direction()
+
+        # initial velocity of neutron in the labframe
+        self.v_n = self.initial_direction * np.sqrt(self.initial_E)
+
+        # Velocity of the CM frame
+        self.v_cm = self.v_n / (1 + self.mass)
+
+        # Initial velocity of neutron in the CM frame
+        self.V_n = self.v_n * (1 - 1 / (1 + self.mass))
+
+        # Scattering direction of the neutron in the CM frame
+        self.scattering_direction = (
+            random_direction() if self.thermal else self._compute_scattering_direction()
+        )
 
     def _compute_energy_loss_frac(self) -> float:
         """
@@ -40,30 +54,28 @@ class Collision:
         and a nucleus of a given mass.
         """
 
-        # Initial velocity of neutron in the labframe
-        v_n = self.initial_direction * np.sqrt(self.initial_E)
-
-        # Velocity of the center of mass
-        v_cm = v_n / (1 + self.mass)
-
         # New velocity of neutron in the labframe after collision
-        V_n = np.linalg.norm(v_n - v_cm) * self.scattering_direction + v_cm
+        v_n_new = np.linalg.norm(self.V_n) * self.scattering_direction + self.v_cm
 
-        return float(np.linalg.norm(V_n) ** 2 / np.linalg.norm(v_n) ** 2)
+        return float(np.linalg.norm(v_n_new) ** 2 / np.linalg.norm(self.v_n) ** 2)
 
     def _compute_scattering_direction(self) -> Vector:
         """
-        Get the scattering direction of the neutron after a collision.
+        Get the post-collision scattering direction of the neutron in the CM frame.
+
+        Returns: a np.ndarray of the post-collision scattering direction.
         """
 
-        # Compute the scattering cosine in the lab frame
-        mu = (1 + self.mass * self.scattering_cosine) / np.sqrt(
-            self.mass**2 + 2 * self.mass * self.scattering_cosine + 1
-        )
-        phi = np.random.uniform(0, 2 * np.pi)
-        u, v, w = self.initial_direction
+        # Scattering cosine in the CM frame
+        mu = self.scattering_cosine
 
-        # Relate the pre and post neutron directions
+        # Random azimuthal angle
+        phi = np.random.uniform(0, 2 * np.pi)
+
+        # Components of the initial velocity of neutron in the CM frame
+        u, v, w = self.V_n / np.linalg.norm(self.V_n)
+
+        # Relate the pre and post neutron directions in the CM frame
         u = mu * u + np.sqrt(1 - mu**2) * (
             u * w * np.cos(phi) - v * np.sin(phi)
         ) / np.sqrt(1 - w**2)
@@ -80,6 +92,8 @@ class Collision:
     def energy_loss_frac(self) -> float:
         """
         Get the fraction of energy lost in a collision for the current collision.
+
+        Returns: fraction of energy lost.
         """
         if self.absorption:
             return 1.0

@@ -92,6 +92,7 @@ class DiffusingNeutrons:
         # Sample from the interpolated energy spectrum
         spectrum_processor = SpectrumProcessor(p.spectrum_data)
         initial_energies = spectrum_processor.sample(num_samples=p.nNeutrons)
+        
         # Convert the energies MeV -> eV
         initial_energies = [energy * 10**6 for energy in initial_energies]
 
