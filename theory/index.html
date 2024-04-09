@@ -84,6 +84,8 @@
     </li>
     <li class="toctree-l2"><a class="reference internal" href="#5-interpolation">5 Interpolation</a>
     </li>
+    <li class="toctree-l2"><a class="reference internal" href="#6-measuring-quantities">6 Measuring Quantities</a>
+    </li>
     </ul>
                 </li>
               </ul>
@@ -132,7 +134,7 @@
 <li>Setting the initial position and energies of the neutrons.</li>
 <li>Setting the position and size of the tank.</li>
 </ul>
-<p>The initial spectrum is discussed in <a href="./#21-initial-energy-spectrum">Spectrum</a>, the method of sampling from a distribution is described in <a href="./#3-monte-carlo-sampling">Monte Carlo Sampling</a>, and the interpolation of distributions in <a href="./#4-interpolation">Interpolation</a>. After the initializing, the actual simulation of the diffusing neutrons can start. Each neutron's energy and position is updated consecutively which consists of the following steps:</p>
+<p>The initial spectrum is discussed in <a href="./#21-initial-energy-spectrum">Initial Energy Spectrum</a>, the method of sampling from a distribution is described in <a href="./#3-monte-carlo-sampling">Monte Carlo Sampling</a>, and the interpolation of distributions in <a href="./#4-interpolation">Interpolation</a>. After the initializing, the actual simulation of the diffusing neutrons can start. Each neutron's energy and position is updated consecutively which consists of the following steps:</p>
 <ol>
 <li>Give the neutron a random direction.</li>
 <li>Check if the neutron is inside the tank, if false end the loop else continue.</li>
@@ -145,7 +147,7 @@
 <li>Update the Neutron's position and energy.</li>
 <li>Repeat steps 2-9 until the neutron either escaped or is absorbed.</li>
 </ol>
-<p>Positions and energies of the neutrons are stored. Several properties can be computed and measured from this data post-simulation. Each step is discussed in more detail in the following sections:</p>
+<p>Each step is discussed in more detail in the following sections:</p>
 <table>
 <thead>
 <tr>
@@ -180,6 +182,7 @@
 </tr>
 </tbody>
 </table>
+<p>In the simulation, positions and energies of the neutrons are stored. Several properties can be computed and measured from this data post-simulation. The procedure of measuring these properties is described in <a href="#6-measuring-quantities">Measuring Quantities</a>.</p>
 <h2 id="2-neutron-physics">2. Neutron Physics</h2>
 <h3 id="21-initial-energy-spectrum">2.1 Initial Energy Spectrum</h3>
 <p>The neutron source used is a mixture of americium-241 and beryllium-9. The following reactions take place in the source:</p>
@@ -335,10 +338,18 @@ number <span class="arithmatex">\(\xi\)</span> on the interval <span class="arit
 <div class="arithmatex">\[\begin{equation} \mathbf{r}'_n = \mathbf{r}_n + \mathbf{\Omega}' l,\end{equation}\]</div>
 <p>where <span class="arithmatex">\( l \)</span> is obtained following the methodology outlined in <a href="#23-distance-to-next-collision">Distance to Next Collision</a>.</p>
 <h3 id="26-thermal-motion">2.6 Thermal Motion</h3>
-<p>When the energy of the neutron approaches thermal energies, the target nuclide cannot be assumed to be at rest. </p>
+<p>When the energy of the neutron approaches thermal energies, the target nuclide cannot be assumed to be at rest. The target nucleus will have motion associated with its thermal vibration. Thermal motion has an effect on the cross sections and the secondary angular distribution. In <a href="https://docs.openmc.org/en/stable/index.html">The OpenMC Monte Carlo Code</a> a method is described for sampling the velocity of the target nucleus to be used in the elastic scattering kinematic equations described in <a href="#25-handling-scattering-interaction">Handling Scattering Interaction</a>. </p>
+<p>For the activation process we are mainly interested in the high energy neutrons. For simplicity in the simulation, thermal neutron energies are drawn from a Maxwell-Boltzmann distribution. Furthermore, the resulting direction of a neutron from a scattering reaction is chosen to be random. A neutron is considered thermal when it reaches an energy below the threshold of <span class="arithmatex">\( 10 K_B T \)</span>, where <span class="arithmatex">\( K_B \)</span> is Boltzmann's constant and <span class="arithmatex">\(T \)</span> is the temperature of the water. The Maxwell-Boltzmann distribution for <span class="arithmatex">\( T = 293 K \)</span> is used in the simulation and shown in Figure 11.</p>
+<p><center></p>
+<figure>
+  <a class="glightbox" href="./figures/" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="Maxwell" src="./figures/" width="400" /></a>
+  <figcaption><i>Figure 11: </i></figcaption>
+</figure>
+<p></center></p>
 <h2 id="3-geometry">3 Geometry</h2>
 <h2 id="4-monte-carlo-sampling">4 Monte Carlo Sampling</h2>
 <h2 id="5-interpolation">5 Interpolation</h2>
+<h2 id="6-measuring-quantities">6 Measuring Quantities</h2>
               
             </div>
           </div><footer>
