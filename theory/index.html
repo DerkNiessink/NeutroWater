@@ -339,15 +339,31 @@ number <span class="arithmatex">\(\xi\)</span> on the interval <span class="arit
 <p>where <span class="arithmatex">\( l \)</span> is obtained following the methodology outlined in <a href="#23-distance-to-next-collision">Distance to Next Collision</a>.</p>
 <h3 id="26-thermal-motion">2.6 Thermal Motion</h3>
 <p>When the energy of the neutron approaches thermal energies, the target nuclide cannot be assumed to be at rest. The target nucleus will have motion associated with its thermal vibration. Thermal motion has an effect on the cross sections and the secondary angular distribution. In <a href="https://docs.openmc.org/en/stable/index.html">The OpenMC Monte Carlo Code</a> a method is described for sampling the velocity of the target nucleus to be used in the elastic scattering kinematic equations described in <a href="#25-handling-scattering-interaction">Handling Scattering Interaction</a>. </p>
-<p>For the activation process we are mainly interested in the high energy neutrons. For simplicity in the simulation, thermal neutron energies are drawn from a Maxwell-Boltzmann distribution. Furthermore, the resulting direction of a neutron from a scattering reaction is chosen to be random. A neutron is considered thermal when it reaches an energy below the threshold of <span class="arithmatex">\( 10 K_B T \)</span>, where <span class="arithmatex">\( K_B \)</span> is Boltzmann's constant and <span class="arithmatex">\(T \)</span> is the temperature of the water. The Maxwell-Boltzmann distribution for <span class="arithmatex">\( T = 293 K \)</span> is used in the simulation and shown in Figure 11.</p>
+<p>For the activation process we are mainly interested in the high energy neutrons. For simplicity in the simulation, thermal neutron energies are drawn from a Maxwell-Boltzmann distribution. Furthermore, the resulting direction of a neutron from a scattering reaction is chosen to be random. A neutron is considered thermal when it reaches an energy below the threshold of <span class="arithmatex">\( 10 K_B T \approx 0.252 \ eV\)</span>, where <span class="arithmatex">\( K_B \)</span> is Boltzmann's constant and <span class="arithmatex">\(T \)</span> is the temperature of the water. The Maxwell-Boltzmann distribution for <span class="arithmatex">\( T = 293 K \)</span> is used in the simulation and shown in Figure 11.</p>
 <p><center></p>
 <figure>
-  <a class="glightbox" href="./figures/" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="Maxwell" src="./figures/" width="400" /></a>
-  <figcaption><i>Figure 11: </i></figcaption>
+  <a class="glightbox" href="../figures/boltzmann.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="Maxwell" src="../figures/boltzmann.png" width="400" /></a>
+  <figcaption><i>Figure 11: Maxwell-Boltzmann distribution of energies for T = 293 K. The thermal energy threshold used in the simulation is shown with the dashed line. </i></figcaption>
 </figure>
 <p></center></p>
 <h2 id="3-geometry">3 Geometry</h2>
+<p>The geometry of the experiment is shown in Figure 12. In the simulation the neutron source is placed at the origin. The water tank of radius <span class="arithmatex">\( R\)</span> and height <span class="arithmatex">\( h \)</span> is placed at position <span class="arithmatex">\( \mathbf{r}_t\)</span> such that the neutrons diffuse from the correct initial position. </p>
+<p><center></p>
+<figure>
+  <a class="glightbox" href="../figures/tank.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="Maxwell" src="../figures/tank.png" width="250" /></a>
+  <figcaption><i>Figure 12: Simplified figure of the neutron source in the water tank. The insert containing the target can be moved in the radial direction through slots in the top plate of the water tank. </i></figcaption>
+</figure>
+<p></center></p>
+<p>A Neutron at position <span class="arithmatex">\( \mathbf{r}_n \)</span> is inside the tank if the following conditions are true:</p>
+<div class="arithmatex">\[\begin{equation} 
+\begin{aligned}
+&amp; |\mathbf{r}_n - \mathbf{r}_t |_{xy} &lt; R  \\
+&amp; |r_{n_z} - r_{t_z} | &lt; h/2,  \\
+\end{aligned}
+\end{equation}\]</div>
+<p>where the notation <span class="arithmatex">\( | \mathbf{r} |_{xy} = \sqrt{r_x^2 + r_y^2} \)</span> is used. If these conditions are not met, the neutron is flagged as escaped and the simulation proceeds with simulating the next neutron.</p>
 <h2 id="4-monte-carlo-sampling">4 Monte Carlo Sampling</h2>
+<p>In the initilization the energies of the neutrons are sampled from the distribution shown in Figure 2. The secondary angles of the neutrons in a scattering interaction are sampled from angular distributions on the fly. Some examples of these angular distributions are shown in Figure 10. Finally, when a neutron reaches the thermal energy threshold, its energies are sampled from the Boltzmann distribution shown in Figure 11. The Monte Carlo method used in the simulation is rejection sampling. For simplicity, the proposal distribution is chosen to be a uniform distribution on the interval <span class="arithmatex">\([0, 1) \)</span> for each of the sampling processes. </p>
 <h2 id="5-interpolation">5 Interpolation</h2>
 <h2 id="6-measuring-quantities">6 Measuring Quantities</h2>
               
