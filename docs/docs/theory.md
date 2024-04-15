@@ -225,21 +225,17 @@ where A is the mass of the target nuclide, \( \mathbf{v}_n \) the initial veloci
 
 \begin{equation} \mathbf{V}_n = \mathbf{v}_n - \mathbf{v}_{cm}, \end{equation}
 
-where the capital letter \( \mathbf{V} \) denotes the CM frame. By expressing the pre- and post-collision direction in the CM frame as \( \mathbf{\Omega} = (u, v, w) \) and \( \mathbf{\Omega}' = (u', v', w') \) respectively, we can relate the pre- and post-collision components. The pre-collision direction of the neutron can be computed by dividing the magnitude of the velocity:
-
-\begin{equation} \mathbf{\Omega} = \frac{\mathbf{V}_n}{\mathbf{||V}_n||}.\end{equation}
-
-The relation between the pre- and post-collision components is given by:
+where the capital letter \( \mathbf{V} \) denotes the CM frame. If we express the post-collision direction in the CM frame as \( \mathbf{\Omega}' = (u', v', w') \), the components are given by:
 
 \begin{equation}
 \begin{aligned}  
-    &u' = \mu u + \frac{ \sqrt{1-\mu^2}(uw\cos{\phi} - v\sin{\phi}) }{ \sqrt{1-w^2} } \\
-    &v' = \mu v + \frac{ \sqrt{1-\mu^2}(vw\cos{\phi} - u\sin{\phi}) }{ \sqrt{1-w^2} } \\
-    &w'= \mu w - \sqrt{1-\mu^2}\sqrt{1-w^2}\cos{\phi},
+    &u' = \sin{\theta} \cos{\phi} \\
+    &v' = \sin{\theta} \sin{\phi} \\
+    &w'= \cos{\theta}
 \end{aligned}
 \end{equation}
 
-where \( \phi \) is the azimuthal angle. We assume azimuthal symmetry, so \( \phi \) can be sampled from a random uniformly distributed interval \( [0, 2\pi) \). Finally, transforming back to the lab frame results in the new velocity of the neutron:
+where \( \phi \) is the azimuthal angle and \( \theta = \cos^{-1}(\mu) \). We assume azimuthal symmetry, so \( \phi \) can be sampled from a random uniformly distributed interval \( [0, 2\pi) \). Finally, transforming back to the lab frame results in the new velocity of the neutron:
 
 \begin{equation} \mathbf{v}'_n = ||\mathbf{V}_n|| \mathbf{\Omega}' + \mathbf{v}_{cm}. \end{equation}
 
@@ -249,7 +245,7 @@ The relation between the post- and pre-collision neutron energy in the labframe 
 
 and the relation between the old and new position is given by:
 
-\begin{equation} \mathbf{r}'_n = \mathbf{r}_n + \mathbf{\Omega}' l,\end{equation}
+\begin{equation} \mathbf{r}'_n = \mathbf{r}_n + \frac{\mathbf{v}'_n}{||\mathbf{v}'_n||} l,\end{equation}
 
 where \( l \) is obtained following the methodology outlined in [Distance to Next Collision](#23-distance-to-next-collision).
 
@@ -257,19 +253,51 @@ where \( l \) is obtained following the methodology outlined in [Distance to Nex
 
 When the energy of the neutron approaches thermal energies, the target nuclide cannot be assumed to be at rest. The target nucleus will have motion associated with its thermal vibration. Thermal motion has an effect on the cross sections and the secondary angular distribution. In [The OpenMC Monte Carlo Code](https://docs.openmc.org/en/stable/index.html) a method is described for sampling the velocity of the target nucleus to be used in the elastic scattering kinematic equations described in [Handling Scattering Interaction](#25-handling-scattering-interaction). 
 
-For the activation process we are mainly interested in the high energy neutrons. For simplicity in the simulation, thermal neutron energies are drawn from a Maxwell-Boltzmann distribution. Furthermore, the resulting direction of a neutron from a scattering reaction is chosen to be random. A neutron is considered thermal when it reaches an energy below the threshold of \( 10 K_B T \), where \( K_B \) is Boltzmann's constant and \(T \) is the temperature of the water. The Maxwell-Boltzmann distribution for \( T = 293 K \) is used in the simulation and shown in Figure 11.
+For the activation process we are mainly interested in the high energy neutrons. For simplicity in the simulation, thermal neutron energies are drawn from a Maxwell-Boltzmann distribution. Furthermore, the resulting direction of a neutron from a scattering reaction is chosen to be random. A neutron is considered thermal when it reaches an energy below the threshold of \( 10 K_B T \approx 0.252 \ eV\), where \( K_B \) is Boltzmann's constant and \(T \) is the temperature of the water. The Maxwell-Boltzmann distribution for \( T = 293 K \) is used in the simulation and shown in Figure 11.
 
 <center>
 <figure markdown="span">
-  ![Maxwell](./figures/){ width="400" }
-  <figcaption><i>Figure 11: </i></figcaption>
+  ![Maxwell](./figures/boltzmann.png){ width="400" }
+  <figcaption><i>Figure 11: Maxwell-Boltzmann distribution of energies for T = 293 K. The thermal energy threshold used in the simulation is shown with the dashed line. </i></figcaption>
 </figure>
 </center>
 
 ## 3 Geometry
 
+The geometry of the experiment is shown in Figure 12. In the simulation the neutron source is placed at the origin. The water tank of radius \( R\) and height \( h \) is placed at position \( \mathbf{r}_t\) such that the neutrons diffuse from the correct initial position. 
+
+<center>
+<figure markdown="span">
+  ![Maxwell](./figures/tank.png){ width="250" }
+  <figcaption><i>Figure 12: Simplified figure of the neutron source in the water tank. The insert containing the target can be moved in the radial direction through slots in the top plate of the water tank. </i></figcaption>
+</figure>
+</center>
+
+A Neutron at position \( \mathbf{r}_n \) is inside the tank if the following conditions are true:
+
+\begin{equation} 
+\begin{aligned}
+& |\mathbf{r}_n - \mathbf{r}_t |_{xy} < R  \\
+& |r_{n_z} - r_{t_z} | < h/2,  \\
+\end{aligned}
+\end{equation}
+
+
+where the notation \( | \mathbf{r} |_{xy} = \sqrt{r_x^2 + r_y^2} \) is used. If these conditions are not met, the neutron is flagged as escaped and the simulation proceeds with simulating the next neutron.
+
 ## 4 Monte Carlo Sampling
+
+In the initilization the energies of the neutrons are sampled from the distribution shown in Figure 2. The secondary angles of the neutrons in a scattering interaction are sampled from angular distributions on the fly. Some examples of these angular distributions are shown in Figure 10. Finally, when a neutron reaches the thermal energy threshold, its energies are sampled from the Boltzmann distribution shown in Figure 11. The Monte Carlo method used in the simulation is rejection sampling. For simplicity, the proposal distribution is chosen to be a uniform distribution on the interval \([0, 1) \) for each of the sampling processes. 
+
 
 ## 5 Interpolation
 
 ## 6 Measuring Quantities
+
+For neutron activation, we are interested in the flux and the energy spectrum of the neutrons at varying radius in the tank. These quantities can be computed from the positions of the neutrons and the energies of the neutrons at each collisions sight in the tank, which are stored after running the simulation.
+
+### 6.1 Flux
+
+
+
+### 6.2 Energy Spectrum

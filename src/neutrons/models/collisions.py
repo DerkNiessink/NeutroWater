@@ -38,57 +38,48 @@ class Collision:
         self.v_n = self.initial_direction * np.sqrt(self.initial_E)
 
         # Velocity of the CM frame
-        self.v_cm = self.v_n / (1 + self.mass)
+        v_cm = self.v_n / (1 + self.mass)
 
         # Initial velocity of neutron in the CM frame
-        self.V_n = self.v_n * (1 - 1 / (1 + self.mass))
+        V_n = self.v_n - v_cm
 
-        # Scattering direction of the neutron in the CM frame
-        self.scattering_direction = (
-            random_direction() if self.thermal else self._compute_scattering_direction()
-        )
+        # Resulting velocity of the neutron in the labframe
+        self.v_n_new = v_cm + self._direction_CM() * np.linalg.norm(V_n)
 
-    def _compute_energy_loss_frac(self) -> float:
-        """
-        Get the fraction of energy lost in a collision for a given scattering direction
-        and a nucleus of a given mass.
-
-        Returns: fraction of energy lost.
-        """
-
-        # New velocity of neutron in the labframe after collision
-        v_n_new = np.linalg.norm(self.V_n) * self.scattering_direction + self.v_cm
-
-        return float(np.linalg.norm(v_n_new) ** 2 / np.linalg.norm(self.v_n) ** 2)
-
-    def _compute_scattering_direction(self) -> Vector:
+    def _direction_CM(self) -> Vector:
         """
         Get the post-collision scattering direction of the neutron in the CM frame.
 
         Returns: a np.ndarray of the post-collision scattering direction.
         """
 
-        # Scattering cosine in the CM frame
-        mu = self.scattering_cosine
+        # Scattering angle in the CM frame
+        theta = np.arccos(self.scattering_cosine)
 
         # Random azimuthal angle
         phi = np.random.uniform(0, 2 * np.pi)
 
-        # Components of the initial velocity of neutron in the CM frame
-        u, v, w = self.V_n / np.linalg.norm(self.V_n)
-
-        # Relate the pre and post neutron directions in the CM frame
-        u = mu * u + np.sqrt(1 - mu**2) * (
-            u * w * np.cos(phi) - v * np.sin(phi)
-        ) / np.sqrt(1 - w**2)
-        v = mu * v + np.sqrt(1 - mu**2) * (
-            v * w * np.cos(phi) + u * np.sin(phi)
-        ) / np.sqrt(1 - w**2)
-        w = mu * w - np.sqrt(1 - mu**2) * np.sqrt(1 - w**2) * np.cos(phi)
+        # Compute direction in the CM frame
+        u = np.sin(theta) * np.cos(phi)
+        v = np.sin(theta) * np.sin(phi)
+        w = np.cos(theta)
 
         direction = np.array([u, v, w])
 
+        # Normalize the direction for numerical stability
         return direction / np.linalg.norm(direction)
+
+    @property
+    def scattering_direction(self) -> Vector:
+        """
+        Get the post-collision scattering direction of the neutron.
+
+        Returns: a np.ndarray of the post-collision scattering direction.
+        """
+        if self.thermal:
+            return random_direction()
+        else:
+            return self.v_n_new / np.linalg.norm(self.v_n_new)
 
     @property
     def energy_loss_frac(self) -> float:
@@ -102,7 +93,9 @@ class Collision:
         elif self.thermal:
             return self.mw.thermal_energy() / self.initial_E
         else:
-            return self._compute_energy_loss_frac()
+            return float(
+                np.linalg.norm(self.v_n_new) ** 2 / np.linalg.norm(self.v_n) ** 2
+            )
 
 
 def random_direction() -> Vector:

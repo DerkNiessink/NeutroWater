@@ -22,18 +22,6 @@ from neutrons.models.maxwell_boltzmann import MaxwellBoltzmann
 class Parameters:
     """
     Parameters:
-    - total_data (Sequence): Total cross section data of the form of
-        a pandas DataFrame with two columns containing: energy [eV] and total
-        cross section [barns].
-    - scattering_data (Sequence): Scattering cross section data of
-        the form of a pandas DataFrame with two columns containing:
-        energy [eV] and scattering cross section [barns].
-    - absorption_data (Sequence): Absorption cross section data of the form
-        of a pandas DataFrame with two columns containing: energy [eV] and
-        absorption cross section [barns].
-    - spectrum_Data (pd.DataFrame): Data for the probability distribution of the
-        initial energy spectrum from the neutron source wich should have two columns
-        containing: energy [eV] and probability.
     - nNeutrons (int): Number of neutrons to simulate
     - molecule_structure (Sequence): number of atoms in the molecule (Default:
         (2, 1) for H20)
@@ -42,14 +30,9 @@ class Parameters:
     - radius_tank (float): Radius of the tank in meters. Default is 1.
     - height_tank (float): Height of the tank in meters. Default is 1.
     - position_tank (np.ndarray): Position of the tank. Default is [0, 0, 0].
-    - temperature (float): Temperature [K] of the medium.
+    - temperature (float): Temperature [K] of the medium. Default is 293.
     """
 
-    total_data: Sequence[pd.DataFrame]
-    scattering_data: Sequence[pd.DataFrame]
-    absorption_data: Sequence[pd.DataFrame]
-    angular_data: Sequence[pd.DataFrame]
-    spectrum_data: pd.DataFrame
     nNeutrons: int
     molecule_structure: Sequence = (2, 1)
     nuclei_masses: Sequence = (1, 16)
@@ -57,6 +40,27 @@ class Parameters:
     height_tank: float = 1
     position_tank: Vector = np.array([0.0, 0.0, 0.0])
     temperature: float = 293
+
+    def __post_init__(self):
+        self.total_data: Sequence[pd.DataFrame] = [
+            pd.read_csv("../data/h_cross_t.txt", sep=r"\s+"),
+            pd.read_csv("../data/o_cross_t.txt", sep=r"\s+"),
+        ]
+        self.scattering_data: Sequence[pd.DataFrame] = [
+            pd.read_csv("../data/h_cross_s.txt", sep=r"\s+"),
+            pd.read_csv("../data/o_cross_s.txt", sep=r"\s+"),
+        ]
+        self.absorption_data: Sequence[pd.DataFrame] = [
+            pd.read_csv("../data/h_cross_a.txt", sep=r"\s+"),
+            pd.read_csv("../data/o_cross_a.txt", sep=r"\s+"),
+        ]
+        self.angular_data: Sequence[pd.DataFrame] = [
+            pd.read_csv("../data/H_angular.txt", sep=r"\s+"),
+            pd.read_csv("../data/O_angular.txt", sep=r","),
+        ]
+        self.spectrum_data: pd.DataFrame = pd.read_csv(
+            "../data/neutron_spectrum_normalized.txt", sep=","
+        )
 
 
 class DiffusingNeutrons:
@@ -74,7 +78,6 @@ class DiffusingNeutrons:
         self.kT = (
             1.380649e-23 * p.temperature * 6.24150907 * 10**18
         )  # [m^2 kg / (s^2 K) * K * (eV/J) = J*(eV/J) = eV]
-
         self.nCollisions = 0
         self.mol_struc = p.molecule_structure
         self.tank = Tank(p.radius_tank, p.height_tank, p.position_tank)
@@ -92,7 +95,7 @@ class DiffusingNeutrons:
         # Sample from the interpolated energy spectrum
         spectrum_processor = SpectrumProcessor(p.spectrum_data)
         initial_energies = spectrum_processor.sample(num_samples=p.nNeutrons)
-        
+
         # Convert the energies MeV -> eV
         initial_energies = [energy * 10**6 for energy in initial_energies]
 
