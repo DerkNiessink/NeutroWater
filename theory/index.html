@@ -85,6 +85,12 @@
     <li class="toctree-l2"><a class="reference internal" href="#5-interpolation">5 Interpolation</a>
     </li>
     <li class="toctree-l2"><a class="reference internal" href="#6-measuring-quantities">6 Measuring Quantities</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#61-flux">6.1 Flux</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#62-energy-spectrum">6.2 Energy Spectrum</a>
+    </li>
+        </ul>
     </li>
     </ul>
                 </li>
@@ -320,22 +326,20 @@ number <span class="arithmatex">\(\xi\)</span> on the interval <span class="arit
 <div class="arithmatex">\[\begin{equation} \mathbf{v}_{cm} = \frac{\mathbf{v}_n + A \mathbf{v}_t}{1+A} = \frac{\mathbf{v}_n}{1+A}, \end{equation}\]</div>
 <p>where A is the mass of the target nuclide, <span class="arithmatex">\( \mathbf{v}_n \)</span> the initial velocity of the neutron, and <span class="arithmatex">\( \mathbf{v}_t \)</span> is the velocity of the target nuclide. For energies significantly surpassing thermal energy, <span class="arithmatex">\( \mathbf{v}_t \)</span> can be considered negligble. The velocity of the neutron can now be transformed to the CM frame:</p>
 <div class="arithmatex">\[\begin{equation} \mathbf{V}_n = \mathbf{v}_n - \mathbf{v}_{cm}, \end{equation}\]</div>
-<p>where the capital letter <span class="arithmatex">\( \mathbf{V} \)</span> denotes the CM frame. By expressing the pre- and post-collision direction in the CM frame as <span class="arithmatex">\( \mathbf{\Omega} = (u, v, w) \)</span> and <span class="arithmatex">\( \mathbf{\Omega}' = (u', v', w') \)</span> respectively, we can relate the pre- and post-collision components. The pre-collision direction of the neutron can be computed by dividing the magnitude of the velocity:</p>
-<div class="arithmatex">\[\begin{equation} \mathbf{\Omega} = \frac{\mathbf{V}_n}{\mathbf{||V}_n||}.\end{equation}\]</div>
-<p>The relation between the pre- and post-collision components is given by:</p>
+<p>where the capital letter <span class="arithmatex">\( \mathbf{V} \)</span> denotes the CM frame. If we express the post-collision direction in the CM frame as <span class="arithmatex">\( \mathbf{\Omega}' = (u', v', w') \)</span>, the components are given by:</p>
 <div class="arithmatex">\[\begin{equation}
 \begin{aligned}  
-    &amp;u' = \mu u + \frac{ \sqrt{1-\mu^2}(uw\cos{\phi} - v\sin{\phi}) }{ \sqrt{1-w^2} } \\
-    &amp;v' = \mu v + \frac{ \sqrt{1-\mu^2}(vw\cos{\phi} - u\sin{\phi}) }{ \sqrt{1-w^2} } \\
-    &amp;w'= \mu w - \sqrt{1-\mu^2}\sqrt{1-w^2}\cos{\phi},
+    &amp;u' = \sin{\theta} \cos{\phi} \\
+    &amp;v' = \sin{\theta} \sin{\phi} \\
+    &amp;w'= \cos{\theta}
 \end{aligned}
 \end{equation}\]</div>
-<p>where <span class="arithmatex">\( \phi \)</span> is the azimuthal angle. We assume azimuthal symmetry, so <span class="arithmatex">\( \phi \)</span> can be sampled from a random uniformly distributed interval <span class="arithmatex">\( [0, 2\pi) \)</span>. Finally, transforming back to the lab frame results in the new velocity of the neutron:</p>
+<p>where <span class="arithmatex">\( \phi \)</span> is the azimuthal angle and <span class="arithmatex">\( \theta = \cos^{-1}(\mu) \)</span>. We assume azimuthal symmetry, so <span class="arithmatex">\( \phi \)</span> can be sampled from a random uniformly distributed interval <span class="arithmatex">\( [0, 2\pi) \)</span>. Finally, transforming back to the lab frame results in the new velocity of the neutron:</p>
 <div class="arithmatex">\[\begin{equation} \mathbf{v}'_n = ||\mathbf{V}_n|| \mathbf{\Omega}' + \mathbf{v}_{cm}. \end{equation}\]</div>
 <p>The relation between the post- and pre-collision neutron energy in the labframe can be computed as</p>
 <div class="arithmatex">\[\begin{equation} E' = \frac{||\mathbf{v}'_n||^2}{||\mathbf{v}_n||^2} E, \end{equation}\]</div>
 <p>and the relation between the old and new position is given by:</p>
-<div class="arithmatex">\[\begin{equation} \mathbf{r}'_n = \mathbf{r}_n + \mathbf{\Omega}' l,\end{equation}\]</div>
+<div class="arithmatex">\[\begin{equation} \mathbf{r}'_n = \mathbf{r}_n + \frac{\mathbf{v}'_n}{||\mathbf{v}'_n||} l,\end{equation}\]</div>
 <p>where <span class="arithmatex">\( l \)</span> is obtained following the methodology outlined in <a href="#23-distance-to-next-collision">Distance to Next Collision</a>.</p>
 <h3 id="26-thermal-motion">2.6 Thermal Motion</h3>
 <p>When the energy of the neutron approaches thermal energies, the target nuclide cannot be assumed to be at rest. The target nucleus will have motion associated with its thermal vibration. Thermal motion has an effect on the cross sections and the secondary angular distribution. In <a href="https://docs.openmc.org/en/stable/index.html">The OpenMC Monte Carlo Code</a> a method is described for sampling the velocity of the target nucleus to be used in the elastic scattering kinematic equations described in <a href="#25-handling-scattering-interaction">Handling Scattering Interaction</a>. </p>
@@ -366,6 +370,9 @@ number <span class="arithmatex">\(\xi\)</span> on the interval <span class="arit
 <p>In the initilization the energies of the neutrons are sampled from the distribution shown in Figure 2. The secondary angles of the neutrons in a scattering interaction are sampled from angular distributions on the fly. Some examples of these angular distributions are shown in Figure 10. Finally, when a neutron reaches the thermal energy threshold, its energies are sampled from the Boltzmann distribution shown in Figure 11. The Monte Carlo method used in the simulation is rejection sampling. For simplicity, the proposal distribution is chosen to be a uniform distribution on the interval <span class="arithmatex">\([0, 1) \)</span> for each of the sampling processes. </p>
 <h2 id="5-interpolation">5 Interpolation</h2>
 <h2 id="6-measuring-quantities">6 Measuring Quantities</h2>
+<p>For neutron activation, we are interested in the flux and the energy spectrum of the neutrons at varying radius in the tank. These quantities can be computed from the positions of the neutrons and the energies of the neutrons at each collisions sight in the tank, which are stored after running the simulation.</p>
+<h3 id="61-flux">6.1 Flux</h3>
+<h3 id="62-energy-spectrum">6.2 Energy Spectrum</h3>
               
             </div>
           </div><footer>
