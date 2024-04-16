@@ -367,7 +367,19 @@ number <span class="arithmatex">\(\xi\)</span> on the interval <span class="arit
 \end{equation}\]</div>
 <p>where the notation <span class="arithmatex">\( | \mathbf{r} |_{xy} = \sqrt{r_x^2 + r_y^2} \)</span> is used. If these conditions are not met, the neutron is flagged as escaped and the simulation proceeds with simulating the next neutron.</p>
 <h2 id="4-monte-carlo-sampling">4 Monte Carlo Sampling</h2>
-<p>In the initilization the energies of the neutrons are sampled from the distribution shown in Figure 2. The secondary angles of the neutrons in a scattering interaction are sampled from angular distributions on the fly. Some examples of these angular distributions are shown in Figure 10. Finally, when a neutron reaches the thermal energy threshold, its energies are sampled from the Boltzmann distribution shown in Figure 11. The Monte Carlo method used in the simulation is rejection sampling. For simplicity, the proposal distribution is chosen to be a uniform distribution on the interval <span class="arithmatex">\([0, 1) \)</span> for each of the sampling processes. </p>
+<p>In the initilization the energies of the neutrons are sampled from the distribution shown in Figure 2. The secondary angles of the neutrons in a scattering interaction are sampled from angular distributions on the fly. Some examples of these angular distributions are shown in Figure 10. Finally, when a neutron reaches the thermal energy threshold, its energies are sampled from the Boltzmann distribution shown in Figure 11. The Monte Carlo method used in the simulation is rejection sampling. For simplicity, the proposal distribution is chosen to be a uniform distribution on the interval <span class="arithmatex">\([0, 1) \)</span> for each of the sampling processes. The following steps are performed to sample a point from a PDF <span class="arithmatex">\(f\)</span>:</p>
+<ol>
+<li>Sample y uniformly on the interval <span class="arithmatex">\([0, 1) \)</span> and <span class="arithmatex">\( x\)</span> between the bounds of the <span class="arithmatex">\( f \)</span>.</li>
+<li>Compute <span class="arithmatex">\( P = f(x) \)</span>.</li>
+<li>If <span class="arithmatex">\( y \leq P \)</span> stop the process and return <span class="arithmatex">\(x\)</span>, else go back to step 1.</li>
+</ol>
+<p>Figure 13 illustrates a large sample obtained from an angular distribution using rejection sampling. This figure is meant to demonstrate the sampling method, as in the simulation, only one secondary angle is sampled per elastic collision.</p>
+<p><center></p>
+<figure>
+  <a class="glightbox" href="../figures/sample_angles.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="Maxwell" src="../figures/sample_angles.png" width="350" /></a>
+  <figcaption><i>Figure 13: Sample of size N = 10000 obtained from the angular distribution of an elastic O-n collision at E = 5.48e6 eV using rejection sampling. </i></figcaption>
+</figure>
+<p></center></p>
 <h2 id="5-interpolation">5 Interpolation</h2>
 <h2 id="6-measuring-quantities">6 Measuring Quantities</h2>
 <p>For neutron activation, we are interested in the flux and the energy spectrum of the neutrons at varying radius in the tank. These quantities can be computed from the positions of the neutrons and the energies of the neutrons at each collisions sight in the tank, which are stored after running the simulation.</p>
