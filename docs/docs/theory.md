@@ -287,8 +287,20 @@ where the notation \( | \mathbf{r} |_{xy} = \sqrt{r_x^2 + r_y^2} \) is used. If 
 
 ## 4 Monte Carlo Sampling
 
-In the initilization the energies of the neutrons are sampled from the distribution shown in Figure 2. The secondary angles of the neutrons in a scattering interaction are sampled from angular distributions on the fly. Some examples of these angular distributions are shown in Figure 10. Finally, when a neutron reaches the thermal energy threshold, its energies are sampled from the Boltzmann distribution shown in Figure 11. The Monte Carlo method used in the simulation is rejection sampling. For simplicity, the proposal distribution is chosen to be a uniform distribution on the interval \([0, 1) \) for each of the sampling processes. 
+In the initilization the energies of the neutrons are sampled from the distribution shown in Figure 2. The secondary angles of the neutrons in a scattering interaction are sampled from angular distributions on the fly. Some examples of these angular distributions are shown in Figure 10. Finally, when a neutron reaches the thermal energy threshold, its energies are sampled from the Boltzmann distribution shown in Figure 11. The Monte Carlo method used in the simulation is rejection sampling. For simplicity, the proposal distribution is chosen to be a uniform distribution on the interval \([0, 1) \) for each of the sampling processes. The following steps are performed to sample a point from a PDF \(f\):
 
+1. Sample y uniformly on the interval \([0, 1) \) and \( x\) between the bounds of the \( f \).
+2. Compute \( P = f(x) \).
+3. If \( y \leq P \) stop the process and return \(x\), else go back to step 1.
+
+Figure 13 illustrates a large sample obtained from an angular distribution using rejection sampling. This figure is meant to demonstrate the sampling method, as in the simulation, only one secondary angle is sampled per elastic collision.
+
+<center>
+<figure markdown="span">
+  ![Maxwell](./figures/sample_angles.png){ width="350" }
+  <figcaption><i>Figure 13: Sample of size N = 10000 obtained from the angular distribution of an elastic O-n collision at E = 5.48e6 eV using rejection sampling. </i></figcaption>
+</figure>
+</center>
 
 ## 5 Interpolation
 
