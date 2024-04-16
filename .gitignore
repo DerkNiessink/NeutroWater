@@ -1,5 +1,4 @@
 venv
 __pycache__
 .pytest_cache
-poetry.lock
 .ruff_cache
