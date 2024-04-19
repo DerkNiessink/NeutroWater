@@ -1,6 +1,6 @@
 import numpy as np
 
-from neutrons.diffusing_neutrons import DiffusingNeutrons, Vector
+from neutrowater.diffusing_neutrons import DiffusingNeutrons, Vector
 
 
 class Measurer:

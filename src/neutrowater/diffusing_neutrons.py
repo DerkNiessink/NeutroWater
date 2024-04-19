@@ -6,16 +6,16 @@ import multiprocessing
 from tqdm.contrib.concurrent import process_map
 from dataclasses import dataclass
 
-from neutrons.models.neutrons import Neutrons, Neutron, Vector
-from neutrons.models.tank import Tank
-from neutrons.models.collisions import Collision, random_direction
-from neutrons.process.data_processor import (
+from neutrowater.models.neutrons import Neutrons, Neutron, Vector
+from neutrowater.models.tank import Tank
+from neutrowater.models.collisions import Collision, random_direction
+from neutrowater.process.data_processor import (
     TotalProcessor,
     SpectrumProcessor,
     AbsorptionProcessor,
 )
-from neutrons.process.angular_processor import AngularProcessor
-from neutrons.models.maxwell_boltzmann import MaxwellBoltzmann
+from neutrowater.process.angular_processor import AngularProcessor
+from neutrowater.models.maxwell_boltzmann import MaxwellBoltzmann
 
 
 @dataclass

@@ -1,8 +1,8 @@
 import numpy as np
 from dataclasses import dataclass
 
-from neutrons.models.neutrons import Vector
-from neutrons.models.maxwell_boltzmann import MaxwellBoltzmann
+from neutrowater.models.neutrons import Vector
+from neutrowater.models.maxwell_boltzmann import MaxwellBoltzmann
 
 
 @dataclass

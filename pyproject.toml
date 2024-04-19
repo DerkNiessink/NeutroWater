@@ -1,5 +1,5 @@
 [project]
-name = "neutrons_DerkNiessink"
+name = "neutrowater"
 version = "0.0.1"
 authors = [
     {name = "DerkNiessink, email = derk@niessink.com"}
@@ -7,7 +7,7 @@ authors = [
 description = "Monte Carlo simulation of neutron moderation"
 readme = "README.md"
 packages = [
-    { include = "neutrons", from = "src" },
+    { include = "neutrowater", from = "src" },
 ]
 requires-python = ">=3.8"
 classifiers = [
@@ -17,17 +17,17 @@ classifiers = [
 ]
 
 [project.urls]
-Homepage = "https://github.com/DerkNiessink/neutrons"
-Issues = "https://github.com/DerkNiessink/neutrons/issues"
+Homepage = "https://github.com/DerkNiessink/neutrowater"
+Issues = "https://github.com/DerkNiessink/neutrowater/issues"
 
 [tool.poetry]
-name = "neutrons_DerkNiessink"
+name = "neutrowater"
 version = "0.0.1"
 authors = ["DerkNiessink <derk@niessink.com>"]
 description = "Monte Carlo simulation of neutron moderation"
 readme = "README.md"
 packages = [
-    { include = "neutrons", from = "src" },
+    { include = "neutrowater", from = "src" },
 ]
 
 
