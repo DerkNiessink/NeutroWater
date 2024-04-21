@@ -38,7 +38,7 @@ class Parameters:
     nuclei_masses: Sequence = (1, 16)
     radius_tank: float = 1
     height_tank: float = 1
-    position_tank: Vector = np.array([0.0, 0.0, 0.0])
+    position_tank: tuple = (0.0, 0.0, 0.0)
     temperature: float = 293
 
     def __post_init__(self):
