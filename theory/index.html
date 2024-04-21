@@ -44,7 +44,7 @@
                 </li>
               </ul>
               <ul>
-                <li class="toctree-l1"><a class="reference internal" href="../install_guide/">Quick Install Guide</a>
+                <li class="toctree-l1"><a class="reference internal" href="../user_guide/">User Guide</a>
                 </li>
               </ul>
               <ul>
@@ -52,7 +52,7 @@
                 </li>
               </ul>
               <ul class="current">
-                <li class="toctree-l1 current"><a class="reference internal current" href="./">Theory and Methodology</a>
+                <li class="toctree-l1 current"><a class="reference internal current" href="#">Theory and Methodology</a>
     <ul class="current">
     <li class="toctree-l2"><a class="reference internal" href="#1-general-program-flow">1. General Program Flow</a>
     </li>
@@ -100,10 +100,6 @@
                 </li>
               </ul>
               <ul>
-                <li class="toctree-l1"><a class="reference internal" href="../user_guide/">User Guide</a>
-                </li>
-              </ul>
-              <ul>
                 <li class="toctree-l1"><a class="reference internal" href="../references/">References</a>
                 </li>
               </ul>
@@ -140,7 +136,7 @@
 <li>Setting the initial position and energies of the neutrons.</li>
 <li>Setting the position and size of the tank.</li>
 </ul>
-<p>The initial spectrum is discussed in <a href="./#21-initial-energy-spectrum">Initial Energy Spectrum</a>, the method of sampling from a distribution is described in <a href="./#3-monte-carlo-sampling">Monte Carlo Sampling</a>, and the interpolation of distributions in <a href="./#4-interpolation">Interpolation</a>. After the initializing, the actual simulation of the diffusing neutrons can start. Each neutron's energy and position is updated consecutively which consists of the following steps:</p>
+<p>The initial spectrum is discussed in <a href="./#21-initial-energy-spectrum">Initial Energy Spectrum</a>, the method of sampling from a distribution is described in <a href="#4-monte-carlo-sampling">Monte Carlo Sampling</a>, and the interpolation of distributions in <a href="#5-interpolation">Interpolation</a>. After the initializing, the actual simulation of the diffusing neutrons can start. Each neutron's energy and position is updated consecutively which consists of the following steps:</p>
 <ol>
 <li>Give the neutron a random direction.</li>
 <li>Check if the neutron is inside the tank, if false end the loop else continue.</li>
@@ -164,11 +160,11 @@
 <tbody>
 <tr>
 <td>2</td>
-<td><a href="./#2-geometry">Geometry</a></td>
+<td><a href="#3-geometry">Geometry</a></td>
 </tr>
 <tr>
 <td>3-4</td>
-<td><a href="./#11-cross-sections">Cross Sections</a></td>
+<td><a href="#22-cross-sections">Cross Sections</a></td>
 </tr>
 <tr>
 <td>5</td>
@@ -176,11 +172,11 @@
 </tr>
 <tr>
 <td>6</td>
-<td><a href="./#13-distance-to-next-collision">Distance To Next Collision</a></td>
+<td><a href="#23-distance-to-next-collision">Distance To Next Collision</a></td>
 </tr>
 <tr>
 <td>7</td>
-<td><a href="./#24-neutron-interactions">Neutron Interactions</a></td>
+<td><a href="#24-neutron-interactions">Neutron Interactions</a></td>
 </tr>
 <tr>
 <td>8-9</td>
@@ -239,7 +235,7 @@
 </tbody>
 </table>
 <p></center></p>
-<p>The theory behind these reactions is described in detail in <a href="./#23-neutron-interactions">Neutron Interactions</a>. For each type of cross section and nuclide there are separate datafiles. Total macroscopic cross section for a molecule can be computed as follows:</p>
+<p>The theory behind these reactions is described in detail in <a href="#24-neutron-interactions">Neutron Interactions</a>. For each type of cross section and nuclide there are separate datafiles. Total macroscopic cross section for a molecule can be computed as follows:</p>
 <div class="arithmatex">\[\begin{equation} \Sigma = \sum_i N_i \sigma_i, \end{equation}\]</div>
 <p>where <span class="arithmatex">\(N_i\)</span> is the atomic density of atoms of type <span class="arithmatex">\(i\)</span>:</p>
 <div class="arithmatex">\[\begin{equation} N_i = \frac{\rho N_a}{M} n_i, \end{equation}\]</div>
