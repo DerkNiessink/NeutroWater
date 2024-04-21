@@ -5,6 +5,7 @@ from typing import Sequence, Any
 import multiprocessing
 from tqdm.contrib.concurrent import process_map
 from dataclasses import dataclass
+from importlib import resources
 
 from neutrowater.models.neutrons import Neutrons, Neutron, Vector
 from neutrowater.models.tank import Tank
@@ -16,6 +17,7 @@ from neutrowater.process.data_processor import (
 )
 from neutrowater.process.angular_processor import AngularProcessor
 from neutrowater.models.maxwell_boltzmann import MaxwellBoltzmann
+from neutrowater import data
 
 
 @dataclass
@@ -42,24 +44,26 @@ class Parameters:
     temperature: float = 293
 
     def __post_init__(self):
+        files = resources.files(data)
+
         self.total_data: Sequence[pd.DataFrame] = [
-            pd.read_csv("../data/h_cross_t.txt", sep=r"\s+"),
-            pd.read_csv("../data/o_cross_t.txt", sep=r"\s+"),
+            pd.read_csv(files / "h_cross_t.txt", sep=r"\s+"),
+            pd.read_csv(files / "o_cross_t.txt", sep=r"\s+"),
         ]
         self.scattering_data: Sequence[pd.DataFrame] = [
-            pd.read_csv("../data/h_cross_s.txt", sep=r"\s+"),
-            pd.read_csv("../data/o_cross_s.txt", sep=r"\s+"),
+            pd.read_csv(files / "h_cross_s.txt", sep=r"\s+"),
+            pd.read_csv(files / "o_cross_s.txt", sep=r"\s+"),
         ]
         self.absorption_data: Sequence[pd.DataFrame] = [
-            pd.read_csv("../data/h_cross_a.txt", sep=r"\s+"),
-            pd.read_csv("../data/o_cross_a.txt", sep=r"\s+"),
+            pd.read_csv(files / "h_cross_a.txt", sep=r"\s+"),
+            pd.read_csv(files / "o_cross_a.txt", sep=r"\s+"),
         ]
         self.angular_data: Sequence[pd.DataFrame] = [
-            pd.read_csv("../data/H_angular.txt", sep=r"\s+"),
-            pd.read_csv("../data/O_angular.txt", sep=r","),
+            pd.read_csv(files / "H_angular.txt", sep=r"\s+"),
+            pd.read_csv(files / "O_angular.txt", sep=r","),
         ]
         self.spectrum_data: pd.DataFrame = pd.read_csv(
-            "../data/neutron_spectrum_normalized.txt", sep=","
+            files / "neutron_spectrum_normalized.txt", sep=","
         )
 
 

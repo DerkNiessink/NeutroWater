@@ -1,6 +1,6 @@
 [project]
 name = "NeutroWater"
-version = "0.0.1"
+version = "0.0.3"
 authors = [
     {name = "DerkNiessink, email = derk@niessink.com"}
 ]
@@ -8,7 +8,6 @@ description = "Monte Carlo simulation of neutron moderation"
 readme = "README.md"
 
 packages = [{ include = "neutrowater", from="src" }]
-include = ["data"]
 
 requires-python = ">=3.8"
 classifiers = [
@@ -23,14 +22,13 @@ Issues = "https://github.com/DerkNiessink/neutrowater/issues"
 
 [tool.poetry]
 name = "NeutroWater"
-version = "0.0.1"
+version = "0.0.3"
 authors = ["DerkNiessink <derk@niessink.com>"]
 description = "Monte Carlo simulation of neutron moderation"
 readme = "README.md"
 packages = [
     { include = "neutrowater", from = "src" },
 ]
-include = ["data"]
 
 [tool.poetry.dependencies]
 python = "^3.10"
@@ -48,7 +46,6 @@ numba = "^0.59.0"
 brokenaxes = "^0.6.0"
 ipywidgets = "^8.1.2"
 mkdocs = "^1.6.0"
-python-markdown-math = {url = "https://github.com/mitya57/python-markdown-math/archive/master.zip"}
 pymdown-extensions = "^10.8"
 mkdocs-glightbox = "^0.3.7"
 build = "^1.2.1"
