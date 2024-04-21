@@ -10,7 +10,7 @@ The software conducts a collision-driven Monte Carlo simulation, where it simula
 * Setting the initial position and energies of the neutrons.
 * Setting the position and size of the tank.
 
-The initial spectrum is discussed in [Initial Energy Spectrum](./theory.md#21-initial-energy-spectrum), the method of sampling from a distribution is described in [Monte Carlo Sampling](./theory.md#3-monte-carlo-sampling), and the interpolation of distributions in [Interpolation](./theory.md#4-interpolation). After the initializing, the actual simulation of the diffusing neutrons can start. Each neutron's energy and position is updated consecutively which consists of the following steps:
+The initial spectrum is discussed in [Initial Energy Spectrum](./theory.md#21-initial-energy-spectrum), the method of sampling from a distribution is described in [Monte Carlo Sampling](#4-monte-carlo-sampling), and the interpolation of distributions in [Interpolation](#5-interpolation). After the initializing, the actual simulation of the diffusing neutrons can start. Each neutron's energy and position is updated consecutively which consists of the following steps:
 
 1. Give the neutron a random direction.
 2. Check if the neutron is inside the tank, if false end the loop else continue.
@@ -28,11 +28,11 @@ Each step is discussed in more detail in the following sections:
 
 | Steps       | Section                                                                 |
 | ----------- | -----------                                                             |
-| 2           | [Geometry](./theory.md#2-geometry)                                      |
-| 3-4         | [Cross Sections](./theory.md#11-cross-sections)                         |
+| 2           | [Geometry](#3-geometry)                                      |
+| 3-4         | [Cross Sections](#22-cross-sections)                         |
 | 5           | [Thermal Motion](./theory.md#26-thermal-motion)                         |
-| 6           | [Distance To Next Collision](./theory.md#13-distance-to-next-collision) |
-| 7           | [Neutron Interactions](./theory.md#24-neutron-interactions)             |
+| 6           | [Distance To Next Collision](#23-distance-to-next-collision) |
+| 7           | [Neutron Interactions](#24-neutron-interactions)             |
 | 8-9         | [Handling Scattering Interaction](./theory.md#25-handling-scattering-interaction)     |
 
 In the simulation, positions and energies of the neutrons are stored. Several properties can be computed and measured from this data post-simulation. The procedure of measuring these properties is described in [Measuring Quantities](#6-measuring-quantities).
@@ -85,7 +85,7 @@ In various reactions, different cross sections are involved. To proceed, we empl
 </center>
 
 
-The theory behind these reactions is described in detail in [Neutron Interactions](./theory.md#23-neutron-interactions). For each type of cross section and nuclide there are separate datafiles. Total macroscopic cross section for a molecule can be computed as follows:
+The theory behind these reactions is described in detail in [Neutron Interactions](#24-neutron-interactions). For each type of cross section and nuclide there are separate datafiles. Total macroscopic cross section for a molecule can be computed as follows:
 
 \begin{equation} \Sigma = \sum_i N_i \sigma_i, \end{equation}
 

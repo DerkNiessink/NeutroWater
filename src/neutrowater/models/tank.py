@@ -11,12 +11,12 @@ class Tank:
     Args:
         - radius (float): radius of the tank.
         - height (float): height of the tank.
-        - position (np.ndarray): position of the tank, default [0, 0, 0].
+        - position (tuple): position of the tank, default (0, 0, 0).
     """
 
     radius: float
     height: float
-    position: np.ndarray
+    position: tuple = (0.0, 0.0, 0.0)
 
     def __post_init__(self):
         """

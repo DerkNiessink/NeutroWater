@@ -1,4 +1,4 @@
-site_name: Neutron Moderation MC
+site_name: NeutroWater Docs
 site_url: https://example.com/
 theme:
     name : readthedocs
@@ -23,17 +23,11 @@ plugins:
 
 nav:
 
-  - Home: index.md
-
-  - Quick Install Guide: install_guide.md
-
-  - Introduction: introduction.md
+  - User Guide: user_guide.md
 
   - Theory and Methodology: theory.md 
 
   - Results: results.md
-
-  - User Guide: user_guide.md
 
   - References: references.md
 
