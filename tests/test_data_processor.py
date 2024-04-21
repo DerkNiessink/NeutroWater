@@ -1,7 +1,7 @@
 import pandas as pd
 import pytest
 
-from neutrons.process.data_processor import TotalProcessor
+from neutrowater.process.data_processor import TotalProcessor
 
 
 test_data = {

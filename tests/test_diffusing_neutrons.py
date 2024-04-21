@@ -2,8 +2,8 @@ import pytest
 import numpy as np
 import pandas as pd
 
-from neutrons.diffusing_neutrons import DiffusingNeutrons, Parameters
-from neutrons.post_measure import Measurer
+from neutrowater.diffusing_neutrons import DiffusingNeutrons, Parameters
+from neutrowater.post_measure import Measurer
 
 test_data = [
     {

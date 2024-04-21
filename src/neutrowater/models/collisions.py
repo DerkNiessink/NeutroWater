@@ -10,7 +10,7 @@ class Collision:
     """
     Class to simulate the collisions of neutrons with atomic nuclei.
 
-    Args:
+    Args:D
         - initial_E (float): initial energy of the neutron.
         - initial_direction (Vector): initial direction of the neutron in the labframe.
         - mass (float): mass of the nucleus.

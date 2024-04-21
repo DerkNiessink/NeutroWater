@@ -6,9 +6,10 @@ authors = [
 ]
 description = "Monte Carlo simulation of neutron moderation"
 readme = "README.md"
-packages = [
-    { include = "neutrowater", from = "src" },
-]
+
+packages = [{ include = "neutrowater", from="src" }]
+include = ["data"]
+
 requires-python = ">=3.8"
 classifiers = [
     "Programming Language :: Python :: 3",
@@ -29,6 +30,7 @@ readme = "README.md"
 packages = [
     { include = "neutrowater", from = "src" },
 ]
+include = ["data"]
 
 [tool.poetry.dependencies]
 python = "^3.10"
@@ -49,6 +51,7 @@ mkdocs = "^1.6.0"
 python-markdown-math = {url = "https://github.com/mitya57/python-markdown-math/archive/master.zip"}
 pymdown-extensions = "^10.8"
 mkdocs-glightbox = "^0.3.7"
+build = "^1.2.1"
 
 
 [build-system]
