@@ -15,7 +15,7 @@ The reason for this project is that we lacked data on neutron energy distributio
 
 ## Documentation
 
-The [complete documentation](https://derkniessink.github.io/Neutrons/) of NeutroWater is hosted on Read the Docs.
+The [complete documentation](https://derkniessink.github.io/NeutroWater/) of NeutroWater is hosted on Read the Docs.
 
 <br />
 
