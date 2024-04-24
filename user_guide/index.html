@@ -86,10 +86,43 @@
               
                 <h1 id="user-guide">User Guide</h1>
 <h2 id="1-quick-install-guide">1. Quick Install Guide</h2>
-<p>Download the package:</p>
+<p>NeutroWater requires Python &gt;=3.10. You can install it from PyPI with <code>pip</code>:</p>
 <pre><code>pip install neutrowater
 </code></pre>
 <h2 id="2-example-usage">2. Example Usage</h2>
+<p>In this section an example is given of the usual workflow with NeutroWater. Below a simulation, is set-up and run for specific parameters and analyzed afterwards.</p>
+<p>First import the <code>diffusing_neutrons</code> module:</p>
+<pre><code>from neutrowater import diffusing_neutrons as dn
+</code></pre>
+<p>Next, set up the simulation with specific parameters:</p>
+<pre><code>params = dn.Parameters(
+            nNeutrons=10, 
+            radius_tank=0.225, 
+            height_tank=0.85, 
+            position_tank=(0, 0, -0.175)
+            )
+neutrons = dn.DiffusingNeutrons(params)
+</code></pre>
+<p>Run the simulation for a specified number of collisions:</p>
+<pre><code>neutrons.diffuse(nCollisions=100000)
+</code></pre>
+<p>After the simulation has run, we can analyze the neutrons:</p>
+<pre><code>from neutrowater.post import measure, plot
+</code></pre>
+<p>First let's plot the trajectories:</p>
+<pre><code>plot.trajectories(neutrons)
+</code></pre>
+<p><center></p>
+<figure>
+  <a class="glightbox" href="../figures/example_trajectories.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="example_trajectories" src="../figures/example_trajectories.png" width="300" /></a>
+</figure>
+<p></center></p>
+<p>The <code>measure</code> module can be used to compute several quantities, such as the flux and energy spectrum at a specific distance <span class="arithmatex">\(r = 0.1\)</span> from the origin:</p>
+<pre><code>meas = measure.Measurer(neutrons)
+
+fluxes = meas.flux(r = 0.1)
+energies = meas.energy_spectrum(r = 0.1)
+</code></pre>
               
             </div>
           </div><footer>
