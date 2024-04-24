@@ -10,7 +10,7 @@ pip install neutrowater
 
 ## 2. Example Usage
 
-In this section an example is given of the usual workflow with NeutroWater. Below a simulation, is set-up and run for specific parameters and analyzed afterwards.
+In this section an example is given of the usual workflow with NeutroWater. Below, a simulation is set-up and run for specific parameters and analyzed afterwards.
 
 
 First import the `diffusing_neutrons` module:
@@ -43,7 +43,7 @@ After the simulation has run, we can analyze the neutrons:
 from neutrowater.post import measure, plot
 ```
 
-First let's plot the trajectories:
+Let's plot the trajectories:
 
 ```
 plot.trajectories(neutrons)
@@ -63,4 +63,6 @@ meas = measure.Measurer(neutrons)
 fluxes = meas.flux(r = 0.1)
 energies = meas.energy_spectrum(r = 0.1)
 ```
+
+The full list of `measure.Measurer` methods, can be found in the [API reference](./reference.md).
 

@@ -11,4 +11,5 @@ The reason for this project is that we lacked data on neutron energy distributio
 * [User Guide](./user_guide.md)
 * [Theory and Methodology](./theory.md)
 * [Results](./results.md)
-* [References](./references.md)
+* [API reference](./reference.md)
+* [Citings](./citings.md)

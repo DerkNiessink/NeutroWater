@@ -20,6 +20,8 @@ markdown_extensions:
   
 plugins:
   - glightbox
+  - mkdocstrings
+  - search
 
 nav:
 
@@ -29,7 +31,9 @@ nav:
 
   - Results: results.md
 
-  - References: references.md
+  - API reference: reference.md
+
+  - Citings: citings.md
 
 
 
