@@ -3,7 +3,7 @@ import numpy as np
 import pandas as pd
 
 from neutrowater.diffusing_neutrons import DiffusingNeutrons, Parameters
-from neutrowater.post_measure import Measurer
+from neutrowater.view.post_measure import Measurer
 
 test_data = [
     {
