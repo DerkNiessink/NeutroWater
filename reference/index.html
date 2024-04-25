@@ -59,7 +59,53 @@
               <ul class="current">
                 <li class="toctree-l1 current"><a class="reference internal current" href="#">API Reference</a>
     <ul class="current">
-    <li class="toctree-l2"><a class="reference internal" href="#simulation-set-up-and-running">Simulation Set-up and Running</a>
+    <li class="toctree-l2"><a class="reference internal" href="#neutrowater.diffusing_neutrons">diffusing_neutrons</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#neutrowater.diffusing_neutrons.DiffusingNeutrons">DiffusingNeutrons</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#neutrowater.diffusing_neutrons.DiffusingNeutrons.diffuse">diffuse</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#neutrowater.diffusing_neutrons.Parameters">Parameters</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#neutrowater.post.plot">plot</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#neutrowater.post.plot.trajectories">trajectories</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#neutrowater.post.measure">measure</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#neutrowater.post.measure.Measurer">Measurer</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#neutrowater.post.measure.Measurer.absorbed_distances">absorbed_distances</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#neutrowater.post.measure.Measurer.absorbed_positions">absorbed_positions</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#neutrowater.post.measure.Measurer.energies">energies</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#neutrowater.post.measure.Measurer.energy_spectrum">energy_spectrum</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#neutrowater.post.measure.Measurer.energy_spectrum_escaped">energy_spectrum_escaped</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#neutrowater.post.measure.Measurer.flux">flux</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#neutrowater.post.measure.Measurer.number_above_energy">number_above_energy</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#neutrowater.post.measure.Measurer.number_absorbed">number_absorbed</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#neutrowater.post.measure.Measurer.number_escaped">number_escaped</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#neutrowater.post.measure.Measurer.number_thermal">number_thermal</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#neutrowater.post.measure.Measurer.number_total">number_total</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#neutrowater.post.measure.Measurer.positions">positions</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#neutrowater.post.measure.Measurer.thermalize_distances">thermalize_distances</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#neutrowater.post.measure.Measurer.thermalize_positions">thermalize_positions</a>
+    </li>
+        </ul>
     </li>
     </ul>
                 </li>
@@ -92,14 +138,32 @@
             <div class="section" itemprop="articleBody">
               
                 <h1 id="neutrowater-api">NeutroWater API</h1>
-<p>The easiest way to get started with NeutroWater is to look at the <a href="../user_guide/#2-example-usage">Example</a>. NeutroWater includes a Python API that enables running the simulation and analyzing the results. The two public modules are listed and documented below:</p>
-<ul>
-<li><code>neutrowater.diffusing_neutrons</code> - <a href="#simulation-set-up-and-running">Simulation Set-up and Running</a></li>
-<li><code>neutrowater.post</code> - <a href="#post-simulation-analysis">Post Simulation Analysis</a></li>
-</ul>
-<p><br></p>
-<h2 id="simulation-set-up-and-running">Simulation Set-up and Running</h2>
-<h1 id="neutrowaterdiffusing_neutrons"><code>neutrowater.diffusing_neutrons</code></h1>
+<p>The easiest way to get started with NeutroWater is to look at the <a href="../user_guide/#2-example-usage">Example</a>. NeutroWater includes a Python API that enables running the simulation and analyzing the results. The three public modules are listed and documented below:</p>
+<table>
+<thead>
+<tr>
+<th>Module</th>
+<th>Usage</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="./#neutrowater.diffusing_neutrons"><code>neutrowater.diffusing_neutrons</code></a></td>
+<td>Simulation set-up and running.</td>
+</tr>
+<tr>
+<td><a href="./#neutrowater.post.plot"><code>neutrowater.post.plot</code></a></td>
+<td>Plotting neutron trajectories.</td>
+</tr>
+<tr>
+<td><a href="./#neutrowater.post.measure"><code>neutrowater.post.measure</code></a></td>
+<td>Post simulation analysis on neutrons.</td>
+</tr>
+</tbody>
+</table>
+<p><br>
+<br></p>
+<p><strong><span style="font-size:2em;"> <code>neutrowater.diffusing_neutrons</code> </span></strong></p>
 
 
 <div class="doc doc-object doc-module">
@@ -871,9 +935,9 @@ in the same order as the molecule_structure.</p>
   </div>
 
 </div><p><br>
+<br>
 <br></p>
-<h2 id="post-simulation-analysis">Post Simulation Analysis</h2>
-<h1 id="neutrowaterpostplot"><code>neutrowater.post.plot</code></h1>
+<p><strong><span style="font-size:2em;"> <code>neutrowater.post.plot</code> </span></strong></p>
 
 
 <div class="doc doc-object doc-module">
@@ -1069,8 +1133,10 @@ DiffusingNeutrons.</p>
 
   </div>
 
-</div><p><br></p>
-<h1 id="neutrowaterpostmeasure"><code>neutrowater.post.measure</code></h1>
+</div><p><br>
+<br>
+<br></p>
+<p><strong><span style="font-size:2em;"> <code>neutrowater.post.measure</code> </span></strong></p>
 
 
 <div class="doc doc-object doc-module">
