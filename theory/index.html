@@ -358,11 +358,11 @@ number <span class="arithmatex">\(\xi\)</span> on the interval <span class="arit
 <p>A Neutron at position <span class="arithmatex">\( \mathbf{r}_n \)</span> is inside the tank if the following conditions are true:</p>
 <div class="arithmatex">\[\begin{equation} 
 \begin{aligned}
-&amp; |\mathbf{r}_n - \mathbf{r}_t |_{xy} &lt; R  \\
-&amp; |r_{n_z} - r_{t_z} | &lt; h/2,  \\
+&amp; ||\mathbf{r}_n - \mathbf{r}_t ||_{xy} &lt; R  \\
+&amp; || r_{n_z} - r_{t_z} || &lt; h/2,  \\
 \end{aligned}
 \end{equation}\]</div>
-<p>where the notation <span class="arithmatex">\( | \mathbf{r} |_{xy} = \sqrt{r_x^2 + r_y^2} \)</span> is used. If these conditions are not met, the neutron is flagged as escaped and the simulation proceeds with simulating the next neutron.</p>
+<p>where the notation <span class="arithmatex">\( || \mathbf{r} ||_{xy} = \sqrt{r_x^2 + r_y^2} \)</span> is used. If these conditions are not met, the neutron is flagged as escaped and the simulation proceeds with simulating the next neutron.</p>
 <h2 id="4-monte-carlo-sampling">4 Monte Carlo Sampling</h2>
 <p>In the initilization the energies of the neutrons are sampled from the distribution shown in Figure 2. The secondary angles of the neutrons in a scattering interaction are sampled from angular distributions on the fly. Some examples of these angular distributions are shown in Figure 10. Finally, when a neutron reaches the thermal energy threshold, its energies are sampled from the Boltzmann distribution shown in Figure 11. The Monte Carlo method used in the simulation is rejection sampling. For simplicity, the proposal distribution is chosen to be a uniform distribution on the interval <span class="arithmatex">\([0, 1) \)</span> for each of the sampling processes. The following steps are performed to sample a point from a PDF <span class="arithmatex">\(f\)</span>:</p>
 <ol>
@@ -378,10 +378,16 @@ number <span class="arithmatex">\(\xi\)</span> on the interval <span class="arit
 </figure>
 <p></center></p>
 <h2 id="5-interpolation">5 Interpolation</h2>
+<p>In the initialization of the simulation, data for the cross sections and initial energy distribution is interpolated. This means we estimate values that lie between known data points. It's important for cross sections to be continuous, ensuring that for every neutron energy, there's a corresponding cross section. Likewise, we need the initial energy distribution to be interpolated so we can generate an initial spectrum of neutron energies using the sampling method described in <a href="#4-monte-carlo-sampling">Monte Carlo Sampling</a>. </p>
+<p>We accomplish this interpolation using the <a href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.interpolate.Akima1DInterpolator.html"><code>Akima1DInterpolator</code> from <code>scipy.interpolate</code></a>. This tool fits smooth curves between the data points by using cubic polynomials, ensuring a continuous representation of the data.</p>
 <h2 id="6-measuring-quantities">6 Measuring Quantities</h2>
-<p>For neutron activation, we are interested in the flux and the energy spectrum of the neutrons at varying radius in the tank. These quantities can be computed from the positions of the neutrons and the energies of the neutrons at each collisions sight in the tank, which are stored after running the simulation.</p>
+<p>For neutron activation, we are interested in the <a href="#61-flux">flux</a> and the <a href="#62-energy-spectrum">energy spectrum</a> of the neutrons at varying radius in the tank. These quantities can be computed from the positions and energies of the neutrons at each collisions site in the tank, which are stored after running the simulation. </p>
 <h3 id="61-flux">6.1 Flux</h3>
+<p>To compute the flux at a specific distance <span class="arithmatex">\(r\)</span> from the origin, we consider a spherical shell of radius <span class="arithmatex">\(r\)</span> and denote the position at the <span class="arithmatex">\(i_{th}\)</span> collision site of a neutron as <span class="arithmatex">\(\mathbf{r}_{n_i}\)</span>. If the line between two consecutive positions <span class="arithmatex">\(\mathbf{r}_{n_i}\)</span> and <span class="arithmatex">\(\mathbf{r}_{n_{i+1}}\)</span> passes through the spherical shell, a counter is increased by one. Note that the neutron can pass through the shell multiple times. If we repeat this process for all neutrons, the flux <span class="arithmatex">\(\Phi\)</span> at a distance <span class="arithmatex">\(r\)</span> from the origin is given by:</p>
+<div class="arithmatex">\[ \Phi(r) = N / 4 \pi r^2, \]</div>
+<p>where <span class="arithmatex">\(N\)</span> is the number of times the neutrons pass through the spherical shell.</p>
 <h3 id="62-energy-spectrum">6.2 Energy Spectrum</h3>
+<p>For the energy spectrum at a distance <span class="arithmatex">\(r\)</span> from the origin, we consider the same spherical shell. If the line between <span class="arithmatex">\(\mathbf{r}_{n_i}\)</span> and <span class="arithmatex">\(\mathbf{r}_{n_{i+1}}\)</span> passes through the spherical shell, we save the corresponding energy <span class="arithmatex">\(E_i\)</span> of the neutron in a list. We repeat this process for all neutrons, appending the energies to the same list. Note that neutron can contribute multiple energy values to this list if it passes through the spherical shell multiple times. The resulting list is the energy spectrum at a distance <span class="arithmatex">\(r\)</span> from the origin. </p>
               
             </div>
           </div><footer>

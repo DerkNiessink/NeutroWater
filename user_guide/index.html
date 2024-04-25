@@ -105,11 +105,11 @@
 </code></pre>
 <p>Next, set up the simulation with specific parameters:</p>
 <pre><code>params = dn.Parameters(
-            nNeutrons=10, 
-            radius_tank=0.225, 
-            height_tank=0.85, 
-            position_tank=(0, 0, -0.175)
-            )
+    nNeutrons=10, 
+    radius_tank=0.225, 
+    height_tank=0.85, 
+    position_tank=(0, 0, -0.175)
+)
 neutrons = dn.DiffusingNeutrons(params)
 </code></pre>
 <p>Run the simulation for a specified number of collisions:</p>
@@ -129,8 +129,8 @@ neutrons = dn.DiffusingNeutrons(params)
 <p>The <code>measure</code> module can be used to compute several quantities, such as the flux and energy spectrum at a specific distance <span class="arithmatex">\(r = 0.1\)</span> from the origin:</p>
 <pre><code>meas = measure.Measurer(neutrons)
 
-fluxes = meas.flux(r = 0.1)
-energies = meas.energy_spectrum(r = 0.1)
+fluxes = meas.flux(r=0.1)
+energies = meas.energy_spectrum(r=0.1)
 </code></pre>
 <p>The full list of <code>measure.Measurer</code> methods, can be found in the <a href="../reference/">API reference</a>.</p>
               
