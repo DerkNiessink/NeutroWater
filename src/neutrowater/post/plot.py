@@ -1,3 +1,12 @@
+# neutrowater/post/plot.py
+
+"""
+This module provides a function to plot the trajectories of the neutrons.
+
+functions:
+    trajectories: Show the trajectories of the neutrons.
+"""
+
 from neutrowater.diffusing_neutrons import DiffusingNeutrons
 from neutrowater.post import measure
 
@@ -10,8 +19,8 @@ def trajectories(diffusing_neutrons: DiffusingNeutrons):
     Show the trajectories of the neutrons.
 
     Args:
-        - diffusing_neutrons (DiffusingNeutrons): Object of the class
-        DiffusingNeutrons.
+        diffusing_neutrons (DiffusingNeutrons): Object of the class
+            DiffusingNeutrons.
     """
 
     df = diffusing_neutrons

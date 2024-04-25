@@ -1,3 +1,13 @@
+# neutrowater/diffusing_neutrons.py
+
+"""
+This module provides a class to simulate the diffusion of neutrons in a medium.
+
+Classes:
+    Parameters: Class to store the parameters for the simulation.
+    DiffusingNeutrons: Class to simulate the diffusion of neutrons in a medium.
+"""
+
 import numpy as np
 from numpy.random import random
 import pandas as pd
@@ -23,16 +33,17 @@ from neutrowater import data
 @dataclass
 class Parameters:
     """
-    Parameters:
-    - nNeutrons (int): Number of neutrons to simulate
-    - molecule_structure (Sequence): number of atoms in the molecule (Default:
-        (2, 1) for H20)
-    - nuclei_masses (Sequence): Masses of the nuclei in the molecule, should be
-        in the same order as the molecule_structure. (Default: (1, 16) for H20)
-    - radius_tank (float): Radius of the tank in meters. Default is 1.
-    - height_tank (float): Height of the tank in meters. Default is 1.
-    - position_tank (np.ndarray): Position of the tank. Default is [0, 0, 0].
-    - temperature (float): Temperature [K] of the medium. Default is 293.
+    Class to store the parameters for the simulation.
+
+    Args:
+        nNeutrons (int): Number of neutrons to simulate
+        molecule_structure (Sequence): number of atoms in the molecule.
+        nuclei_masses (Sequence): Masses of the nuclei in the molecule, should be
+            in the same order as the molecule_structure.
+        radius_tank (float): Radius of the tank in meters.
+        height_tank (float): Height of the tank in meters.
+        position_tank (np.ndarray): Position of the tank.
+        temperature (float): Temperature [K] of the medium.
     """
 
     nNeutrons: int
@@ -72,7 +83,7 @@ class DiffusingNeutrons:
     Class that simulates multiple neutrons from diffusing in a medium.
 
     Args:
-        - p (Parameters): Parameters for the simulation.
+        p (Parameters): Parameters for the simulation.
     """
 
     def __init__(
@@ -121,8 +132,8 @@ class DiffusingNeutrons:
         Let the neutrons diffuse in the medium.
 
         Args:
-            - nCollisions (int): number of times each neutron collides with an
-            atomic nucleus.
+            nCollisions (int): number of times each neutron collides with an
+                atomic nucleus.
         """
         self.nCollisions += nCollisions
         # Using not all cores but 2 less than the total number of cores, tends
@@ -150,8 +161,8 @@ class DiffusingNeutrons:
         Diffuse a chunk of all neutrons in the medium.
 
         Args:
-            - chunk (Sequence[Neutron]): chunk of neutrons to diffuse
-            - nCollisions (int): number of times each neutron collides with an atomic
+            chunk (Sequence[Neutron]): chunk of neutrons to diffuse
+            nCollisions (int): number of times each neutron collides with an atomic
             nucleus.
 
         Returns: the neutrons after diffusing in the medium.
@@ -164,8 +175,8 @@ class DiffusingNeutrons:
         Diffuse a single neutron in the medium.
 
         Args:
-            - neutron (Neutron): Neutron to diffuse
-            - nCollisions (int): number of times the neutron collides with an atomic
+            neutron (Neutron): Neutron to diffuse
+            nCollisions (int): number of times the neutron collides with an atomic
             nucleus.
 
         Returns: the neutron after diffusing in the medium.
@@ -214,8 +225,8 @@ class DiffusingNeutrons:
         Check if the neutron is absorbed by the nucleus.
 
         Args:
-            - neutron (Neutron): Neutron to check.
-            - index (int): index of the nucleus in the molecule.
+            neutron (Neutron): Neutron to check.
+            index (int): index of the nucleus in the molecule.
 
         Returns: True if the neutron is absorbed, False otherwise.
         """

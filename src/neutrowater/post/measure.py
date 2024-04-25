@@ -1,10 +1,37 @@
+# neutrowater/post/plot.py
+
+"""
+This module provides a class to measure the properties of the neutrons.
+
+Classes:
+    Measurer: Class to measure the properties of the neutrons after the simulation.
+"""
+
 import numpy as np
 
 from neutrowater.diffusing_neutrons import DiffusingNeutrons, Vector
 
 
 class Measurer:
-    """Class to measure the properties of the neutrons after the simulation."""
+    """Class to measure the properties of the neutrons after the simulation.
+
+    Methods:
+        positions: Get the positions of the neutrons.
+        energies: Get the energies of the neutrons.
+        number_total: Get the total number of neutrons.
+        number_escaped: Get the number of neutrons that escaped the tank.
+        number_thermal: Get the number of neutrons that are thermalized.
+        thermalize_positions: Get the positions of the neutrons where their energy is thermal for the first time.
+        thermalize_distances: Get the distance of the neutrons where their energy is thermal for the first time.
+        number_absorbed: Get the number of neutrons that were absorbed.
+        absorbed_positions: Get the positions of the neutrons that were absorbed.
+        absorbed_distances: Get the distances of the neutrons that were absorbed.
+        flux: Get the flux of the neutrons at a given radius r.
+        energy_spectrum: Get the energy spectrum of the neutrons at a given radius r.
+        energy_spectrum_escaped: Get the energy spectrum of the neutrons that escaped the tank.
+        number_above_energy: Get the number of neutrons with energy above a given energy.
+
+    """
 
     def __init__(self, sim: DiffusingNeutrons):
         self.neutrons = sim.neutrons
@@ -14,8 +41,9 @@ class Measurer:
         """
         Get the positions of the neutrons.
 
-        Returns a list where each element is a list of length nNeutrons:
-        [[np.ndarray, np.ndarray, ...], [np.ndarray, np.ndarray, ...], ...]
+        Returns:
+            a list where each element is a list of length nNeutrons
+                [[np.ndarray, np.ndarray, ...], [np.ndarray, np.ndarray, ...], ...]
         """
         return [neutron.positions for neutron in self.neutrons]
 
@@ -23,8 +51,9 @@ class Measurer:
         """
         Get the energies of the neutrons.
 
-        Returns a list where each element is a list of length nNeutrons:
-        [[float, float, ...], [float, float, ...], ...]
+        Returns:
+            a list where each element is a list of length nNeutrons
+                [[float, float, ...], [float, float, ...], ...]
         """
         return [neutron.energies for neutron in self.neutrons]
 
@@ -32,7 +61,8 @@ class Measurer:
         """
         Get the total number of neutrons.
 
-        Returns an int.
+        Returns:
+            an int.
         """
         return len(self.neutrons)
 
@@ -40,7 +70,8 @@ class Measurer:
         """
         Get the number of neutrons that escaped the tank.
 
-        Returns an int.
+        Returns:
+            an int.
         """
         return sum(
             [
@@ -51,11 +82,12 @@ class Measurer:
             start=0,
         )
 
-    def number_thermal(self):
+    def number_thermal(self) -> int:
         """
         Get the number of neutrons that are thermalized.
 
-        Returns an int.
+        Returns:
+            an int.
         """
         n = 0
         for energies in self.energies():
@@ -67,6 +99,9 @@ class Measurer:
         """
         Get the positions of the neutrons where their energy is thermal for
         the first time.
+
+        Returns:
+            a list of np.ndarray.
         """
         thermalize_positions = []
         for energies, positions in zip(self.energies(), self.positions()):
@@ -82,6 +117,9 @@ class Measurer:
         """
         Get the distance of the neutrons where their energy is thermal for
         the first time.
+
+        Returns:
+            a list of floats.
         """
         return [np.linalg.norm(pos) for pos in self.thermalize_positions()]
 
@@ -89,7 +127,8 @@ class Measurer:
         """
         Get the number of neutrons that were absorbed.
 
-        Returns an int.
+        Returns:
+            an int.
         """
         n = 0
         for neutron in self.neutrons:
@@ -103,7 +142,8 @@ class Measurer:
         """
         Get the positions of the neutrons that were absorbed.
 
-        Returns a list of np.ndarray.
+        Returns:
+            a list of np.ndarray.
         """
         return [
             neutron.positions[-1]
@@ -116,7 +156,8 @@ class Measurer:
         """
         Get the distances of the neutrons that were absorbed.
 
-        Returns a list of floats.
+        Returns:
+            a list of floats.
         """
         return [np.linalg.norm(pos) for pos in self.absorbed_positions()]
 
@@ -125,9 +166,10 @@ class Measurer:
         Get the flux of the neutrons at a given radius r.
 
         Args:
-            - r (float): radius at which to compute the flux.
+            r (float): radius at which to compute the flux.
 
-        Returns a float value of the flux.
+        Returns:
+            a float value of the flux.
         """
         count = 0
         for positions in self.positions():
@@ -144,9 +186,10 @@ class Measurer:
         Get the energy spectrum of the neutrons at a given radius r.
 
         Args:
-            - r (float): radius at which to compute the energy spectrum.
+            r (float): radius at which to compute the energy spectrum.
 
-        Returns a list of floats.
+        Returns:
+            a list of floats.
         """
         result_energies = []
         for positions, energies in zip(self.positions(), self.energies()):
@@ -164,7 +207,8 @@ class Measurer:
         """
         Get the energy spectrum of the neutrons that escaped the tank.
 
-        Returns a list of floats.
+        Returns:
+            a list of floats.
         """
         return [
             neutron.energy
@@ -177,8 +221,9 @@ class Measurer:
         Get the number of neutrons with energy above a given energy.
 
         Args:
-            - E (float): energy threshold.
+            E (float): energy threshold.
 
-        Returns an int.
+        Returns:
+            an int.
         """
         return sum([1 for neutron in self.neutrons if neutron.energies[0] > E])

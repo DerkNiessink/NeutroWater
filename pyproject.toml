@@ -49,6 +49,7 @@ mkdocs = "^1.6.0"
 pymdown-extensions = "^10.8"
 mkdocs-glightbox = "^0.3.7"
 build = "^1.2.1"
+mkdocstrings = {extras = ["crystal", "python"], version = "^0.24.3"}
 
 
 [build-system]
