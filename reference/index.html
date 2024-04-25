@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><link rel="canonical" href="https://example.com/reference/" />
       <link rel="shortcut icon" href="../img/favicon.ico" />
-    <title>API reference - NeutroWater Docs</title>
+    <title>API Reference - NeutroWater Docs</title>
     <link rel="stylesheet" href="../css/theme.css" />
     <link rel="stylesheet" href="../css/theme_extra.css" />
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
@@ -13,7 +13,7 @@
     
       <script>
         // Current page data
-        var mkdocs_page_name = "API reference";
+        var mkdocs_page_name = "API Reference";
         var mkdocs_page_input_path = "reference.md";
         var mkdocs_page_url = "/reference/";
       </script>
@@ -57,7 +57,11 @@
                 </li>
               </ul>
               <ul class="current">
-                <li class="toctree-l1 current"><a class="reference internal current" href="#">API reference</a>
+                <li class="toctree-l1 current"><a class="reference internal current" href="#">API Reference</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#simulation-set-up-and-running">Simulation Set-up and Running</a>
+    </li>
+    </ul>
                 </li>
               </ul>
               <ul>
@@ -78,7 +82,7 @@
         <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
   <ul class="wy-breadcrumbs">
     <li><a href=".." class="icon icon-home" aria-label="Docs"></a></li>
-      <li class="breadcrumb-item active">API reference</li>
+      <li class="breadcrumb-item active">API Reference</li>
     <li class="wy-breadcrumbs-aside">
     </li>
   </ul>
@@ -87,7 +91,2712 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
             <div class="section" itemprop="articleBody">
               
-                
+                <h1 id="neutrowater-api">NeutroWater API</h1>
+<p>The easiest way to get started with NeutroWater is to look at the <a href="../user_guide/#2-example-usage">Example</a>. NeutroWater includes a Python API that enables running the simulation and analyzing the results. The two public modules are listed and documented below:</p>
+<ul>
+<li><code>neutrowater.diffusing_neutrons</code> - <a href="#simulation-set-up-and-running">Simulation Set-up and Running</a></li>
+<li><code>neutrowater.post</code> - <a href="#post-simulation-analysis">Post Simulation Analysis</a></li>
+</ul>
+<p><br></p>
+<h2 id="simulation-set-up-and-running">Simulation Set-up and Running</h2>
+<h1 id="neutrowaterdiffusing_neutrons"><code>neutrowater.diffusing_neutrons</code></h1>
+
+
+<div class="doc doc-object doc-module">
+
+
+
+<a id="neutrowater.diffusing_neutrons"></a>
+  <div class="doc doc-contents first">
+  
+      <p>This module provides a class to simulate the diffusion of neutrons in a medium.</p>
+
+
+
+  <p><span class="doc-section-title">Classes:</span></p>
+  <table>
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr class="doc-section-item">
+          <td><code><a class="autorefs autorefs-internal" title="neutrowater.diffusing_neutrons.Parameters" href="#neutrowater.diffusing_neutrons.Parameters">Parameters</a></code></td>
+          <td>
+            <div class="doc-md-description">
+              <p>Class to store the parameters for the simulation.</p>
+            </div>
+          </td>
+        </tr>
+        <tr class="doc-section-item">
+          <td><code><a class="autorefs autorefs-internal" title="neutrowater.diffusing_neutrons.DiffusingNeutrons" href="#neutrowater.diffusing_neutrons.DiffusingNeutrons">DiffusingNeutrons</a></code></td>
+          <td>
+            <div class="doc-md-description">
+              <p>Class to simulate the diffusion of neutrons in a medium.</p>
+            </div>
+          </td>
+        </tr>
+    </tbody>
+  </table>
+
+  
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+
+<div class="doc doc-object doc-class">
+
+
+
+<h2 id="neutrowater.diffusing_neutrons.DiffusingNeutrons" class="doc doc-heading">
+          <code>DiffusingNeutrons</code>
+
+
+</h2>
+
+
+  <div class="doc doc-contents ">
+
+  
+      <p>Class that simulates multiple neutrons from diffusing in a medium.</p>
+
+
+
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+      <th class="field-name">Parameters:</th>
+      <td class="field-body">
+        <ul class="first simple">
+            <li>
+              <b><code>p</code></b>
+                  (<code><a class="autorefs autorefs-internal" title="neutrowater.diffusing_neutrons.Parameters" href="#neutrowater.diffusing_neutrons.Parameters">Parameters</a></code>)
+              –
+              <div class="doc-md-description">
+                <p>Parameters for the simulation.</p>
+              </div>
+            </li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
+            <details class="quote">
+              <summary>Source code in <code>neutrowater/diffusing_neutrons.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 81</span>
+<span class="normal"> 82</span>
+<span class="normal"> 83</span>
+<span class="normal"> 84</span>
+<span class="normal"> 85</span>
+<span class="normal"> 86</span>
+<span class="normal"> 87</span>
+<span class="normal"> 88</span>
+<span class="normal"> 89</span>
+<span class="normal"> 90</span>
+<span class="normal"> 91</span>
+<span class="normal"> 92</span>
+<span class="normal"> 93</span>
+<span class="normal"> 94</span>
+<span class="normal"> 95</span>
+<span class="normal"> 96</span>
+<span class="normal"> 97</span>
+<span class="normal"> 98</span>
+<span class="normal"> 99</span>
+<span class="normal">100</span>
+<span class="normal">101</span>
+<span class="normal">102</span>
+<span class="normal">103</span>
+<span class="normal">104</span>
+<span class="normal">105</span>
+<span class="normal">106</span>
+<span class="normal">107</span>
+<span class="normal">108</span>
+<span class="normal">109</span>
+<span class="normal">110</span>
+<span class="normal">111</span>
+<span class="normal">112</span>
+<span class="normal">113</span>
+<span class="normal">114</span>
+<span class="normal">115</span>
+<span class="normal">116</span>
+<span class="normal">117</span>
+<span class="normal">118</span>
+<span class="normal">119</span>
+<span class="normal">120</span>
+<span class="normal">121</span>
+<span class="normal">122</span>
+<span class="normal">123</span>
+<span class="normal">124</span>
+<span class="normal">125</span>
+<span class="normal">126</span>
+<span class="normal">127</span>
+<span class="normal">128</span>
+<span class="normal">129</span>
+<span class="normal">130</span>
+<span class="normal">131</span>
+<span class="normal">132</span>
+<span class="normal">133</span>
+<span class="normal">134</span>
+<span class="normal">135</span>
+<span class="normal">136</span>
+<span class="normal">137</span>
+<span class="normal">138</span>
+<span class="normal">139</span>
+<span class="normal">140</span>
+<span class="normal">141</span>
+<span class="normal">142</span>
+<span class="normal">143</span>
+<span class="normal">144</span>
+<span class="normal">145</span>
+<span class="normal">146</span>
+<span class="normal">147</span>
+<span class="normal">148</span>
+<span class="normal">149</span>
+<span class="normal">150</span>
+<span class="normal">151</span>
+<span class="normal">152</span>
+<span class="normal">153</span>
+<span class="normal">154</span>
+<span class="normal">155</span>
+<span class="normal">156</span>
+<span class="normal">157</span>
+<span class="normal">158</span>
+<span class="normal">159</span>
+<span class="normal">160</span>
+<span class="normal">161</span>
+<span class="normal">162</span>
+<span class="normal">163</span>
+<span class="normal">164</span>
+<span class="normal">165</span>
+<span class="normal">166</span>
+<span class="normal">167</span>
+<span class="normal">168</span>
+<span class="normal">169</span>
+<span class="normal">170</span>
+<span class="normal">171</span>
+<span class="normal">172</span>
+<span class="normal">173</span>
+<span class="normal">174</span>
+<span class="normal">175</span>
+<span class="normal">176</span>
+<span class="normal">177</span>
+<span class="normal">178</span>
+<span class="normal">179</span>
+<span class="normal">180</span>
+<span class="normal">181</span>
+<span class="normal">182</span>
+<span class="normal">183</span>
+<span class="normal">184</span>
+<span class="normal">185</span>
+<span class="normal">186</span>
+<span class="normal">187</span>
+<span class="normal">188</span>
+<span class="normal">189</span>
+<span class="normal">190</span>
+<span class="normal">191</span>
+<span class="normal">192</span>
+<span class="normal">193</span>
+<span class="normal">194</span>
+<span class="normal">195</span>
+<span class="normal">196</span>
+<span class="normal">197</span>
+<span class="normal">198</span>
+<span class="normal">199</span>
+<span class="normal">200</span>
+<span class="normal">201</span>
+<span class="normal">202</span>
+<span class="normal">203</span>
+<span class="normal">204</span>
+<span class="normal">205</span>
+<span class="normal">206</span>
+<span class="normal">207</span>
+<span class="normal">208</span>
+<span class="normal">209</span>
+<span class="normal">210</span>
+<span class="normal">211</span>
+<span class="normal">212</span>
+<span class="normal">213</span>
+<span class="normal">214</span>
+<span class="normal">215</span>
+<span class="normal">216</span>
+<span class="normal">217</span>
+<span class="normal">218</span>
+<span class="normal">219</span>
+<span class="normal">220</span>
+<span class="normal">221</span>
+<span class="normal">222</span>
+<span class="normal">223</span>
+<span class="normal">224</span>
+<span class="normal">225</span>
+<span class="normal">226</span>
+<span class="normal">227</span>
+<span class="normal">228</span>
+<span class="normal">229</span>
+<span class="normal">230</span>
+<span class="normal">231</span>
+<span class="normal">232</span>
+<span class="normal">233</span>
+<span class="normal">234</span>
+<span class="normal">235</span>
+<span class="normal">236</span>
+<span class="normal">237</span>
+<span class="normal">238</span>
+<span class="normal">239</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">DiffusingNeutrons</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Class that simulates multiple neutrons from diffusing in a medium.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        p (Parameters): Parameters for the simulation.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">p</span><span class="p">:</span> <span class="n">Parameters</span><span class="p">,</span>
+    <span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">kT</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="mf">1.380649e-23</span> <span class="o">*</span> <span class="n">p</span><span class="o">.</span><span class="n">temperature</span> <span class="o">*</span> <span class="mf">6.24150907</span> <span class="o">*</span> <span class="mi">10</span><span class="o">**</span><span class="mi">18</span>
+        <span class="p">)</span>  <span class="c1"># [m^2 kg / (s^2 K) * K * (eV/J) = J*(eV/J) = eV]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">nCollisions</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mol_struc</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">molecule_structure</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">tank</span> <span class="o">=</span> <span class="n">Tank</span><span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">radius_tank</span><span class="p">,</span> <span class="n">p</span><span class="o">.</span><span class="n">height_tank</span><span class="p">,</span> <span class="n">p</span><span class="o">.</span><span class="n">position_tank</span><span class="p">)</span>
+
+        <span class="c1"># For interpolating the total cross section data and computing the</span>
+        <span class="c1"># mean-free-path.</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">total_processor</span> <span class="o">=</span> <span class="n">TotalProcessor</span><span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">total_data</span><span class="p">)</span>
+
+        <span class="c1"># For interpolating the scattering and absorption cross section and</span>
+        <span class="c1"># computing the aborption ratio.</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">absorption_processor</span> <span class="o">=</span> <span class="n">AbsorptionProcessor</span><span class="p">(</span>
+            <span class="n">p</span><span class="o">.</span><span class="n">scattering_data</span><span class="p">,</span> <span class="n">p</span><span class="o">.</span><span class="n">absorption_data</span>
+        <span class="p">)</span>
+
+        <span class="c1"># Sample from the interpolated energy spectrum</span>
+        <span class="n">spectrum_processor</span> <span class="o">=</span> <span class="n">SpectrumProcessor</span><span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">spectrum_data</span><span class="p">)</span>
+        <span class="n">initial_energies</span> <span class="o">=</span> <span class="n">spectrum_processor</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="n">num_samples</span><span class="o">=</span><span class="n">p</span><span class="o">.</span><span class="n">nNeutrons</span><span class="p">)</span>
+
+        <span class="c1"># Convert the energies MeV -&gt; eV</span>
+        <span class="n">initial_energies</span> <span class="o">=</span> <span class="p">[</span><span class="n">energy</span> <span class="o">*</span> <span class="mi">10</span><span class="o">**</span><span class="mi">6</span> <span class="k">for</span> <span class="n">energy</span> <span class="ow">in</span> <span class="n">initial_energies</span><span class="p">]</span>
+
+        <span class="c1"># All neutrons start at the origin</span>
+        <span class="n">initial_positions</span> <span class="o">=</span> <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">nNeutrons</span><span class="p">)]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">neutrons</span> <span class="o">=</span> <span class="n">Neutrons</span><span class="p">(</span><span class="n">initial_energies</span><span class="p">,</span> <span class="n">initial_positions</span><span class="p">)</span>
+
+        <span class="c1"># For handling the collisions with the atomic nuclei, hydrogen and oxygen.</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">nuclei_masses</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">nuclei_masses</span>
+
+        <span class="c1"># Maxwell-Boltzmann distribution for the thermal energy</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mw</span> <span class="o">=</span> <span class="n">MaxwellBoltzmann</span><span class="p">(</span><span class="n">T</span><span class="o">=</span><span class="n">p</span><span class="o">.</span><span class="n">temperature</span><span class="p">)</span>
+
+        <span class="c1"># For handling the angular distribution of the scattering.</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">angular_processor</span> <span class="o">=</span> <span class="n">AngularProcessor</span><span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">angular_data</span><span class="p">,</span> <span class="n">p</span><span class="o">.</span><span class="n">nuclei_masses</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">diffuse</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nCollisions</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Let the neutrons diffuse in the medium.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            nCollisions (int): number of times each neutron collides with an</span>
+<span class="sd">                atomic nucleus.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">nCollisions</span> <span class="o">+=</span> <span class="n">nCollisions</span>
+        <span class="c1"># Using not all cores but 2 less than the total number of cores, tends</span>
+        <span class="c1"># to be faster</span>
+        <span class="n">num_processes</span> <span class="o">=</span> <span class="n">multiprocessing</span><span class="o">.</span><span class="n">cpu_count</span><span class="p">()</span> <span class="o">-</span> <span class="mi">2</span>
+
+        <span class="c1"># Split the neutrons into chunks</span>
+        <span class="n">chunk_size</span> <span class="o">=</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">neutrons</span><span class="p">)</span> <span class="o">+</span> <span class="n">num_processes</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">//</span> <span class="n">num_processes</span>
+        <span class="n">chunks</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">neutrons</span><span class="p">[</span><span class="n">i</span> <span class="p">:</span> <span class="n">i</span> <span class="o">+</span> <span class="n">chunk_size</span><span class="p">]</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">neutrons</span><span class="p">),</span> <span class="n">chunk_size</span><span class="p">)</span>
+        <span class="p">]</span>
+
+        <span class="c1"># Diffuse the chuncks of neutrons in parallel</span>
+        <span class="k">with</span> <span class="n">multiprocessing</span><span class="o">.</span><span class="n">Pool</span><span class="p">(</span><span class="n">processes</span><span class="o">=</span><span class="n">num_processes</span><span class="p">)</span> <span class="k">as</span> <span class="n">pool</span><span class="p">:</span>
+            <span class="n">results</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span>
+                <span class="n">process_map</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_diffuse_chunk</span><span class="p">,</span> <span class="n">chunks</span><span class="p">,</span> <span class="p">[</span><span class="n">nCollisions</span><span class="p">]</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">chunks</span><span class="p">)),</span>
+            <span class="p">)</span>
+
+        <span class="c1"># Update the neutrons list with the results from the parallel processess</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">neutrons</span> <span class="o">=</span> <span class="p">[</span><span class="n">neutron</span> <span class="k">for</span> <span class="n">chunk</span> <span class="ow">in</span> <span class="n">results</span> <span class="k">for</span> <span class="n">neutron</span> <span class="ow">in</span> <span class="n">chunk</span><span class="p">]</span>
+
+    <span class="k">def</span> <span class="nf">_diffuse_chunk</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">chunk</span><span class="p">:</span> <span class="n">Neutrons</span><span class="p">,</span> <span class="n">nCollisions</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Diffuse a chunk of all neutrons in the medium.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            chunk (Sequence[Neutron]): chunk of neutrons to diffuse</span>
+<span class="sd">            nCollisions (int): number of times each neutron collides with an atomic</span>
+<span class="sd">            nucleus.</span>
+
+<span class="sd">        Returns: the neutrons after diffusing in the medium.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">()</span>  <span class="c1"># Set a new seed for each process</span>
+        <span class="k">return</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_diffuse_neutron</span><span class="p">(</span><span class="n">neutron</span><span class="p">,</span> <span class="n">nCollisions</span><span class="p">)</span> <span class="k">for</span> <span class="n">neutron</span> <span class="ow">in</span> <span class="n">chunk</span><span class="p">]</span>
+
+    <span class="k">def</span> <span class="nf">_diffuse_neutron</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">neutron</span><span class="p">:</span> <span class="n">Neutron</span><span class="p">,</span> <span class="n">nCollisions</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Neutron</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Diffuse a single neutron in the medium.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            neutron (Neutron): Neutron to diffuse</span>
+<span class="sd">            nCollisions (int): number of times the neutron collides with an atomic</span>
+<span class="sd">            nucleus.</span>
+
+<span class="sd">        Returns: the neutron after diffusing in the medium.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">neutron</span><span class="o">.</span><span class="n">direction</span> <span class="o">=</span> <span class="n">random_direction</span><span class="p">()</span>
+
+        <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">nCollisions</span><span class="p">):</span>
+
+            <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">tank</span><span class="o">.</span><span class="n">inside</span><span class="p">(</span><span class="n">neutron</span><span class="o">.</span><span class="n">position</span><span class="p">):</span>
+                <span class="k">break</span>
+
+            <span class="c1"># Sample the distance the neutron travels from an exponential distribution</span>
+            <span class="c1"># with mean free path as the scale parameter.</span>
+            <span class="n">l</span> <span class="o">=</span> <span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">total_processor</span><span class="o">.</span><span class="n">get_mfp</span><span class="p">(</span><span class="n">neutron</span><span class="o">.</span><span class="n">energy</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">random</span><span class="p">())</span>
+            <span class="n">neutron</span><span class="o">.</span><span class="n">travel</span><span class="p">(</span><span class="n">l</span><span class="p">)</span>
+
+            <span class="c1"># Determine the nucleus the neutron collides with</span>
+            <span class="n">mass</span> <span class="o">=</span> <span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">nuclei_masses</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+                <span class="k">if</span> <span class="n">random</span><span class="p">()</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">total_processor</span><span class="o">.</span><span class="n">get_ratio</span><span class="p">(</span><span class="n">neutron</span><span class="o">.</span><span class="n">energy</span><span class="p">)</span>
+                <span class="k">else</span> <span class="bp">self</span><span class="o">.</span><span class="n">nuclei_masses</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+            <span class="p">)</span>
+
+            <span class="n">collision</span> <span class="o">=</span> <span class="n">Collision</span><span class="p">(</span>
+                <span class="n">initial_E</span><span class="o">=</span><span class="n">neutron</span><span class="o">.</span><span class="n">energy</span><span class="p">,</span>
+                <span class="n">initial_direction</span><span class="o">=</span><span class="n">neutron</span><span class="o">.</span><span class="n">direction</span><span class="p">,</span>
+                <span class="n">mass</span><span class="o">=</span><span class="n">mass</span><span class="p">,</span>
+                <span class="n">scattering_cosine</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">angular_processor</span><span class="o">.</span><span class="n">get_CM_cosines</span><span class="p">(</span>
+                    <span class="n">mass</span><span class="p">,</span> <span class="n">neutron</span><span class="o">.</span><span class="n">energy</span><span class="p">,</span> <span class="mi">1</span>
+                <span class="p">)[</span><span class="mi">0</span><span class="p">],</span>
+                <span class="n">absorption</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_absorbed</span><span class="p">(</span><span class="n">neutron</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">nuclei_masses</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">mass</span><span class="p">)),</span>
+                <span class="n">thermal</span><span class="o">=</span><span class="n">neutron</span><span class="o">.</span><span class="n">energy</span> <span class="o">&lt;</span> <span class="mi">10</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">kT</span><span class="p">,</span>
+            <span class="p">)</span>
+
+            <span class="c1"># Update the neutron&#39;s energy and direction</span>
+            <span class="n">neutron</span><span class="o">.</span><span class="n">collide</span><span class="p">(</span><span class="n">collision</span><span class="o">.</span><span class="n">energy_loss_frac</span><span class="p">,</span> <span class="n">collision</span><span class="o">.</span><span class="n">scattering_direction</span><span class="p">)</span>
+
+            <span class="c1"># If the neutron is absorbed, break the loop</span>
+            <span class="k">if</span> <span class="n">collision</span><span class="o">.</span><span class="n">energy_loss_frac</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="k">break</span>
+
+        <span class="k">return</span> <span class="n">neutron</span>
+
+    <span class="k">def</span> <span class="nf">_absorbed</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">neutron</span><span class="p">:</span> <span class="n">Neutron</span><span class="p">,</span> <span class="n">index</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Check if the neutron is absorbed by the nucleus.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            neutron (Neutron): Neutron to check.</span>
+<span class="sd">            index (int): index of the nucleus in the molecule.</span>
+
+<span class="sd">        Returns: True if the neutron is absorbed, False otherwise.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="p">(</span>
+            <span class="n">random</span><span class="p">()</span>
+            <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">absorption_processor</span><span class="o">.</span><span class="n">get_absorption_rates</span><span class="p">(</span><span class="n">neutron</span><span class="o">.</span><span class="n">energy</span><span class="p">)[</span><span class="n">index</span><span class="p">]</span>
+        <span class="p">):</span>
+            <span class="k">return</span> <span class="kc">True</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">False</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+
+  
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+
+<div class="doc doc-object doc-function">
+
+
+
+<h3 id="neutrowater.diffusing_neutrons.DiffusingNeutrons.diffuse" class="doc doc-heading">
+          <code class="highlight language-python"><span class="n">diffuse</span><span class="p">(</span><span class="n">nCollisions</span><span class="p">)</span></code>
+
+</h3>
+
+
+  <div class="doc doc-contents ">
+  
+      <p>Let the neutrons diffuse in the medium.</p>
+
+
+
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+      <th class="field-name">Parameters:</th>
+      <td class="field-body">
+        <ul class="first simple">
+            <li>
+              <b><code>nCollisions</code></b>
+                  (<code>int</code>)
+              –
+              <div class="doc-md-description">
+                <p>number of times each neutron collides with an
+atomic nucleus.</p>
+              </div>
+            </li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
+          <details class="quote">
+            <summary>Source code in <code>neutrowater/diffusing_neutrons.py</code></summary>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">130</span>
+<span class="normal">131</span>
+<span class="normal">132</span>
+<span class="normal">133</span>
+<span class="normal">134</span>
+<span class="normal">135</span>
+<span class="normal">136</span>
+<span class="normal">137</span>
+<span class="normal">138</span>
+<span class="normal">139</span>
+<span class="normal">140</span>
+<span class="normal">141</span>
+<span class="normal">142</span>
+<span class="normal">143</span>
+<span class="normal">144</span>
+<span class="normal">145</span>
+<span class="normal">146</span>
+<span class="normal">147</span>
+<span class="normal">148</span>
+<span class="normal">149</span>
+<span class="normal">150</span>
+<span class="normal">151</span>
+<span class="normal">152</span>
+<span class="normal">153</span>
+<span class="normal">154</span>
+<span class="normal">155</span>
+<span class="normal">156</span>
+<span class="normal">157</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">diffuse</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nCollisions</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Let the neutrons diffuse in the medium.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        nCollisions (int): number of times each neutron collides with an</span>
+<span class="sd">            atomic nucleus.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">nCollisions</span> <span class="o">+=</span> <span class="n">nCollisions</span>
+    <span class="c1"># Using not all cores but 2 less than the total number of cores, tends</span>
+    <span class="c1"># to be faster</span>
+    <span class="n">num_processes</span> <span class="o">=</span> <span class="n">multiprocessing</span><span class="o">.</span><span class="n">cpu_count</span><span class="p">()</span> <span class="o">-</span> <span class="mi">2</span>
+
+    <span class="c1"># Split the neutrons into chunks</span>
+    <span class="n">chunk_size</span> <span class="o">=</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">neutrons</span><span class="p">)</span> <span class="o">+</span> <span class="n">num_processes</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">//</span> <span class="n">num_processes</span>
+    <span class="n">chunks</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">neutrons</span><span class="p">[</span><span class="n">i</span> <span class="p">:</span> <span class="n">i</span> <span class="o">+</span> <span class="n">chunk_size</span><span class="p">]</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">neutrons</span><span class="p">),</span> <span class="n">chunk_size</span><span class="p">)</span>
+    <span class="p">]</span>
+
+    <span class="c1"># Diffuse the chuncks of neutrons in parallel</span>
+    <span class="k">with</span> <span class="n">multiprocessing</span><span class="o">.</span><span class="n">Pool</span><span class="p">(</span><span class="n">processes</span><span class="o">=</span><span class="n">num_processes</span><span class="p">)</span> <span class="k">as</span> <span class="n">pool</span><span class="p">:</span>
+        <span class="n">results</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span>
+            <span class="n">process_map</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_diffuse_chunk</span><span class="p">,</span> <span class="n">chunks</span><span class="p">,</span> <span class="p">[</span><span class="n">nCollisions</span><span class="p">]</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">chunks</span><span class="p">)),</span>
+        <span class="p">)</span>
+
+    <span class="c1"># Update the neutrons list with the results from the parallel processess</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">neutrons</span> <span class="o">=</span> <span class="p">[</span><span class="n">neutron</span> <span class="k">for</span> <span class="n">chunk</span> <span class="ow">in</span> <span class="n">results</span> <span class="k">for</span> <span class="n">neutron</span> <span class="ow">in</span> <span class="n">chunk</span><span class="p">]</span>
+</code></pre></div></td></tr></table></div>
+          </details>
+  </div>
+
+</div>
+
+
+
+  </div>
+
+  </div>
+
+
+</div>
+
+<div class="doc doc-object doc-class">
+
+
+
+<h2 id="neutrowater.diffusing_neutrons.Parameters" class="doc doc-heading">
+          <code>Parameters</code>
+
+  
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-dataclass"><code>dataclass</code></small>
+  </span>
+
+</h2>
+
+
+  <div class="doc doc-contents ">
+
+  
+      <p>Class to store the parameters for the simulation.</p>
+
+
+
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+      <th class="field-name">Parameters:</th>
+      <td class="field-body">
+        <ul class="first simple">
+            <li>
+              <b><code>nNeutrons</code></b>
+                  (<code>int</code>)
+              –
+              <div class="doc-md-description">
+                <p>Number of neutrons to simulate</p>
+              </div>
+            </li>
+            <li>
+              <b><code>molecule_structure</code></b>
+                  (<code><span title="typing.Sequence">Sequence</span></code>, default:
+                      <code>(2, 1)</code>
+)
+              –
+              <div class="doc-md-description">
+                <p>number of atoms in the molecule.</p>
+              </div>
+            </li>
+            <li>
+              <b><code>nuclei_masses</code></b>
+                  (<code><span title="typing.Sequence">Sequence</span></code>, default:
+                      <code>(1, 16)</code>
+)
+              –
+              <div class="doc-md-description">
+                <p>Masses of the nuclei in the molecule, should be
+in the same order as the molecule_structure.</p>
+              </div>
+            </li>
+            <li>
+              <b><code>radius_tank</code></b>
+                  (<code>float</code>, default:
+                      <code>1</code>
+)
+              –
+              <div class="doc-md-description">
+                <p>Radius of the tank in meters.</p>
+              </div>
+            </li>
+            <li>
+              <b><code>height_tank</code></b>
+                  (<code>float</code>, default:
+                      <code>1</code>
+)
+              –
+              <div class="doc-md-description">
+                <p>Height of the tank in meters.</p>
+              </div>
+            </li>
+            <li>
+              <b><code>position_tank</code></b>
+                  (<code><span title="numpy.ndarray">ndarray</span></code>, default:
+                      <code>(0.0, 0.0, 0.0)</code>
+)
+              –
+              <div class="doc-md-description">
+                <p>Position of the tank.</p>
+              </div>
+            </li>
+            <li>
+              <b><code>temperature</code></b>
+                  (<code>float</code>, default:
+                      <code>293</code>
+)
+              –
+              <div class="doc-md-description">
+                <p>Temperature [K] of the medium.</p>
+              </div>
+            </li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
+            <details class="quote">
+              <summary>Source code in <code>neutrowater/diffusing_neutrons.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">33</span>
+<span class="normal">34</span>
+<span class="normal">35</span>
+<span class="normal">36</span>
+<span class="normal">37</span>
+<span class="normal">38</span>
+<span class="normal">39</span>
+<span class="normal">40</span>
+<span class="normal">41</span>
+<span class="normal">42</span>
+<span class="normal">43</span>
+<span class="normal">44</span>
+<span class="normal">45</span>
+<span class="normal">46</span>
+<span class="normal">47</span>
+<span class="normal">48</span>
+<span class="normal">49</span>
+<span class="normal">50</span>
+<span class="normal">51</span>
+<span class="normal">52</span>
+<span class="normal">53</span>
+<span class="normal">54</span>
+<span class="normal">55</span>
+<span class="normal">56</span>
+<span class="normal">57</span>
+<span class="normal">58</span>
+<span class="normal">59</span>
+<span class="normal">60</span>
+<span class="normal">61</span>
+<span class="normal">62</span>
+<span class="normal">63</span>
+<span class="normal">64</span>
+<span class="normal">65</span>
+<span class="normal">66</span>
+<span class="normal">67</span>
+<span class="normal">68</span>
+<span class="normal">69</span>
+<span class="normal">70</span>
+<span class="normal">71</span>
+<span class="normal">72</span>
+<span class="normal">73</span>
+<span class="normal">74</span>
+<span class="normal">75</span>
+<span class="normal">76</span>
+<span class="normal">77</span>
+<span class="normal">78</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@dataclass</span>
+<span class="k">class</span> <span class="nc">Parameters</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Class to store the parameters for the simulation.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        nNeutrons (int): Number of neutrons to simulate</span>
+<span class="sd">        molecule_structure (Sequence): number of atoms in the molecule.</span>
+<span class="sd">        nuclei_masses (Sequence): Masses of the nuclei in the molecule, should be</span>
+<span class="sd">            in the same order as the molecule_structure.</span>
+<span class="sd">        radius_tank (float): Radius of the tank in meters.</span>
+<span class="sd">        height_tank (float): Height of the tank in meters.</span>
+<span class="sd">        position_tank (np.ndarray): Position of the tank.</span>
+<span class="sd">        temperature (float): Temperature [K] of the medium.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">nNeutrons</span><span class="p">:</span> <span class="nb">int</span>
+    <span class="n">molecule_structure</span><span class="p">:</span> <span class="n">Sequence</span> <span class="o">=</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="n">nuclei_masses</span><span class="p">:</span> <span class="n">Sequence</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">16</span><span class="p">)</span>
+    <span class="n">radius_tank</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="n">height_tank</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="n">position_tank</span><span class="p">:</span> <span class="nb">tuple</span> <span class="o">=</span> <span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)</span>
+    <span class="n">temperature</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">293</span>
+
+    <span class="k">def</span> <span class="nf">__post_init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">files</span> <span class="o">=</span> <span class="n">resources</span><span class="o">.</span><span class="n">files</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">total_data</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">files</span> <span class="o">/</span> <span class="s2">&quot;h_cross_t.txt&quot;</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="sa">r</span><span class="s2">&quot;\s+&quot;</span><span class="p">),</span>
+            <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">files</span> <span class="o">/</span> <span class="s2">&quot;o_cross_t.txt&quot;</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="sa">r</span><span class="s2">&quot;\s+&quot;</span><span class="p">),</span>
+        <span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">scattering_data</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">files</span> <span class="o">/</span> <span class="s2">&quot;h_cross_s.txt&quot;</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="sa">r</span><span class="s2">&quot;\s+&quot;</span><span class="p">),</span>
+            <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">files</span> <span class="o">/</span> <span class="s2">&quot;o_cross_s.txt&quot;</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="sa">r</span><span class="s2">&quot;\s+&quot;</span><span class="p">),</span>
+        <span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">absorption_data</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">files</span> <span class="o">/</span> <span class="s2">&quot;h_cross_a.txt&quot;</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="sa">r</span><span class="s2">&quot;\s+&quot;</span><span class="p">),</span>
+            <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">files</span> <span class="o">/</span> <span class="s2">&quot;o_cross_a.txt&quot;</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="sa">r</span><span class="s2">&quot;\s+&quot;</span><span class="p">),</span>
+        <span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">angular_data</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">files</span> <span class="o">/</span> <span class="s2">&quot;H_angular.txt&quot;</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="sa">r</span><span class="s2">&quot;\s+&quot;</span><span class="p">),</span>
+            <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">files</span> <span class="o">/</span> <span class="s2">&quot;O_angular.txt&quot;</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="sa">r</span><span class="s2">&quot;,&quot;</span><span class="p">),</span>
+        <span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">spectrum_data</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span>
+            <span class="n">files</span> <span class="o">/</span> <span class="s2">&quot;neutron_spectrum_normalized.txt&quot;</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s2">&quot;,&quot;</span>
+        <span class="p">)</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+
+  
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+
+
+  </div>
+
+  </div>
+
+
+</div>
+
+
+
+
+  </div>
+
+  </div>
+
+</div><p><br>
+<br></p>
+<h2 id="post-simulation-analysis">Post Simulation Analysis</h2>
+<h1 id="neutrowaterpostplot"><code>neutrowater.post.plot</code></h1>
+
+
+<div class="doc doc-object doc-module">
+
+
+
+<a id="neutrowater.post.plot"></a>
+  <div class="doc doc-contents first">
+  
+      <p>This module provides a function to plot the trajectories of the neutrons.</p>
+
+
+
+  <p><span class="doc-section-title">Functions:</span></p>
+  <table>
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+          <tr class="doc-section-item">
+            <td><code><a class="autorefs autorefs-internal" title="neutrowater.post.plot.trajectories" href="#neutrowater.post.plot.trajectories">trajectories</a></code></td>
+            <td>
+              <div class="doc-md-description">
+                <p>Show the trajectories of the neutrons.</p>
+              </div>
+            </td>
+          </tr>
+    </tbody>
+  </table>
+
+  
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+
+<div class="doc doc-object doc-function">
+
+
+
+<h2 id="neutrowater.post.plot.trajectories" class="doc doc-heading">
+          <code class="highlight language-python"><span class="n">trajectories</span><span class="p">(</span><span class="n">diffusing_neutrons</span><span class="p">)</span></code>
+
+</h2>
+
+
+  <div class="doc doc-contents ">
+  
+      <p>Show the trajectories of the neutrons.</p>
+
+
+
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+      <th class="field-name">Parameters:</th>
+      <td class="field-body">
+        <ul class="first simple">
+            <li>
+              <b><code>diffusing_neutrons</code></b>
+                  (<code><a class="autorefs autorefs-internal" title="neutrowater.diffusing_neutrons.DiffusingNeutrons" href="#neutrowater.diffusing_neutrons.DiffusingNeutrons">DiffusingNeutrons</a></code>)
+              –
+              <div class="doc-md-description">
+                <p>Object of the class
+DiffusingNeutrons.</p>
+              </div>
+            </li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
+          <details class="quote">
+            <summary>Source code in <code>neutrowater/post/plot.py</code></summary>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">17</span>
+<span class="normal">18</span>
+<span class="normal">19</span>
+<span class="normal">20</span>
+<span class="normal">21</span>
+<span class="normal">22</span>
+<span class="normal">23</span>
+<span class="normal">24</span>
+<span class="normal">25</span>
+<span class="normal">26</span>
+<span class="normal">27</span>
+<span class="normal">28</span>
+<span class="normal">29</span>
+<span class="normal">30</span>
+<span class="normal">31</span>
+<span class="normal">32</span>
+<span class="normal">33</span>
+<span class="normal">34</span>
+<span class="normal">35</span>
+<span class="normal">36</span>
+<span class="normal">37</span>
+<span class="normal">38</span>
+<span class="normal">39</span>
+<span class="normal">40</span>
+<span class="normal">41</span>
+<span class="normal">42</span>
+<span class="normal">43</span>
+<span class="normal">44</span>
+<span class="normal">45</span>
+<span class="normal">46</span>
+<span class="normal">47</span>
+<span class="normal">48</span>
+<span class="normal">49</span>
+<span class="normal">50</span>
+<span class="normal">51</span>
+<span class="normal">52</span>
+<span class="normal">53</span>
+<span class="normal">54</span>
+<span class="normal">55</span>
+<span class="normal">56</span>
+<span class="normal">57</span>
+<span class="normal">58</span>
+<span class="normal">59</span>
+<span class="normal">60</span>
+<span class="normal">61</span>
+<span class="normal">62</span>
+<span class="normal">63</span>
+<span class="normal">64</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">trajectories</span><span class="p">(</span><span class="n">diffusing_neutrons</span><span class="p">:</span> <span class="n">DiffusingNeutrons</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Show the trajectories of the neutrons.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        diffusing_neutrons (DiffusingNeutrons): Object of the class</span>
+<span class="sd">            DiffusingNeutrons.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">df</span> <span class="o">=</span> <span class="n">diffusing_neutrons</span>
+    <span class="n">measurer</span> <span class="o">=</span> <span class="n">measure</span><span class="o">.</span><span class="n">Measurer</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+
+    <span class="n">radius</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">tank</span><span class="o">.</span><span class="n">radius</span>
+    <span class="n">height</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">tank</span><span class="o">.</span><span class="n">height</span>
+    <span class="n">tank_position</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">tank</span><span class="o">.</span><span class="n">position</span>
+
+    <span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">8</span><span class="p">))</span>
+    <span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">111</span><span class="p">,</span> <span class="n">projection</span><span class="o">=</span><span class="s2">&quot;3d&quot;</span><span class="p">)</span>
+
+    <span class="k">for</span> <span class="n">position</span> <span class="ow">in</span> <span class="n">measurer</span><span class="o">.</span><span class="n">positions</span><span class="p">():</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="p">[</span><span class="n">p</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">position</span><span class="p">]</span>
+        <span class="n">y</span> <span class="o">=</span> <span class="p">[</span><span class="n">p</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">position</span><span class="p">]</span>
+        <span class="n">z</span> <span class="o">=</span> <span class="p">[</span><span class="n">p</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">position</span><span class="p">]</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="s2">&quot;k&quot;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.7</span><span class="p">)</span>
+
+    <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="s2">&quot;o&quot;</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="s2">&quot;r&quot;</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;$x(m)$&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">16</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;$y(m)$&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">16</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_box_aspect</span><span class="p">(</span><span class="n">aspect</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">zoom</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_zlabel</span><span class="p">(</span><span class="s2">&quot;$z(m)$&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">16</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;Neutron trajectories&quot;</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">(</span><span class="o">-</span><span class="mf">0.4</span><span class="p">,</span> <span class="mf">0.4</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="o">-</span><span class="mf">0.4</span><span class="p">,</span> <span class="mf">0.4</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s2">&quot;off&quot;</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">margins</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">spines</span><span class="p">[[</span><span class="s2">&quot;right&quot;</span><span class="p">,</span> <span class="s2">&quot;top&quot;</span><span class="p">]]</span><span class="o">.</span><span class="n">set_visible</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">df</span><span class="o">.</span><span class="n">tank</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">u</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
+        <span class="n">v</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">height</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">radius</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">outer</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">u</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">ones_like</span><span class="p">(</span><span class="n">v</span><span class="p">))</span> <span class="o">+</span> <span class="n">tank_position</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">y</span> <span class="o">=</span> <span class="n">radius</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">outer</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">u</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">ones_like</span><span class="p">(</span><span class="n">v</span><span class="p">))</span> <span class="o">+</span> <span class="n">tank_position</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+        <span class="n">z</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="n">np</span><span class="o">.</span><span class="n">outer</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">ones_like</span><span class="p">(</span><span class="n">u</span><span class="p">),</span> <span class="n">v</span><span class="p">)</span> <span class="o">-</span> <span class="n">height</span> <span class="o">/</span> <span class="mi">2</span> <span class="o">+</span> <span class="n">tank_position</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+        <span class="p">)</span>  <span class="c1"># Adjust the height of the cylinder</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">plot_surface</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;cornflowerblue&quot;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.3</span><span class="p">)</span>
+
+    <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</code></pre></div></td></tr></table></div>
+          </details>
+  </div>
+
+</div>
+
+
+
+  </div>
+
+  </div>
+
+</div><p><br></p>
+<h1 id="neutrowaterpostmeasure"><code>neutrowater.post.measure</code></h1>
+
+
+<div class="doc doc-object doc-module">
+
+
+
+<a id="neutrowater.post.measure"></a>
+  <div class="doc doc-contents first">
+  
+      <p>This module provides a class to measure the properties of the neutrons.</p>
+
+
+
+  <p><span class="doc-section-title">Classes:</span></p>
+  <table>
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr class="doc-section-item">
+          <td><code><a class="autorefs autorefs-internal" title="neutrowater.post.measure.Measurer" href="#neutrowater.post.measure.Measurer">Measurer</a></code></td>
+          <td>
+            <div class="doc-md-description">
+              <p>Class to measure the properties of the neutrons after the simulation.</p>
+            </div>
+          </td>
+        </tr>
+    </tbody>
+  </table>
+
+  
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+
+<div class="doc doc-object doc-class">
+
+
+
+<h2 id="neutrowater.post.measure.Measurer" class="doc doc-heading">
+          <code>Measurer</code>
+
+
+</h2>
+
+
+  <div class="doc doc-contents ">
+
+  
+      <p>Class to measure the properties of the neutrons after the simulation.</p>
+
+
+
+  <p><span class="doc-section-title">Methods:</span></p>
+  <table>
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+          <tr class="doc-section-item">
+            <td><code><a class="autorefs autorefs-internal" title="neutrowater.post.measure.Measurer.positions" href="#neutrowater.post.measure.Measurer.positions">positions</a></code></td>
+            <td>
+              <div class="doc-md-description">
+                <p>Get the positions of the neutrons.</p>
+              </div>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td><code><a class="autorefs autorefs-internal" title="neutrowater.post.measure.Measurer.energies" href="#neutrowater.post.measure.Measurer.energies">energies</a></code></td>
+            <td>
+              <div class="doc-md-description">
+                <p>Get the energies of the neutrons.</p>
+              </div>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td><code><a class="autorefs autorefs-internal" title="neutrowater.post.measure.Measurer.number_total" href="#neutrowater.post.measure.Measurer.number_total">number_total</a></code></td>
+            <td>
+              <div class="doc-md-description">
+                <p>Get the total number of neutrons.</p>
+              </div>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td><code><a class="autorefs autorefs-internal" title="neutrowater.post.measure.Measurer.number_escaped" href="#neutrowater.post.measure.Measurer.number_escaped">number_escaped</a></code></td>
+            <td>
+              <div class="doc-md-description">
+                <p>Get the number of neutrons that escaped the tank.</p>
+              </div>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td><code><a class="autorefs autorefs-internal" title="neutrowater.post.measure.Measurer.number_thermal" href="#neutrowater.post.measure.Measurer.number_thermal">number_thermal</a></code></td>
+            <td>
+              <div class="doc-md-description">
+                <p>Get the number of neutrons that are thermalized.</p>
+              </div>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td><code><a class="autorefs autorefs-internal" title="neutrowater.post.measure.Measurer.thermalize_positions" href="#neutrowater.post.measure.Measurer.thermalize_positions">thermalize_positions</a></code></td>
+            <td>
+              <div class="doc-md-description">
+                <p>Get the positions of the neutrons where their energy is thermal for the first time.</p>
+              </div>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td><code><a class="autorefs autorefs-internal" title="neutrowater.post.measure.Measurer.thermalize_distances" href="#neutrowater.post.measure.Measurer.thermalize_distances">thermalize_distances</a></code></td>
+            <td>
+              <div class="doc-md-description">
+                <p>Get the distance of the neutrons where their energy is thermal for the first time.</p>
+              </div>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td><code><a class="autorefs autorefs-internal" title="neutrowater.post.measure.Measurer.number_absorbed" href="#neutrowater.post.measure.Measurer.number_absorbed">number_absorbed</a></code></td>
+            <td>
+              <div class="doc-md-description">
+                <p>Get the number of neutrons that were absorbed.</p>
+              </div>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td><code><a class="autorefs autorefs-internal" title="neutrowater.post.measure.Measurer.absorbed_positions" href="#neutrowater.post.measure.Measurer.absorbed_positions">absorbed_positions</a></code></td>
+            <td>
+              <div class="doc-md-description">
+                <p>Get the positions of the neutrons that were absorbed.</p>
+              </div>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td><code><a class="autorefs autorefs-internal" title="neutrowater.post.measure.Measurer.absorbed_distances" href="#neutrowater.post.measure.Measurer.absorbed_distances">absorbed_distances</a></code></td>
+            <td>
+              <div class="doc-md-description">
+                <p>Get the distances of the neutrons that were absorbed.</p>
+              </div>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td><code><a class="autorefs autorefs-internal" title="neutrowater.post.measure.Measurer.flux" href="#neutrowater.post.measure.Measurer.flux">flux</a></code></td>
+            <td>
+              <div class="doc-md-description">
+                <p>Get the flux of the neutrons at a given radius r.</p>
+              </div>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td><code><a class="autorefs autorefs-internal" title="neutrowater.post.measure.Measurer.energy_spectrum" href="#neutrowater.post.measure.Measurer.energy_spectrum">energy_spectrum</a></code></td>
+            <td>
+              <div class="doc-md-description">
+                <p>Get the energy spectrum of the neutrons at a given radius r.</p>
+              </div>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td><code><a class="autorefs autorefs-internal" title="neutrowater.post.measure.Measurer.energy_spectrum_escaped" href="#neutrowater.post.measure.Measurer.energy_spectrum_escaped">energy_spectrum_escaped</a></code></td>
+            <td>
+              <div class="doc-md-description">
+                <p>Get the energy spectrum of the neutrons that escaped the tank.</p>
+              </div>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td><code><a class="autorefs autorefs-internal" title="neutrowater.post.measure.Measurer.number_above_energy" href="#neutrowater.post.measure.Measurer.number_above_energy">number_above_energy</a></code></td>
+            <td>
+              <div class="doc-md-description">
+                <p>Get the number of neutrons with energy above a given energy.</p>
+              </div>
+            </td>
+          </tr>
+    </tbody>
+  </table>
+
+            <details class="quote">
+              <summary>Source code in <code>neutrowater/post/measure.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 15</span>
+<span class="normal"> 16</span>
+<span class="normal"> 17</span>
+<span class="normal"> 18</span>
+<span class="normal"> 19</span>
+<span class="normal"> 20</span>
+<span class="normal"> 21</span>
+<span class="normal"> 22</span>
+<span class="normal"> 23</span>
+<span class="normal"> 24</span>
+<span class="normal"> 25</span>
+<span class="normal"> 26</span>
+<span class="normal"> 27</span>
+<span class="normal"> 28</span>
+<span class="normal"> 29</span>
+<span class="normal"> 30</span>
+<span class="normal"> 31</span>
+<span class="normal"> 32</span>
+<span class="normal"> 33</span>
+<span class="normal"> 34</span>
+<span class="normal"> 35</span>
+<span class="normal"> 36</span>
+<span class="normal"> 37</span>
+<span class="normal"> 38</span>
+<span class="normal"> 39</span>
+<span class="normal"> 40</span>
+<span class="normal"> 41</span>
+<span class="normal"> 42</span>
+<span class="normal"> 43</span>
+<span class="normal"> 44</span>
+<span class="normal"> 45</span>
+<span class="normal"> 46</span>
+<span class="normal"> 47</span>
+<span class="normal"> 48</span>
+<span class="normal"> 49</span>
+<span class="normal"> 50</span>
+<span class="normal"> 51</span>
+<span class="normal"> 52</span>
+<span class="normal"> 53</span>
+<span class="normal"> 54</span>
+<span class="normal"> 55</span>
+<span class="normal"> 56</span>
+<span class="normal"> 57</span>
+<span class="normal"> 58</span>
+<span class="normal"> 59</span>
+<span class="normal"> 60</span>
+<span class="normal"> 61</span>
+<span class="normal"> 62</span>
+<span class="normal"> 63</span>
+<span class="normal"> 64</span>
+<span class="normal"> 65</span>
+<span class="normal"> 66</span>
+<span class="normal"> 67</span>
+<span class="normal"> 68</span>
+<span class="normal"> 69</span>
+<span class="normal"> 70</span>
+<span class="normal"> 71</span>
+<span class="normal"> 72</span>
+<span class="normal"> 73</span>
+<span class="normal"> 74</span>
+<span class="normal"> 75</span>
+<span class="normal"> 76</span>
+<span class="normal"> 77</span>
+<span class="normal"> 78</span>
+<span class="normal"> 79</span>
+<span class="normal"> 80</span>
+<span class="normal"> 81</span>
+<span class="normal"> 82</span>
+<span class="normal"> 83</span>
+<span class="normal"> 84</span>
+<span class="normal"> 85</span>
+<span class="normal"> 86</span>
+<span class="normal"> 87</span>
+<span class="normal"> 88</span>
+<span class="normal"> 89</span>
+<span class="normal"> 90</span>
+<span class="normal"> 91</span>
+<span class="normal"> 92</span>
+<span class="normal"> 93</span>
+<span class="normal"> 94</span>
+<span class="normal"> 95</span>
+<span class="normal"> 96</span>
+<span class="normal"> 97</span>
+<span class="normal"> 98</span>
+<span class="normal"> 99</span>
+<span class="normal">100</span>
+<span class="normal">101</span>
+<span class="normal">102</span>
+<span class="normal">103</span>
+<span class="normal">104</span>
+<span class="normal">105</span>
+<span class="normal">106</span>
+<span class="normal">107</span>
+<span class="normal">108</span>
+<span class="normal">109</span>
+<span class="normal">110</span>
+<span class="normal">111</span>
+<span class="normal">112</span>
+<span class="normal">113</span>
+<span class="normal">114</span>
+<span class="normal">115</span>
+<span class="normal">116</span>
+<span class="normal">117</span>
+<span class="normal">118</span>
+<span class="normal">119</span>
+<span class="normal">120</span>
+<span class="normal">121</span>
+<span class="normal">122</span>
+<span class="normal">123</span>
+<span class="normal">124</span>
+<span class="normal">125</span>
+<span class="normal">126</span>
+<span class="normal">127</span>
+<span class="normal">128</span>
+<span class="normal">129</span>
+<span class="normal">130</span>
+<span class="normal">131</span>
+<span class="normal">132</span>
+<span class="normal">133</span>
+<span class="normal">134</span>
+<span class="normal">135</span>
+<span class="normal">136</span>
+<span class="normal">137</span>
+<span class="normal">138</span>
+<span class="normal">139</span>
+<span class="normal">140</span>
+<span class="normal">141</span>
+<span class="normal">142</span>
+<span class="normal">143</span>
+<span class="normal">144</span>
+<span class="normal">145</span>
+<span class="normal">146</span>
+<span class="normal">147</span>
+<span class="normal">148</span>
+<span class="normal">149</span>
+<span class="normal">150</span>
+<span class="normal">151</span>
+<span class="normal">152</span>
+<span class="normal">153</span>
+<span class="normal">154</span>
+<span class="normal">155</span>
+<span class="normal">156</span>
+<span class="normal">157</span>
+<span class="normal">158</span>
+<span class="normal">159</span>
+<span class="normal">160</span>
+<span class="normal">161</span>
+<span class="normal">162</span>
+<span class="normal">163</span>
+<span class="normal">164</span>
+<span class="normal">165</span>
+<span class="normal">166</span>
+<span class="normal">167</span>
+<span class="normal">168</span>
+<span class="normal">169</span>
+<span class="normal">170</span>
+<span class="normal">171</span>
+<span class="normal">172</span>
+<span class="normal">173</span>
+<span class="normal">174</span>
+<span class="normal">175</span>
+<span class="normal">176</span>
+<span class="normal">177</span>
+<span class="normal">178</span>
+<span class="normal">179</span>
+<span class="normal">180</span>
+<span class="normal">181</span>
+<span class="normal">182</span>
+<span class="normal">183</span>
+<span class="normal">184</span>
+<span class="normal">185</span>
+<span class="normal">186</span>
+<span class="normal">187</span>
+<span class="normal">188</span>
+<span class="normal">189</span>
+<span class="normal">190</span>
+<span class="normal">191</span>
+<span class="normal">192</span>
+<span class="normal">193</span>
+<span class="normal">194</span>
+<span class="normal">195</span>
+<span class="normal">196</span>
+<span class="normal">197</span>
+<span class="normal">198</span>
+<span class="normal">199</span>
+<span class="normal">200</span>
+<span class="normal">201</span>
+<span class="normal">202</span>
+<span class="normal">203</span>
+<span class="normal">204</span>
+<span class="normal">205</span>
+<span class="normal">206</span>
+<span class="normal">207</span>
+<span class="normal">208</span>
+<span class="normal">209</span>
+<span class="normal">210</span>
+<span class="normal">211</span>
+<span class="normal">212</span>
+<span class="normal">213</span>
+<span class="normal">214</span>
+<span class="normal">215</span>
+<span class="normal">216</span>
+<span class="normal">217</span>
+<span class="normal">218</span>
+<span class="normal">219</span>
+<span class="normal">220</span>
+<span class="normal">221</span>
+<span class="normal">222</span>
+<span class="normal">223</span>
+<span class="normal">224</span>
+<span class="normal">225</span>
+<span class="normal">226</span>
+<span class="normal">227</span>
+<span class="normal">228</span>
+<span class="normal">229</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">Measurer</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Class to measure the properties of the neutrons after the simulation.</span>
+
+<span class="sd">    Methods:</span>
+<span class="sd">        positions: Get the positions of the neutrons.</span>
+<span class="sd">        energies: Get the energies of the neutrons.</span>
+<span class="sd">        number_total: Get the total number of neutrons.</span>
+<span class="sd">        number_escaped: Get the number of neutrons that escaped the tank.</span>
+<span class="sd">        number_thermal: Get the number of neutrons that are thermalized.</span>
+<span class="sd">        thermalize_positions: Get the positions of the neutrons where their energy is thermal for the first time.</span>
+<span class="sd">        thermalize_distances: Get the distance of the neutrons where their energy is thermal for the first time.</span>
+<span class="sd">        number_absorbed: Get the number of neutrons that were absorbed.</span>
+<span class="sd">        absorbed_positions: Get the positions of the neutrons that were absorbed.</span>
+<span class="sd">        absorbed_distances: Get the distances of the neutrons that were absorbed.</span>
+<span class="sd">        flux: Get the flux of the neutrons at a given radius r.</span>
+<span class="sd">        energy_spectrum: Get the energy spectrum of the neutrons at a given radius r.</span>
+<span class="sd">        energy_spectrum_escaped: Get the energy spectrum of the neutrons that escaped the tank.</span>
+<span class="sd">        number_above_energy: Get the number of neutrons with energy above a given energy.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sim</span><span class="p">:</span> <span class="n">DiffusingNeutrons</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">neutrons</span> <span class="o">=</span> <span class="n">sim</span><span class="o">.</span><span class="n">neutrons</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sim</span> <span class="o">=</span> <span class="n">sim</span>
+
+    <span class="k">def</span> <span class="nf">positions</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">list</span><span class="p">[</span><span class="n">Vector</span><span class="p">]]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get the positions of the neutrons.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            a list where each element is a list of length nNeutrons</span>
+<span class="sd">                [[np.ndarray, np.ndarray, ...], [np.ndarray, np.ndarray, ...], ...]</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="p">[</span><span class="n">neutron</span><span class="o">.</span><span class="n">positions</span> <span class="k">for</span> <span class="n">neutron</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">neutrons</span><span class="p">]</span>
+
+    <span class="k">def</span> <span class="nf">energies</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">list</span><span class="p">[</span><span class="nb">float</span><span class="p">]]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get the energies of the neutrons.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            a list where each element is a list of length nNeutrons</span>
+<span class="sd">                [[float, float, ...], [float, float, ...], ...]</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="p">[</span><span class="n">neutron</span><span class="o">.</span><span class="n">energies</span> <span class="k">for</span> <span class="n">neutron</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">neutrons</span><span class="p">]</span>
+
+    <span class="k">def</span> <span class="nf">number_total</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get the total number of neutrons.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            an int.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">neutrons</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">number_escaped</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get the number of neutrons that escaped the tank.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            an int.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="nb">sum</span><span class="p">(</span>
+            <span class="p">[</span>
+                <span class="mi">1</span>
+                <span class="k">for</span> <span class="n">neutron</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">neutrons</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">sim</span><span class="o">.</span><span class="n">tank</span><span class="o">.</span><span class="n">inside</span><span class="p">(</span><span class="n">neutron</span><span class="o">.</span><span class="n">position</span><span class="p">)</span>
+            <span class="p">],</span>
+            <span class="n">start</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+        <span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">number_thermal</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get the number of neutrons that are thermalized.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            an int.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">n</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">for</span> <span class="n">energies</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">energies</span><span class="p">():</span>
+            <span class="k">if</span> <span class="n">energies</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">&lt;</span> <span class="p">(</span><span class="mi">10</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">sim</span><span class="o">.</span><span class="n">kT</span><span class="p">):</span>
+                <span class="n">n</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="k">return</span> <span class="n">n</span>
+
+    <span class="k">def</span> <span class="nf">thermalize_positions</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get the positions of the neutrons where their energy is thermal for</span>
+<span class="sd">        the first time.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            a list of np.ndarray.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">thermalize_positions</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">energies</span><span class="p">,</span> <span class="n">positions</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">energies</span><span class="p">(),</span> <span class="bp">self</span><span class="o">.</span><span class="n">positions</span><span class="p">()):</span>
+            <span class="c1"># Get the first element of the list of energies that is less than 10kT</span>
+            <span class="n">res</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">filter</span><span class="p">((</span><span class="k">lambda</span> <span class="n">val</span><span class="p">:</span> <span class="n">val</span> <span class="o">&lt;</span> <span class="p">(</span><span class="mi">10</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">sim</span><span class="o">.</span><span class="n">kT</span><span class="p">)),</span> <span class="n">energies</span><span class="p">))</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">res</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">index</span> <span class="o">=</span> <span class="n">energies</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">res</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+                <span class="n">thermalize_positions</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">positions</span><span class="p">[</span><span class="n">index</span><span class="p">])</span>
+
+        <span class="k">return</span> <span class="n">thermalize_positions</span>
+
+    <span class="k">def</span> <span class="nf">thermalize_distances</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get the distance of the neutrons where their energy is thermal for</span>
+<span class="sd">        the first time.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            a list of floats.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">pos</span><span class="p">)</span> <span class="k">for</span> <span class="n">pos</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">thermalize_positions</span><span class="p">()]</span>
+
+    <span class="k">def</span> <span class="nf">number_absorbed</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get the number of neutrons that were absorbed.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            an int.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">n</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">for</span> <span class="n">neutron</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">neutrons</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">neutron</span><span class="o">.</span><span class="n">positions</span><span class="p">)</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">sim</span><span class="o">.</span><span class="n">nCollisions</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">sim</span><span class="o">.</span><span class="n">tank</span><span class="o">.</span><span class="n">inside</span><span class="p">(</span>
+                <span class="n">neutron</span><span class="o">.</span><span class="n">position</span>
+            <span class="p">):</span>
+                <span class="n">n</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="k">return</span> <span class="n">n</span>
+
+    <span class="k">def</span> <span class="nf">absorbed_positions</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="n">Vector</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get the positions of the neutrons that were absorbed.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            a list of np.ndarray.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="p">[</span>
+            <span class="n">neutron</span><span class="o">.</span><span class="n">positions</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+            <span class="k">for</span> <span class="n">neutron</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">neutrons</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">neutron</span><span class="o">.</span><span class="n">positions</span><span class="p">)</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">sim</span><span class="o">.</span><span class="n">nCollisions</span>
+            <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">sim</span><span class="o">.</span><span class="n">tank</span><span class="o">.</span><span class="n">inside</span><span class="p">(</span><span class="n">neutron</span><span class="o">.</span><span class="n">position</span><span class="p">)</span>
+        <span class="p">]</span>
+
+    <span class="k">def</span> <span class="nf">absorbed_distances</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get the distances of the neutrons that were absorbed.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            a list of floats.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">pos</span><span class="p">)</span> <span class="k">for</span> <span class="n">pos</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">absorbed_positions</span><span class="p">()]</span>
+
+    <span class="k">def</span> <span class="nf">flux</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">r</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get the flux of the neutrons at a given radius r.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            r (float): radius at which to compute the flux.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            a float value of the flux.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">count</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">for</span> <span class="n">positions</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">positions</span><span class="p">():</span>
+            <span class="n">positions</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">positions</span><span class="p">)</span>
+            <span class="n">norms</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">positions</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+            <span class="c1"># Count the number of neutrons that have been in the shell</span>
+            <span class="n">count</span> <span class="o">+=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">((</span><span class="n">norms</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">r</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">r</span> <span class="o">&lt;</span> <span class="n">norms</span><span class="p">[</span><span class="mi">1</span><span class="p">:]))</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span>
+                <span class="p">(</span><span class="n">norms</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span> <span class="o">&lt;</span> <span class="n">r</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">r</span> <span class="o">&lt;</span> <span class="n">norms</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+            <span class="p">)</span>
+        <span class="k">return</span> <span class="n">count</span> <span class="o">/</span> <span class="p">(</span><span class="mi">4</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="n">r</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">energy_spectrum</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">r</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">float</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get the energy spectrum of the neutrons at a given radius r.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            r (float): radius at which to compute the energy spectrum.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            a list of floats.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">result_energies</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">positions</span><span class="p">,</span> <span class="n">energies</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">positions</span><span class="p">(),</span> <span class="bp">self</span><span class="o">.</span><span class="n">energies</span><span class="p">()):</span>
+            <span class="n">positions</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">positions</span><span class="p">)</span>
+            <span class="n">energies</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">energies</span><span class="p">)</span>
+            <span class="n">norms</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">positions</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+            <span class="c1"># Create boolean arrays for the conditions</span>
+            <span class="n">cond1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">([(</span><span class="n">norms</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">r</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">r</span> <span class="o">&lt;</span> <span class="n">norms</span><span class="p">[</span><span class="mi">1</span><span class="p">:]),</span> <span class="p">[</span><span class="kc">False</span><span class="p">]])</span>
+            <span class="n">cond2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">([[</span><span class="kc">False</span><span class="p">],</span> <span class="p">(</span><span class="n">norms</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span> <span class="o">&lt;</span> <span class="n">r</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">r</span> <span class="o">&lt;</span> <span class="n">norms</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">])])</span>
+            <span class="c1"># Get the energies of the neutrons that have been in the shell</span>
+            <span class="n">result_energies</span> <span class="o">+=</span> <span class="nb">list</span><span class="p">(</span><span class="n">energies</span><span class="p">[</span><span class="n">cond1</span><span class="p">])</span> <span class="o">+</span> <span class="nb">list</span><span class="p">(</span><span class="n">energies</span><span class="p">[</span><span class="n">cond2</span><span class="p">])</span>
+        <span class="k">return</span> <span class="n">result_energies</span>
+
+    <span class="k">def</span> <span class="nf">energy_spectrum_escaped</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">float</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get the energy spectrum of the neutrons that escaped the tank.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            a list of floats.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="p">[</span>
+            <span class="n">neutron</span><span class="o">.</span><span class="n">energy</span>
+            <span class="k">for</span> <span class="n">neutron</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">neutrons</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">sim</span><span class="o">.</span><span class="n">tank</span><span class="o">.</span><span class="n">inside</span><span class="p">(</span><span class="n">neutron</span><span class="o">.</span><span class="n">position</span><span class="p">)</span>
+        <span class="p">]</span>
+
+    <span class="k">def</span> <span class="nf">number_above_energy</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">E</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get the number of neutrons with energy above a given energy.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            E (float): energy threshold.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            an int.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="nb">sum</span><span class="p">([</span><span class="mi">1</span> <span class="k">for</span> <span class="n">neutron</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">neutrons</span> <span class="k">if</span> <span class="n">neutron</span><span class="o">.</span><span class="n">energies</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">E</span><span class="p">])</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+
+  
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+
+<div class="doc doc-object doc-function">
+
+
+
+<h3 id="neutrowater.post.measure.Measurer.absorbed_distances" class="doc doc-heading">
+          <code class="highlight language-python"><span class="n">absorbed_distances</span><span class="p">()</span></code>
+
+</h3>
+
+
+  <div class="doc doc-contents ">
+  
+      <p>Get the distances of the neutrons that were absorbed.</p>
+
+
+
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+    <th class="field-name">Returns:</th>
+    <td class="field-body">
+      <ul class="first simple">
+          <li>
+                <code>list[<span title="numpy.float64">float64</span>]</code>
+            –
+            <div class="doc-md-description">
+              <p>a list of floats.</p>
+            </div>
+          </li>
+      </ul>
+    </td>
+    </tr>
+  </tbody>
+</table>
+          <details class="quote">
+            <summary>Source code in <code>neutrowater/post/measure.py</code></summary>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">155</span>
+<span class="normal">156</span>
+<span class="normal">157</span>
+<span class="normal">158</span>
+<span class="normal">159</span>
+<span class="normal">160</span>
+<span class="normal">161</span>
+<span class="normal">162</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">absorbed_distances</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Get the distances of the neutrons that were absorbed.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        a list of floats.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">pos</span><span class="p">)</span> <span class="k">for</span> <span class="n">pos</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">absorbed_positions</span><span class="p">()]</span>
+</code></pre></div></td></tr></table></div>
+          </details>
+  </div>
+
+</div>
+
+
+<div class="doc doc-object doc-function">
+
+
+
+<h3 id="neutrowater.post.measure.Measurer.absorbed_positions" class="doc doc-heading">
+          <code class="highlight language-python"><span class="n">absorbed_positions</span><span class="p">()</span></code>
+
+</h3>
+
+
+  <div class="doc doc-contents ">
+  
+      <p>Get the positions of the neutrons that were absorbed.</p>
+
+
+
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+    <th class="field-name">Returns:</th>
+    <td class="field-body">
+      <ul class="first simple">
+          <li>
+                <code>list[<span title="neutrowater.diffusing_neutrons.Vector">Vector</span>]</code>
+            –
+            <div class="doc-md-description">
+              <p>a list of np.ndarray.</p>
+            </div>
+          </li>
+      </ul>
+    </td>
+    </tr>
+  </tbody>
+</table>
+          <details class="quote">
+            <summary>Source code in <code>neutrowater/post/measure.py</code></summary>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">141</span>
+<span class="normal">142</span>
+<span class="normal">143</span>
+<span class="normal">144</span>
+<span class="normal">145</span>
+<span class="normal">146</span>
+<span class="normal">147</span>
+<span class="normal">148</span>
+<span class="normal">149</span>
+<span class="normal">150</span>
+<span class="normal">151</span>
+<span class="normal">152</span>
+<span class="normal">153</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">absorbed_positions</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="n">Vector</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Get the positions of the neutrons that were absorbed.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        a list of np.ndarray.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="p">[</span>
+        <span class="n">neutron</span><span class="o">.</span><span class="n">positions</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+        <span class="k">for</span> <span class="n">neutron</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">neutrons</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">neutron</span><span class="o">.</span><span class="n">positions</span><span class="p">)</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">sim</span><span class="o">.</span><span class="n">nCollisions</span>
+        <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">sim</span><span class="o">.</span><span class="n">tank</span><span class="o">.</span><span class="n">inside</span><span class="p">(</span><span class="n">neutron</span><span class="o">.</span><span class="n">position</span><span class="p">)</span>
+    <span class="p">]</span>
+</code></pre></div></td></tr></table></div>
+          </details>
+  </div>
+
+</div>
+
+
+<div class="doc doc-object doc-function">
+
+
+
+<h3 id="neutrowater.post.measure.Measurer.energies" class="doc doc-heading">
+          <code class="highlight language-python"><span class="n">energies</span><span class="p">()</span></code>
+
+</h3>
+
+
+  <div class="doc doc-contents ">
+  
+      <p>Get the energies of the neutrons.</p>
+
+
+
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+    <th class="field-name">Returns:</th>
+    <td class="field-body">
+      <ul class="first simple">
+          <li>
+                <code>list[list[float]]</code>
+            –
+            <div class="doc-md-description">
+              <p>a list where each element is a list of length nNeutrons
+[[float, float, ...], [float, float, ...], ...]</p>
+            </div>
+          </li>
+      </ul>
+    </td>
+    </tr>
+  </tbody>
+</table>
+          <details class="quote">
+            <summary>Source code in <code>neutrowater/post/measure.py</code></summary>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">50</span>
+<span class="normal">51</span>
+<span class="normal">52</span>
+<span class="normal">53</span>
+<span class="normal">54</span>
+<span class="normal">55</span>
+<span class="normal">56</span>
+<span class="normal">57</span>
+<span class="normal">58</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">energies</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">list</span><span class="p">[</span><span class="nb">float</span><span class="p">]]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Get the energies of the neutrons.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        a list where each element is a list of length nNeutrons</span>
+<span class="sd">            [[float, float, ...], [float, float, ...], ...]</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="p">[</span><span class="n">neutron</span><span class="o">.</span><span class="n">energies</span> <span class="k">for</span> <span class="n">neutron</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">neutrons</span><span class="p">]</span>
+</code></pre></div></td></tr></table></div>
+          </details>
+  </div>
+
+</div>
+
+
+<div class="doc doc-object doc-function">
+
+
+
+<h3 id="neutrowater.post.measure.Measurer.energy_spectrum" class="doc doc-heading">
+          <code class="highlight language-python"><span class="n">energy_spectrum</span><span class="p">(</span><span class="n">r</span><span class="p">)</span></code>
+
+</h3>
+
+
+  <div class="doc doc-contents ">
+  
+      <p>Get the energy spectrum of the neutrons at a given radius r.</p>
+
+
+
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+      <th class="field-name">Parameters:</th>
+      <td class="field-body">
+        <ul class="first simple">
+            <li>
+              <b><code>r</code></b>
+                  (<code>float</code>)
+              –
+              <div class="doc-md-description">
+                <p>radius at which to compute the energy spectrum.</p>
+              </div>
+            </li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+    <th class="field-name">Returns:</th>
+    <td class="field-body">
+      <ul class="first simple">
+          <li>
+                <code>list[float]</code>
+            –
+            <div class="doc-md-description">
+              <p>a list of floats.</p>
+            </div>
+          </li>
+      </ul>
+    </td>
+    </tr>
+  </tbody>
+</table>
+          <details class="quote">
+            <summary>Source code in <code>neutrowater/post/measure.py</code></summary>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">184</span>
+<span class="normal">185</span>
+<span class="normal">186</span>
+<span class="normal">187</span>
+<span class="normal">188</span>
+<span class="normal">189</span>
+<span class="normal">190</span>
+<span class="normal">191</span>
+<span class="normal">192</span>
+<span class="normal">193</span>
+<span class="normal">194</span>
+<span class="normal">195</span>
+<span class="normal">196</span>
+<span class="normal">197</span>
+<span class="normal">198</span>
+<span class="normal">199</span>
+<span class="normal">200</span>
+<span class="normal">201</span>
+<span class="normal">202</span>
+<span class="normal">203</span>
+<span class="normal">204</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">energy_spectrum</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">r</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">float</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Get the energy spectrum of the neutrons at a given radius r.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        r (float): radius at which to compute the energy spectrum.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        a list of floats.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">result_energies</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">positions</span><span class="p">,</span> <span class="n">energies</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">positions</span><span class="p">(),</span> <span class="bp">self</span><span class="o">.</span><span class="n">energies</span><span class="p">()):</span>
+        <span class="n">positions</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">positions</span><span class="p">)</span>
+        <span class="n">energies</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">energies</span><span class="p">)</span>
+        <span class="n">norms</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">positions</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+        <span class="c1"># Create boolean arrays for the conditions</span>
+        <span class="n">cond1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">([(</span><span class="n">norms</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">r</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">r</span> <span class="o">&lt;</span> <span class="n">norms</span><span class="p">[</span><span class="mi">1</span><span class="p">:]),</span> <span class="p">[</span><span class="kc">False</span><span class="p">]])</span>
+        <span class="n">cond2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">([[</span><span class="kc">False</span><span class="p">],</span> <span class="p">(</span><span class="n">norms</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span> <span class="o">&lt;</span> <span class="n">r</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">r</span> <span class="o">&lt;</span> <span class="n">norms</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">])])</span>
+        <span class="c1"># Get the energies of the neutrons that have been in the shell</span>
+        <span class="n">result_energies</span> <span class="o">+=</span> <span class="nb">list</span><span class="p">(</span><span class="n">energies</span><span class="p">[</span><span class="n">cond1</span><span class="p">])</span> <span class="o">+</span> <span class="nb">list</span><span class="p">(</span><span class="n">energies</span><span class="p">[</span><span class="n">cond2</span><span class="p">])</span>
+    <span class="k">return</span> <span class="n">result_energies</span>
+</code></pre></div></td></tr></table></div>
+          </details>
+  </div>
+
+</div>
+
+
+<div class="doc doc-object doc-function">
+
+
+
+<h3 id="neutrowater.post.measure.Measurer.energy_spectrum_escaped" class="doc doc-heading">
+          <code class="highlight language-python"><span class="n">energy_spectrum_escaped</span><span class="p">()</span></code>
+
+</h3>
+
+
+  <div class="doc doc-contents ">
+  
+      <p>Get the energy spectrum of the neutrons that escaped the tank.</p>
+
+
+
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+    <th class="field-name">Returns:</th>
+    <td class="field-body">
+      <ul class="first simple">
+          <li>
+                <code>list[float]</code>
+            –
+            <div class="doc-md-description">
+              <p>a list of floats.</p>
+            </div>
+          </li>
+      </ul>
+    </td>
+    </tr>
+  </tbody>
+</table>
+          <details class="quote">
+            <summary>Source code in <code>neutrowater/post/measure.py</code></summary>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">206</span>
+<span class="normal">207</span>
+<span class="normal">208</span>
+<span class="normal">209</span>
+<span class="normal">210</span>
+<span class="normal">211</span>
+<span class="normal">212</span>
+<span class="normal">213</span>
+<span class="normal">214</span>
+<span class="normal">215</span>
+<span class="normal">216</span>
+<span class="normal">217</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">energy_spectrum_escaped</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">float</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Get the energy spectrum of the neutrons that escaped the tank.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        a list of floats.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="p">[</span>
+        <span class="n">neutron</span><span class="o">.</span><span class="n">energy</span>
+        <span class="k">for</span> <span class="n">neutron</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">neutrons</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">sim</span><span class="o">.</span><span class="n">tank</span><span class="o">.</span><span class="n">inside</span><span class="p">(</span><span class="n">neutron</span><span class="o">.</span><span class="n">position</span><span class="p">)</span>
+    <span class="p">]</span>
+</code></pre></div></td></tr></table></div>
+          </details>
+  </div>
+
+</div>
+
+
+<div class="doc doc-object doc-function">
+
+
+
+<h3 id="neutrowater.post.measure.Measurer.flux" class="doc doc-heading">
+          <code class="highlight language-python"><span class="n">flux</span><span class="p">(</span><span class="n">r</span><span class="p">)</span></code>
+
+</h3>
+
+
+  <div class="doc doc-contents ">
+  
+      <p>Get the flux of the neutrons at a given radius r.</p>
+
+
+
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+      <th class="field-name">Parameters:</th>
+      <td class="field-body">
+        <ul class="first simple">
+            <li>
+              <b><code>r</code></b>
+                  (<code>float</code>)
+              –
+              <div class="doc-md-description">
+                <p>radius at which to compute the flux.</p>
+              </div>
+            </li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+    <th class="field-name">Returns:</th>
+    <td class="field-body">
+      <ul class="first simple">
+          <li>
+                <code>float</code>
+            –
+            <div class="doc-md-description">
+              <p>a float value of the flux.</p>
+            </div>
+          </li>
+      </ul>
+    </td>
+    </tr>
+  </tbody>
+</table>
+          <details class="quote">
+            <summary>Source code in <code>neutrowater/post/measure.py</code></summary>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">164</span>
+<span class="normal">165</span>
+<span class="normal">166</span>
+<span class="normal">167</span>
+<span class="normal">168</span>
+<span class="normal">169</span>
+<span class="normal">170</span>
+<span class="normal">171</span>
+<span class="normal">172</span>
+<span class="normal">173</span>
+<span class="normal">174</span>
+<span class="normal">175</span>
+<span class="normal">176</span>
+<span class="normal">177</span>
+<span class="normal">178</span>
+<span class="normal">179</span>
+<span class="normal">180</span>
+<span class="normal">181</span>
+<span class="normal">182</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">flux</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">r</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Get the flux of the neutrons at a given radius r.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        r (float): radius at which to compute the flux.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        a float value of the flux.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">count</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">for</span> <span class="n">positions</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">positions</span><span class="p">():</span>
+        <span class="n">positions</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">positions</span><span class="p">)</span>
+        <span class="n">norms</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">positions</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+        <span class="c1"># Count the number of neutrons that have been in the shell</span>
+        <span class="n">count</span> <span class="o">+=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">((</span><span class="n">norms</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">r</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">r</span> <span class="o">&lt;</span> <span class="n">norms</span><span class="p">[</span><span class="mi">1</span><span class="p">:]))</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span>
+            <span class="p">(</span><span class="n">norms</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span> <span class="o">&lt;</span> <span class="n">r</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">r</span> <span class="o">&lt;</span> <span class="n">norms</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+        <span class="p">)</span>
+    <span class="k">return</span> <span class="n">count</span> <span class="o">/</span> <span class="p">(</span><span class="mi">4</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="n">r</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+</code></pre></div></td></tr></table></div>
+          </details>
+  </div>
+
+</div>
+
+
+<div class="doc doc-object doc-function">
+
+
+
+<h3 id="neutrowater.post.measure.Measurer.number_above_energy" class="doc doc-heading">
+          <code class="highlight language-python"><span class="n">number_above_energy</span><span class="p">(</span><span class="n">E</span><span class="p">)</span></code>
+
+</h3>
+
+
+  <div class="doc doc-contents ">
+  
+      <p>Get the number of neutrons with energy above a given energy.</p>
+
+
+
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+      <th class="field-name">Parameters:</th>
+      <td class="field-body">
+        <ul class="first simple">
+            <li>
+              <b><code>E</code></b>
+                  (<code>float</code>)
+              –
+              <div class="doc-md-description">
+                <p>energy threshold.</p>
+              </div>
+            </li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+    <th class="field-name">Returns:</th>
+    <td class="field-body">
+      <ul class="first simple">
+          <li>
+                <code>int</code>
+            –
+            <div class="doc-md-description">
+              <p>an int.</p>
+            </div>
+          </li>
+      </ul>
+    </td>
+    </tr>
+  </tbody>
+</table>
+          <details class="quote">
+            <summary>Source code in <code>neutrowater/post/measure.py</code></summary>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">219</span>
+<span class="normal">220</span>
+<span class="normal">221</span>
+<span class="normal">222</span>
+<span class="normal">223</span>
+<span class="normal">224</span>
+<span class="normal">225</span>
+<span class="normal">226</span>
+<span class="normal">227</span>
+<span class="normal">228</span>
+<span class="normal">229</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">number_above_energy</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">E</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Get the number of neutrons with energy above a given energy.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        E (float): energy threshold.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        an int.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="nb">sum</span><span class="p">([</span><span class="mi">1</span> <span class="k">for</span> <span class="n">neutron</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">neutrons</span> <span class="k">if</span> <span class="n">neutron</span><span class="o">.</span><span class="n">energies</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">E</span><span class="p">])</span>
+</code></pre></div></td></tr></table></div>
+          </details>
+  </div>
+
+</div>
+
+
+<div class="doc doc-object doc-function">
+
+
+
+<h3 id="neutrowater.post.measure.Measurer.number_absorbed" class="doc doc-heading">
+          <code class="highlight language-python"><span class="n">number_absorbed</span><span class="p">()</span></code>
+
+</h3>
+
+
+  <div class="doc doc-contents ">
+  
+      <p>Get the number of neutrons that were absorbed.</p>
+
+
+
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+    <th class="field-name">Returns:</th>
+    <td class="field-body">
+      <ul class="first simple">
+          <li>
+                <code>int</code>
+            –
+            <div class="doc-md-description">
+              <p>an int.</p>
+            </div>
+          </li>
+      </ul>
+    </td>
+    </tr>
+  </tbody>
+</table>
+          <details class="quote">
+            <summary>Source code in <code>neutrowater/post/measure.py</code></summary>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">126</span>
+<span class="normal">127</span>
+<span class="normal">128</span>
+<span class="normal">129</span>
+<span class="normal">130</span>
+<span class="normal">131</span>
+<span class="normal">132</span>
+<span class="normal">133</span>
+<span class="normal">134</span>
+<span class="normal">135</span>
+<span class="normal">136</span>
+<span class="normal">137</span>
+<span class="normal">138</span>
+<span class="normal">139</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">number_absorbed</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Get the number of neutrons that were absorbed.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        an int.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">n</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">for</span> <span class="n">neutron</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">neutrons</span><span class="p">:</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">neutron</span><span class="o">.</span><span class="n">positions</span><span class="p">)</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">sim</span><span class="o">.</span><span class="n">nCollisions</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">sim</span><span class="o">.</span><span class="n">tank</span><span class="o">.</span><span class="n">inside</span><span class="p">(</span>
+            <span class="n">neutron</span><span class="o">.</span><span class="n">position</span>
+        <span class="p">):</span>
+            <span class="n">n</span> <span class="o">+=</span> <span class="mi">1</span>
+    <span class="k">return</span> <span class="n">n</span>
+</code></pre></div></td></tr></table></div>
+          </details>
+  </div>
+
+</div>
+
+
+<div class="doc doc-object doc-function">
+
+
+
+<h3 id="neutrowater.post.measure.Measurer.number_escaped" class="doc doc-heading">
+          <code class="highlight language-python"><span class="n">number_escaped</span><span class="p">()</span></code>
+
+</h3>
+
+
+  <div class="doc doc-contents ">
+  
+      <p>Get the number of neutrons that escaped the tank.</p>
+
+
+
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+    <th class="field-name">Returns:</th>
+    <td class="field-body">
+      <ul class="first simple">
+          <li>
+                <code>int</code>
+            –
+            <div class="doc-md-description">
+              <p>an int.</p>
+            </div>
+          </li>
+      </ul>
+    </td>
+    </tr>
+  </tbody>
+</table>
+          <details class="quote">
+            <summary>Source code in <code>neutrowater/post/measure.py</code></summary>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">69</span>
+<span class="normal">70</span>
+<span class="normal">71</span>
+<span class="normal">72</span>
+<span class="normal">73</span>
+<span class="normal">74</span>
+<span class="normal">75</span>
+<span class="normal">76</span>
+<span class="normal">77</span>
+<span class="normal">78</span>
+<span class="normal">79</span>
+<span class="normal">80</span>
+<span class="normal">81</span>
+<span class="normal">82</span>
+<span class="normal">83</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">number_escaped</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Get the number of neutrons that escaped the tank.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        an int.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="nb">sum</span><span class="p">(</span>
+        <span class="p">[</span>
+            <span class="mi">1</span>
+            <span class="k">for</span> <span class="n">neutron</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">neutrons</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">sim</span><span class="o">.</span><span class="n">tank</span><span class="o">.</span><span class="n">inside</span><span class="p">(</span><span class="n">neutron</span><span class="o">.</span><span class="n">position</span><span class="p">)</span>
+        <span class="p">],</span>
+        <span class="n">start</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+    <span class="p">)</span>
+</code></pre></div></td></tr></table></div>
+          </details>
+  </div>
+
+</div>
+
+
+<div class="doc doc-object doc-function">
+
+
+
+<h3 id="neutrowater.post.measure.Measurer.number_thermal" class="doc doc-heading">
+          <code class="highlight language-python"><span class="n">number_thermal</span><span class="p">()</span></code>
+
+</h3>
+
+
+  <div class="doc doc-contents ">
+  
+      <p>Get the number of neutrons that are thermalized.</p>
+
+
+
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+    <th class="field-name">Returns:</th>
+    <td class="field-body">
+      <ul class="first simple">
+          <li>
+                <code>int</code>
+            –
+            <div class="doc-md-description">
+              <p>an int.</p>
+            </div>
+          </li>
+      </ul>
+    </td>
+    </tr>
+  </tbody>
+</table>
+          <details class="quote">
+            <summary>Source code in <code>neutrowater/post/measure.py</code></summary>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">85</span>
+<span class="normal">86</span>
+<span class="normal">87</span>
+<span class="normal">88</span>
+<span class="normal">89</span>
+<span class="normal">90</span>
+<span class="normal">91</span>
+<span class="normal">92</span>
+<span class="normal">93</span>
+<span class="normal">94</span>
+<span class="normal">95</span>
+<span class="normal">96</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">number_thermal</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Get the number of neutrons that are thermalized.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        an int.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">n</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">for</span> <span class="n">energies</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">energies</span><span class="p">():</span>
+        <span class="k">if</span> <span class="n">energies</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">&lt;</span> <span class="p">(</span><span class="mi">10</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">sim</span><span class="o">.</span><span class="n">kT</span><span class="p">):</span>
+            <span class="n">n</span> <span class="o">+=</span> <span class="mi">1</span>
+    <span class="k">return</span> <span class="n">n</span>
+</code></pre></div></td></tr></table></div>
+          </details>
+  </div>
+
+</div>
+
+
+<div class="doc doc-object doc-function">
+
+
+
+<h3 id="neutrowater.post.measure.Measurer.number_total" class="doc doc-heading">
+          <code class="highlight language-python"><span class="n">number_total</span><span class="p">()</span></code>
+
+</h3>
+
+
+  <div class="doc doc-contents ">
+  
+      <p>Get the total number of neutrons.</p>
+
+
+
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+    <th class="field-name">Returns:</th>
+    <td class="field-body">
+      <ul class="first simple">
+          <li>
+                <code>int</code>
+            –
+            <div class="doc-md-description">
+              <p>an int.</p>
+            </div>
+          </li>
+      </ul>
+    </td>
+    </tr>
+  </tbody>
+</table>
+          <details class="quote">
+            <summary>Source code in <code>neutrowater/post/measure.py</code></summary>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">60</span>
+<span class="normal">61</span>
+<span class="normal">62</span>
+<span class="normal">63</span>
+<span class="normal">64</span>
+<span class="normal">65</span>
+<span class="normal">66</span>
+<span class="normal">67</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">number_total</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Get the total number of neutrons.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        an int.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">neutrons</span><span class="p">)</span>
+</code></pre></div></td></tr></table></div>
+          </details>
+  </div>
+
+</div>
+
+
+<div class="doc doc-object doc-function">
+
+
+
+<h3 id="neutrowater.post.measure.Measurer.positions" class="doc doc-heading">
+          <code class="highlight language-python"><span class="n">positions</span><span class="p">()</span></code>
+
+</h3>
+
+
+  <div class="doc doc-contents ">
+  
+      <p>Get the positions of the neutrons.</p>
+
+
+
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+    <th class="field-name">Returns:</th>
+    <td class="field-body">
+      <ul class="first simple">
+          <li>
+                <code>list[list[<span title="neutrowater.diffusing_neutrons.Vector">Vector</span>]]</code>
+            –
+            <div class="doc-md-description">
+              <p>a list where each element is a list of length nNeutrons
+[[np.ndarray, np.ndarray, ...], [np.ndarray, np.ndarray, ...], ...]</p>
+            </div>
+          </li>
+      </ul>
+    </td>
+    </tr>
+  </tbody>
+</table>
+          <details class="quote">
+            <summary>Source code in <code>neutrowater/post/measure.py</code></summary>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">40</span>
+<span class="normal">41</span>
+<span class="normal">42</span>
+<span class="normal">43</span>
+<span class="normal">44</span>
+<span class="normal">45</span>
+<span class="normal">46</span>
+<span class="normal">47</span>
+<span class="normal">48</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">positions</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">list</span><span class="p">[</span><span class="n">Vector</span><span class="p">]]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Get the positions of the neutrons.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        a list where each element is a list of length nNeutrons</span>
+<span class="sd">            [[np.ndarray, np.ndarray, ...], [np.ndarray, np.ndarray, ...], ...]</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="p">[</span><span class="n">neutron</span><span class="o">.</span><span class="n">positions</span> <span class="k">for</span> <span class="n">neutron</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">neutrons</span><span class="p">]</span>
+</code></pre></div></td></tr></table></div>
+          </details>
+  </div>
+
+</div>
+
+
+<div class="doc doc-object doc-function">
+
+
+
+<h3 id="neutrowater.post.measure.Measurer.thermalize_distances" class="doc doc-heading">
+          <code class="highlight language-python"><span class="n">thermalize_distances</span><span class="p">()</span></code>
+
+</h3>
+
+
+  <div class="doc doc-contents ">
+  
+      <p>Get the distance of the neutrons where their energy is thermal for
+the first time.</p>
+
+
+
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+    <th class="field-name">Returns:</th>
+    <td class="field-body">
+      <ul class="first simple">
+          <li>
+                <code>list</code>
+            –
+            <div class="doc-md-description">
+              <p>a list of floats.</p>
+            </div>
+          </li>
+      </ul>
+    </td>
+    </tr>
+  </tbody>
+</table>
+          <details class="quote">
+            <summary>Source code in <code>neutrowater/post/measure.py</code></summary>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">116</span>
+<span class="normal">117</span>
+<span class="normal">118</span>
+<span class="normal">119</span>
+<span class="normal">120</span>
+<span class="normal">121</span>
+<span class="normal">122</span>
+<span class="normal">123</span>
+<span class="normal">124</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">thermalize_distances</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Get the distance of the neutrons where their energy is thermal for</span>
+<span class="sd">    the first time.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        a list of floats.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">pos</span><span class="p">)</span> <span class="k">for</span> <span class="n">pos</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">thermalize_positions</span><span class="p">()]</span>
+</code></pre></div></td></tr></table></div>
+          </details>
+  </div>
+
+</div>
+
+
+<div class="doc doc-object doc-function">
+
+
+
+<h3 id="neutrowater.post.measure.Measurer.thermalize_positions" class="doc doc-heading">
+          <code class="highlight language-python"><span class="n">thermalize_positions</span><span class="p">()</span></code>
+
+</h3>
+
+
+  <div class="doc doc-contents ">
+  
+      <p>Get the positions of the neutrons where their energy is thermal for
+the first time.</p>
+
+
+
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+    <th class="field-name">Returns:</th>
+    <td class="field-body">
+      <ul class="first simple">
+          <li>
+                <code>list</code>
+            –
+            <div class="doc-md-description">
+              <p>a list of np.ndarray.</p>
+            </div>
+          </li>
+      </ul>
+    </td>
+    </tr>
+  </tbody>
+</table>
+          <details class="quote">
+            <summary>Source code in <code>neutrowater/post/measure.py</code></summary>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 98</span>
+<span class="normal"> 99</span>
+<span class="normal">100</span>
+<span class="normal">101</span>
+<span class="normal">102</span>
+<span class="normal">103</span>
+<span class="normal">104</span>
+<span class="normal">105</span>
+<span class="normal">106</span>
+<span class="normal">107</span>
+<span class="normal">108</span>
+<span class="normal">109</span>
+<span class="normal">110</span>
+<span class="normal">111</span>
+<span class="normal">112</span>
+<span class="normal">113</span>
+<span class="normal">114</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">thermalize_positions</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Get the positions of the neutrons where their energy is thermal for</span>
+<span class="sd">    the first time.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        a list of np.ndarray.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">thermalize_positions</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">energies</span><span class="p">,</span> <span class="n">positions</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">energies</span><span class="p">(),</span> <span class="bp">self</span><span class="o">.</span><span class="n">positions</span><span class="p">()):</span>
+        <span class="c1"># Get the first element of the list of energies that is less than 10kT</span>
+        <span class="n">res</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">filter</span><span class="p">((</span><span class="k">lambda</span> <span class="n">val</span><span class="p">:</span> <span class="n">val</span> <span class="o">&lt;</span> <span class="p">(</span><span class="mi">10</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">sim</span><span class="o">.</span><span class="n">kT</span><span class="p">)),</span> <span class="n">energies</span><span class="p">))</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">res</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">index</span> <span class="o">=</span> <span class="n">energies</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">res</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+            <span class="n">thermalize_positions</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">positions</span><span class="p">[</span><span class="n">index</span><span class="p">])</span>
+
+    <span class="k">return</span> <span class="n">thermalize_positions</span>
+</code></pre></div></td></tr></table></div>
+          </details>
+  </div>
+
+</div>
+
+
+
+  </div>
+
+  </div>
+
+
+</div>
+
+
+
+
+  </div>
+
+  </div>
+
+</div>
               
             </div>
           </div><footer>
