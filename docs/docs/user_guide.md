@@ -23,11 +23,11 @@ Next, set up the simulation with specific parameters:
 
 ```
 params = dn.Parameters(
-            nNeutrons=10, 
-            radius_tank=0.225, 
-            height_tank=0.85, 
-            position_tank=(0, 0, -0.175)
-            )
+    nNeutrons=10, 
+    radius_tank=0.225, 
+    height_tank=0.85, 
+    position_tank=(0, 0, -0.175)
+)
 neutrons = dn.DiffusingNeutrons(params)
 ```
 
@@ -60,8 +60,8 @@ The `measure` module can be used to compute several quantities, such as the flux
 ```
 meas = measure.Measurer(neutrons)
 
-fluxes = meas.flux(r = 0.1)
-energies = meas.energy_spectrum(r = 0.1)
+fluxes = meas.flux(r=0.1)
+energies = meas.energy_spectrum(r=0.1)
 ```
 
 The full list of `measure.Measurer` methods, can be found in the [API reference](./reference.md).

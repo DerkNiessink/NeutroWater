@@ -277,13 +277,13 @@ A Neutron at position \( \mathbf{r}_n \) is inside the tank if the following con
 
 \begin{equation} 
 \begin{aligned}
-& |\mathbf{r}_n - \mathbf{r}_t |_{xy} < R  \\
-& |r_{n_z} - r_{t_z} | < h/2,  \\
+& ||\mathbf{r}_n - \mathbf{r}_t ||_{xy} < R  \\
+& || r_{n_z} - r_{t_z} || < h/2,  \\
 \end{aligned}
 \end{equation}
 
 
-where the notation \( | \mathbf{r} |_{xy} = \sqrt{r_x^2 + r_y^2} \) is used. If these conditions are not met, the neutron is flagged as escaped and the simulation proceeds with simulating the next neutron.
+where the notation \( || \mathbf{r} ||_{xy} = \sqrt{r_x^2 + r_y^2} \) is used. If these conditions are not met, the neutron is flagged as escaped and the simulation proceeds with simulating the next neutron.
 
 ## 4 Monte Carlo Sampling
 
@@ -304,12 +304,23 @@ Figure 13 illustrates a large sample obtained from an angular distribution using
 
 ## 5 Interpolation
 
+In the initialization of the simulation, data for the cross sections and initial energy distribution is interpolated. This means we estimate values that lie between known data points. It's important for cross sections to be continuous, ensuring that for every neutron energy, there's a corresponding cross section. Likewise, we need the initial energy distribution to be interpolated so we can generate an initial spectrum of neutron energies using the sampling method described in [Monte Carlo Sampling](#4-monte-carlo-sampling). 
+
+We accomplish this interpolation using the [`Akima1DInterpolator` from `scipy.interpolate`](https://docs.scipy.org/doc/scipy/reference/generated/scipy.interpolate.Akima1DInterpolator.html). This tool fits smooth curves between the data points by using cubic polynomials, ensuring a continuous representation of the data.
+
+
 ## 6 Measuring Quantities
 
-For neutron activation, we are interested in the flux and the energy spectrum of the neutrons at varying radius in the tank. These quantities can be computed from the positions of the neutrons and the energies of the neutrons at each collisions sight in the tank, which are stored after running the simulation.
+For neutron activation, we are interested in the [flux](#61-flux) and the [energy spectrum](#62-energy-spectrum) of the neutrons at varying radius in the tank. These quantities can be computed from the positions and energies of the neutrons at each collisions site in the tank, which are stored after running the simulation. 
 
 ### 6.1 Flux
 
+To compute the flux at a specific distance $r$ from the origin, we consider a spherical shell of radius $r$ and denote the position at the $i_{th}$ collision site of a neutron as $\mathbf{r}_{n_i}$. If the line between two consecutive positions $\mathbf{r}_{n_i}$ and $\mathbf{r}_{n_{i+1}}$ passes through the spherical shell, a counter is increased by one. Note that the neutron can pass through the shell multiple times. If we repeat this process for all neutrons, the flux $\Phi$ at a distance $r$ from the origin is given by:
 
+$$ \Phi(r) = N / 4 \pi r^2, $$
+
+where $N$ is the number of times the neutrons pass through the spherical shell.
 
 ### 6.2 Energy Spectrum
+
+For the energy spectrum at a distance $r$ from the origin, we consider the same spherical shell. If the line between $\mathbf{r}_{n_i}$ and $\mathbf{r}_{n_{i+1}}$ passes through the spherical shell, we save the corresponding energy $E_i$ of the neutron in a list. We repeat this process for all neutrons, appending the energies to the same list. Note that neutron can contribute multiple energy values to this list if it passes through the spherical shell multiple times. The resulting list is the energy spectrum at a distance $r$ from the origin. 
