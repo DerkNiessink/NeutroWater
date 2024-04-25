@@ -1,31 +1,33 @@
 # NeutroWater API
 
-The easiest way to get started with NeutroWater is to look at the [Example](./user_guide.md#2-example-usage). NeutroWater includes a Python API that enables running the simulation and analyzing the results. The two public modules are listed and documented below:
+The easiest way to get started with NeutroWater is to look at the [Example](./user_guide.md#2-example-usage). NeutroWater includes a Python API that enables running the simulation and analyzing the results. The three public modules are listed and documented below:
 
 
-- `neutrowater.diffusing_neutrons` - [Simulation Set-up and Running](#simulation-set-up-and-running)
-- `neutrowater.post` - [Post Simulation Analysis](#post-simulation-analysis)
+| Module                           | Usage
+| -----------------------          | ------------
+| [`neutrowater.diffusing_neutrons`](./reference.md#neutrowater.diffusing_neutrons) |  Simulation set-up and running.
+| [`neutrowater.post.plot`](./reference.md#neutrowater.post.plot)          |  Plotting neutron trajectories.
+| [`neutrowater.post.measure`](./reference.md#neutrowater.post.measure)       |  Post simulation analysis on neutrons.
 
 <br>
+<br>
 
-
-## Simulation Set-up and Running
-
-# `neutrowater.diffusing_neutrons`
+**<span style="font-size:2em;"> `neutrowater.diffusing_neutrons` </span>**
 
 ::: neutrowater.diffusing_neutrons
 
 <br>
 <br>
+<br>
 
-## Post Simulation Analysis
-
-# `neutrowater.post.plot`
+**<span style="font-size:2em;"> `neutrowater.post.plot` </span>**
 
 ::: neutrowater.post.plot
 
 <br>
+<br>
+<br>
 
-# `neutrowater.post.measure`
+**<span style="font-size:2em;"> `neutrowater.post.measure` </span>**
 
 ::: neutrowater.post.measure

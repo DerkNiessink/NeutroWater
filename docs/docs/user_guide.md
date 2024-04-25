@@ -1,6 +1,6 @@
 # User Guide
 
-## 1. Quick Install Guide
+## 1. Install Guide
 
 NeutroWater requires Python >=3.10. You can install it from PyPI with `pip`:
 
