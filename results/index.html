@@ -96,6 +96,26 @@
             <div class="section" itemprop="articleBody">
               
                 <h1 id="results">Results</h1>
+<p>Understanding the energy distribution and number density of neutrons within the tank is important for the following two reasons:</p>
+<ol>
+<li>
+<p><b> Activation Efficiency </b>: The effectiveness of the activation process depends on the energy of the neutrons. Relevant results are presented in sections <a href="#1-flux">Flux</a> and <a href="#2-energy-spectrum">Energy Spectrum</a>.</p>
+</li>
+<li>
+<p><b> Safety Assurance </b>: Neutron energies at the tank boundary need to be low enough to ensure safe release into the environment. Findings related to this aspect are discussed in section <a href="#3-escaping-neutrons">Escaping Neutrons</a>.</p>
+</li>
+</ol>
+<p>Simulations involving 50000 neutrons were conducted to produce the results. Considering that the neutron source emits approximately <span class="arithmatex">\(8 \times 10^5\)</span> neutrons per second, the outcomes were adjusted accordingly for ease of comparison. All simulation parameters that were used are shown below:</p>
+<pre><code>from neutrowater import diffusing_neutrons as dn
+
+params = dn.Parameters(
+            nNeutrons=50000, 
+            radius_tank=0.225, 
+            height_tank=0.85, 
+            position_tank=(0, 0, -0.175)
+            )
+</code></pre>
+<p>More information on how to reproduce these results is discussed in the <a href="../user_guide/#user-guide">User Guide</a>.</p>
 <h2 id="1-flux">1 Flux</h2>
 <h2 id="2-energy-spectrum">2 Energy Spectrum</h2>
 <h2 id="3-escaping-neutrons">3 Escaping Neutrons</h2>
