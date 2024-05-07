@@ -207,8 +207,6 @@ where \( l\) is the order of the Legendre polynomial, \(a_l \) the \(l^{th}\) Le
 </figure>
 </center>
 
-EXPLANATION ABOVE FIGURES
-
 The neutron energy distributions are discretely spaced for each incoming neutron energy \(E_i \), requiring a selection between the distribution corresponding to the energy immediately above or below the current neutron energy. This is done by defining an interpolation factor:
 
 \begin{equation} f =  \frac{E - E_i}{E_{i+1} - E_i}, \end{equation}
