@@ -105,7 +105,7 @@
 <p><b> Safety Assurance </b>: Neutron energies at the tank boundary need to be low enough to ensure safe release into the environment. Findings related to this aspect are discussed in section <a href="#3-escaping-neutrons">Escaping Neutrons</a>.</p>
 </li>
 </ol>
-<p>Simulations involving 50000 neutrons were conducted to produce the results. Note that the neutron source emits approximately <span class="arithmatex">\(8 \times 10^5\)</span> neutrons per second. If applicable, the obtained result can be adjusted accordingly based on this emmision rate by transformation, or alternativaly, simulations utilizing the emmission rate as the number of neutrons could be conducted.</p>
+<p>Simulations involving 50000 neutrons were conducted to produce the results. Note that the neutron source emits approximately <span class="arithmatex">\(8 \times 10^5\)</span> neutrons per second. If applicable, the obtained result can be adjusted accordingly based on this emmision rate by transformation, or alternativaly, simulations utilizing the emmission rate as the number of neutrons could be conducted. The parameters used for the simulation are shown below:</p>
 <pre><code>from neutrowater import diffusing_neutrons as dn
 
 params = dn.Parameters(
@@ -117,22 +117,22 @@ params = dn.Parameters(
 </code></pre>
 <p>More information on how to reproduce these results is discussed in the <a href="../user_guide/#user-guide">User Guide</a>.</p>
 <h2 id="1-flux">1 Flux</h2>
-<p>The flux as a function of distance from the origin was calculated using the methodology outline in section <a href="../theory/#61-flux">Flux</a> and is shown in Figure 14.  </p>
+<p>The flux as a function of distance from the origin was calculated using the methodology outlined in section <a href="../theory/#61-flux">Flux</a> and is shown in Figure 14.  </p>
 <p><center></p>
 <figure>
-  <a class="glightbox" href="../figures/result_flux.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="Flux" src="../figures/result_flux.png" width="550" /></a>
+  <a class="glightbox" href="../figures/result_flux.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="Flux" src="../figures/result_flux.png" width="450" /></a>
   <figcaption><i>Figure 14: Flux [number of neutrons per meter square] as a function of distance from the origin [meters]. </i></figcaption>
 </figure>
 <p></center></p>
 <h2 id="2-energy-spectrum">2 Energy Spectrum</h2>
-<p>The energy spectrum is shown as a probability density graph for varying distances from the origin in Figure 15. </p>
+<p>The energy spectrum is shown as a probability density graph for varying distances from the origin in Figure 15 and was measured following the methodology in <a href="../theory/#62-energy-spectrum">Energy Spectrum</a>.</p>
 <p><center></p>
 <figure>
   <a class="glightbox" href="../figures/result_energy_spectrum.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="Flux" src="../figures/result_energy_spectrum.png" width="550" /></a>
   <figcaption><i>Figure 15: Probability density graph of energies at varying distances r from the origin. </i></figcaption>
 </figure>
 <p></center></p>
-<p>For neutron activation, we are not really interested in the thermal neutrons (left peak). In Figure 16 a movie of the energy spectrum is shown for varying distance <span class="arithmatex">\(r\)</span> from the origin, where a cut was made to highlight the thermal and high energy peak. </p>
+<p>For neutron activation, we are mainly interested in the high-energy neutrons (right peak). In Figure 16, a movie of the energy spectrum is shown for varying distance <span class="arithmatex">\(r\)</span> from the origin, where a cut was made to highlight the thermal and high energy peak. </p>
 <p><center></p>
 <figure>
   <a class="glightbox" href="../figures/neutron_energy_spectrum.gif" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="Flux" src="../figures/neutron_energy_spectrum.gif" width="1000" /></a>
@@ -141,6 +141,14 @@ params = dn.Parameters(
 <p></center></p>
 <p>The energy spectrum and the <a href="#1-flux">result for the flux</a> can be combined to find the number of neutrons that have a specific energy.</p>
 <h2 id="3-escaping-neutrons">3 Escaping Neutrons</h2>
+<p>In the simulation <span class="arithmatex">\(17.24 \%\)</span> of the neutrons escape from the tank and the rest is absorbed. The energy spectrum of the escaping neutrons in shown in Figure 17.</p>
+<p><center></p>
+<figure>
+  <a class="glightbox" href="../figures/result_energy_spectrum_escaping_neutrons.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="Flux" src="../figures/result_energy_spectrum_escaping_neutrons.png" width="450" /></a>
+  <figcaption><i>Figure 17: Probability density graph of energies of the escaping neutrons. </i></figcaption>
+</figure>
+<p></center></p>
+<p>We can use the energy spectrum of the escaping neutrons along with the <a href="#1-flux">result for the flux</a> to approximate the number of high-energy neutrons that escape from the tank.</p>
               
             </div>
           </div><footer>

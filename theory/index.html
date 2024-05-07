@@ -314,7 +314,6 @@ number <span class="arithmatex">\(\xi\)</span> on the interval <span class="arit
   <figcaption><i>Figure 10: Oxygen scattering angular distribution for varying energy.</i></figcaption>
 </figure>
 <p></center></p>
-<p>EXPLANATION ABOVE FIGURES</p>
 <p>The neutron energy distributions are discretely spaced for each incoming neutron energy <span class="arithmatex">\(E_i \)</span>, requiring a selection between the distribution corresponding to the energy immediately above or below the current neutron energy. This is done by defining an interpolation factor:</p>
 <div class="arithmatex">\[\begin{equation} f =  \frac{E - E_i}{E_{i+1} - E_i}, \end{equation}\]</div>
 <p>where <span class="arithmatex">\( E \)</span> is the incoming energy of the neutron. We designate <span class="arithmatex">\(k\)</span> as the selected distribution index. If <span class="arithmatex">\( \xi &gt; f \)</span>, then <span class="arithmatex">\(k=i\)</span>; otherwise, <span class="arithmatex">\(k=i+1\)</span>, where <span class="arithmatex">\( \xi \)</span> is a uniform distributed random number on the interval <span class="arithmatex">\( [0, 1) \)</span>. The cosine of the scattering angle <span class="arithmatex">\(\mu \)</span> in the center-of-mass (CM) frame is sampled from the angular distribution corresponding to <span class="arithmatex">\(E_k\)</span>.</p>
